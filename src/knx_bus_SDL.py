@@ -24,6 +24,16 @@ wikihouse_2 = '14/2/56'
 wikihouse_3 = '14/2/61'
 
 
+def setled(led_id, w_value=None):
+    if not w_value:
+        w_value = 0
+
+    for light_it in range(0, led_total + 1):
+        tunnel.group_write(led_id + 0, [0])
+        tunnel.group_write(led_id + 2, [w_value])
+    return True
+
+
 def setallled(w_value=None):
     """Set all LED lights to a common [White] value. Default: all off"""
 
@@ -34,6 +44,19 @@ def setallled(w_value=None):
         tunnel.group_write(led_first + (led_step * light_it) + 0, [0])
         tunnel.group_write(led_first + (led_step * light_it) + 2, [w_value])
     return True
+
+
+def setrgb(rgb_id, rgbw_value=None):
+    if not rgbw_value:
+        rgbw_value = [0, 0, 0, 0]
+    tunnel.group_write(rgb_id + 0, [0])
+    tunnel.group_write(rgb_id + 2, [rgbw_value[0]])
+    tunnel.group_write(rgb_id + 5, [0])
+    tunnel.group_write(rgb_id + 7, [rgbw_value[1]])
+    tunnel.group_write(rgb_id + 10, [0])
+    tunnel.group_write(rgb_id + 12, [rgbw_value[2]])
+    tunnel.group_write(rgb_id + 15, [0])
+    tunnel.group_write(rgb_id + 17, [rgbw_value[3]])
 
 
 def setallrgb(rgbw_value=None):
@@ -69,10 +92,11 @@ def setallrgbrandom():
 
 
 def main():
-    setallrgb([0, 0, 0, 0])
-    while True:
-        setallrgbrandom()
-        time.sleep(3)
+    #setallrgb([0, 0, 0, 0])
+    #while True:
+    #    setallrgbrandom()
+    #    time.sleep(3)
+    setled(knxip.core.parse_group_address('14/2/11'), 200)
 
 if __name__ == "__main__":
     main()

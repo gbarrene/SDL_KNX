@@ -96,7 +96,7 @@ def main():
     #while True:
     #    setallrgbrandom()
     #    time.sleep(3)
-    setled(knxip.core.parse_group_address('14/2/11'), 200)
+    setled(knxip.core.parse_group_address('14/2/11'), 150)
 
 if __name__ == "__main__":
     main()

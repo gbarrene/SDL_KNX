@@ -66,36 +66,26 @@ def setallrgb(rgbw_value=None):
         rgbw_value = [0, 0, 0, 0]
 
     for light_it in range(0, rgb_total + 1):
-        tunnel.group_write(rgb_first + (rgb_step * light_it) + 0, [0])
-        tunnel.group_write(rgb_first + (rgb_step * light_it) + 2, [rgbw_value[0]])
-        tunnel.group_write(rgb_first + (rgb_step * light_it) + 5, [0])
-        tunnel.group_write(rgb_first + (rgb_step * light_it) + 7, [rgbw_value[1]])
-        tunnel.group_write(rgb_first + (rgb_step * light_it) + 10, [0])
-        tunnel.group_write(rgb_first + (rgb_step * light_it) + 12, [rgbw_value[2]])
-        tunnel.group_write(rgb_first + (rgb_step * light_it) + 15, [0])
-        tunnel.group_write(rgb_first + (rgb_step * light_it) + 17, [rgbw_value[3]])
+        setrgb(rgb_first + (rgb_step * light_it), rgbw_value)
     return True
 
 
 def setallrgbrandom():
     """ Set all RGB lights to a random and different RGB value """
     for light_it in range(0, rgb_total + 1):
-        tunnel.group_write(rgb_first + (rgb_step * light_it) + 0, [0])
-        tunnel.group_write(rgb_first + (rgb_step * light_it) + 2, [randint(0, 255)])
-        tunnel.group_write(rgb_first + (rgb_step * light_it) + 5, [0])
-        tunnel.group_write(rgb_first + (rgb_step * light_it) + 7, [randint(0, 255)])
-        tunnel.group_write(rgb_first + (rgb_step * light_it) + 10, [0])
-        tunnel.group_write(rgb_first + (rgb_step * light_it) + 12, [randint(0, 255)])
-        tunnel.group_write(rgb_first + (rgb_step * light_it) + 15, [0])
-        tunnel.group_write(rgb_first + (rgb_step * light_it) + 17, [0])
+        setrgb(rgb_first + (rgb_step * light_it), [randint(0, 255), randint(0, 255), randint(0, 255), 0])
     return True
 
 
 def main():
-    #setallrgb([0, 0, 0, 0])
+
+    setallrgb([0, 0, 0, 0])
+
     #while True:
     #    setallrgbrandom()
     #    time.sleep(3)
+
+    setrgb(knxip.core.parse_group_address('14/3/21'), [0, 0, 0, 0])
     setled(knxip.core.parse_group_address('14/2/11'), 200)
 
 if __name__ == "__main__":

@@ -14,6 +14,7 @@ sudo su
 pip install -U pip setuptools
 pip3 install flask-ask
 pip3 install knxip
+pip3 install paho-mqtt
 
 exit
 

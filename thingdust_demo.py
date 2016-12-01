@@ -1,4 +1,11 @@
 import paho.mqtt.client as mqtt
+import src.knx_bus_SDL as sdl_knx
+from knxip.core import parse_group_address as toknx
+import time
+
+wikihouse_1 = '14/2/61'
+wikihouse_2 = '14/2/56'
+wikihouse_3 = '14/2/51'
 
 # Constants
 # list of sensors from the Digital Lab
@@ -8,7 +15,7 @@ DSL_motion_sensors = [['000070B3D5C1503F', 'Cafe'],
                       ['000070B3D5C15048', 'Squad_3'],
                       ['000070B3D5C15041', 'Squad_4'],
                       ['000070B3D5C15045', 'Wiki_1'],
-                      ['000070B3D5C150FF', 'Wiki_2'],
+                      ['000070B3D5C150A4', 'Wiki_2'],
                       ['000070B3D5C15043', 'Wiki_3'],
                       ['000070B3D5C15044', 'Homy'],
                       ['000070B3D5C15042', 'Tetris']
@@ -32,8 +39,18 @@ def on_message(client, userdata, msg):
     if rcv_euid in [row[0] for row in DSL_motion_sensors]:
         rcv_euid_index = [row[0] for row in DSL_motion_sensors].index(rcv_euid)
         print("SDL sensor motion detected." + " Location: " + DSL_motion_sensors[rcv_euid_index][1])
-        print("Switching on lights...")
+        if DSL_motion_sensors[rcv_euid_index][1] is 'Wiki_1':
+            print("Switching on lights Wiki 1")
+            sdl_knx.setled(tunnel, toknx(wikihouse_1), 255)
+        if DSL_motion_sensors[rcv_euid_index][1] is 'Wiki_2':
+            print("Switching on lights Wiki 2")
+            sdl_knx.setled(tunnel, toknx(wikihouse_2), 255)
+        #if DSL_motion_sensors[rcv_euid_index][1] is 'Wiki_3':
+        #    print("Switching on lights wiki 3")
+        #    sdl_knx.setled(tunnel, toknx(wikihouse_3), 255)
 
+
+tunnel = sdl_knx.KNX_tunnel('192.168.1.99')
 
 client = mqtt.Client()
 client.on_connect = on_connect

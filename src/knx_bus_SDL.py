@@ -14,24 +14,24 @@ rgb_step = 20
 rgb_first = knxip.core.parse_group_address(rgb_first_knx)
 
 led_first_knx = '14/2/11'
-squad_1 = ['14/2/11', '14/2/16']
+#squad_1 = ['14/2/11', '14/2/16']
 led_total = 14
 led_step = 5
 led_first = knxip.core.parse_group_address(led_first_knx)
 
-wikihouse_1 = '14/2/51'
+wikihouse_1 = '14/2/61'
 wikihouse_2 = '14/2/56'
-wikihouse_3 = '14/2/61'
-
+wikihouse_3 = '14/2/51'
+couloir = '14/2/166'
+squad_3 = '14/2/111'
+squad_2 = '14/2/121'
+squad_1 = '14/2/131'
 
 def setled(led_id, w_value=None):
     if not w_value:
         w_value = 0
-
-    for light_it in range(0, led_total + 1):
-        tunnel.group_write(led_id + 0, [0])
-        tunnel.group_write(led_id + 2, [w_value])
-    return True
+    tunnel.group_write(led_id + 0, [0])
+    tunnel.group_write(led_id + 2, [w_value])
 
 
 def setallled(w_value=None):
@@ -41,9 +41,7 @@ def setallled(w_value=None):
         w_value = 0
 
     for light_it in range(0, led_total + 1):
-        tunnel.group_write(led_first + (led_step * light_it) + 0, [0])
-        tunnel.group_write(led_first + (led_step * light_it) + 2, [w_value])
-    return True
+        setled(led_first + (led_step * light_it), w_value)
 
 
 def setrgb(rgb_id, rgbw_value=None):
@@ -67,7 +65,6 @@ def setallrgb(rgbw_value=None):
 
     for light_it in range(0, rgb_total + 1):
         setrgb(rgb_first + (rgb_step * light_it), rgbw_value)
-    return True
 
 
 def setallrgbrandom():
@@ -85,8 +82,9 @@ def main():
     #    setallrgbrandom()
     #    time.sleep(3)
 
-    setrgb(knxip.core.parse_group_address('14/3/21'), [0, 0, 0, 0])
-    setled(knxip.core.parse_group_address('14/2/11'), 200)
+    # setrgb(knxip.core.parse_group_address('14/3/21'), [0, 0, 0, 0])
+    # setled(knxip.core.parse_group_address('14/2/11'), 200)
+    setled(knxip.core.parse_group_address(squad_3), 200)
 
 if __name__ == "__main__":
     main()

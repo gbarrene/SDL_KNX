@@ -7,17 +7,40 @@
 import src.knx_bus_SDL as sdl_knx
 from knxip.core import parse_group_address as toknx
 import time
+import sys
 import src.constants as constants
 
+def test_only_one_value(value=None):
+    if not value:
+        return 0
+    if len(value.split(' '))==1:
+        try:
+            int(value)
+            if value< 0 & value>255:
+                return 0
+            else:
+                return 1
+        except ValueError:
+            return 0
+    else:
+        return 0
+    
+    
 def help_text():
     return "disco, all_on"
 
 def disco(tunnel, value=None):
-    
+
     if not value:
-        while not value:
-            value = input("How many time would you like to run disco ? (put zero for timeless)\n")
-        
+        while True:
+            value = input("How many time would you like to run "+sys._getframe().f_code.co_name+" ? (put zero for timeless)\n")
+            if test_only_one_value(value):
+                break
+            else:
+                print("The value must be on number between 0-255")
+            
+    #continue to ask while you don't enter something correct
+
     #sdl_knx.disco_RGB_mode(tunnel)
     return "Disco for "+str(value)
 
@@ -36,19 +59,14 @@ def multiple_choice(choice_str, tunnel, value=None):
         return_str= help_text()
 
     elif choice_str== 'disco':
-        if not value:
-            while not value:
-                value = input("How many time would you like to run all on ? (put zero for timeless)\n")
         return_str= (disco(tunnel, value))
+
     
     elif choice_str== 'all_on':
-        if not value:
-            while not value:
-                value = input("How many time would you like to run all on ? (put zero for timeless)\n")
         return_str= (all_on(tunnel, value))
 
     else:
-        return "No command "+choice_str+" found. Please use help"
+        return "No command \""+choice_str+"\" found. Please use help"
 
     return(return_str)
 
@@ -64,13 +82,17 @@ def main():
                 
         if choice_str == 'exit':
             while True:
-                choice_str= input("Exiting the app. Are you sure (y/n)?")
+                choice_str= input("Exiting the app. Are you sure (y/n)? ")
                 if choice_str in ['y','Y','yes','Yes']: 
                     return 0
                 elif choice_str in ['n','N','no','No']:
                     break
         else:
-            print(multiple_choice(choice_str, tunnel))
+            split_str = choice_str.split(' ',1)
+            if len(split_str) ==2:
+                print(multiple_choice(split_str[0], tunnel, split_str[1]))
+            elif len(split_str) ==1:
+                print(multiple_choice(split_str[0], tunnel))
             time.sleep(2)
 
     time.sleep(2)

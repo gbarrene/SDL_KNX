@@ -76,10 +76,10 @@ def get_rgb(tunnel, rgb_id):
 
     rgbw_value = [0, 0, 0, 0]
     try:
-        rgbw_value[0] = list(bytearray(tunnel.group_read(rgb_id + 4)))[0]
-        rgbw_value[1] = list(bytearray(tunnel.group_read(rgb_id + 9)))[0]
-        rgbw_value[2] = list(bytearray(tunnel.group_read(rgb_id + 14)))[0]
-        rgbw_value[3] = list(bytearray(tunnel.group_read(rgb_id + 19)))[0]
+        rgbw_value[0] = list(bytearray(tunnel.group_read(rgb_id + 2)))[0]
+        rgbw_value[1] = list(bytearray(tunnel.group_read(rgb_id + 7)))[0]
+        rgbw_value[2] = list(bytearray(tunnel.group_read(rgb_id + 12)))[0]
+        rgbw_value[3] = list(bytearray(tunnel.group_read(rgb_id + 17)))[0]
     except:
         print("Unable to read from the KNX bus")
         return None
@@ -110,7 +110,7 @@ def set_all_rgb(tunnel, rgbw_value=None):
     if not rgbw_value:
         rgbw_value = [0, 0, 0, 0]
 
-    for light_it in range(0, constants.RGB_TOTAL + 1):
+    for light_it in range(0, constants.RGB_TOTAL):
         set_rgb(tunnel, rgb_first + (constants.RGB_STEP * light_it), rgbw_value)
 
 
@@ -128,7 +128,7 @@ def save_rgb_all(tunnel):
     for light_it in range(0, constants.RGB_TOTAL):
         save_var_rgb[light_it] = get_rgb(tunnel, rgb_first + (constants.RGB_STEP * light_it))
         print(save_var_rgb[light_it])
-        time.sleep(3)
+        #time.sleep(3)
 
 
 def restore_rgb_all(tunnel):

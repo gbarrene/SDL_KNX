@@ -16,6 +16,7 @@ def test_only_one_value(value=None):
     if len(value.split(' ')) == 1:
         try:
             value = int(value)
+            return 1
         except ValueError:
             return 0
     else:
@@ -73,8 +74,9 @@ def multiple_choice(choice_str, tunnel, value=None):
 
 
 def main():
+    """
     tunnel = sdl_knx.KNX_tunnel('192.168.1.99')
-    sdl_knx.set_rgb(tunnel, toknx('14/3/1'), [0, 90, 100, 200])
+    sdl_knx.set_rgb(tunnel, toknx('14/3/1'), [0, 90, 100, 0])
     time.sleep(1)
     print(sdl_knx.get_rgb(tunnel, toknx('14/3/1')))
 
@@ -107,7 +109,7 @@ def main():
     time.sleep(2)
 
 
-
+"""
     sdl_knx.set_rgb(tunnel, toknx('14/3/21'), [0, 0, 0, 50])
     time.sleep(1)
     print(sdl_knx.get_rgb(tunnel, toknx('14/3/21')))
@@ -129,6 +131,7 @@ def main():
     sdl_knx.setled(tunnel, toknx(constants.WIKIHOUSE_2), 0)
     time.sleep(1)
     print(sdl_knx.getled(tunnel, toknx(constants.WIKIHOUSE_2)))
+
 """
 
 if __name__ == "__main__":

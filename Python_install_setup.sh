@@ -13,10 +13,10 @@ apt-get install python3-pip
 
 
 pip install -U pip setuptools
+pip3 install flask
 pip3 install flask-ask
 pip3 install knxip
 pip3 install paho-mqtt
-pip3 install eve
 
 exit
 

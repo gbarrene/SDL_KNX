@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #  
-#  
-
+#
 
 WIKIHOUSE_1 = '14/2/61'
 WIKIHOUSE_2 = '14/2/56'
@@ -14,12 +13,17 @@ SQUAD_3 = '14/2/111'
 
 
 RGB_FIRST_KNX = '14/3/1'
-RGB_TOTAL = 11
+RGB_TOTAL = 12
 RGB_STEP = 20
 
 LED_FIRST_KNX = '14/2/11'
 LED_TOTAL = 14
 LED_STEP = 5
+
+CHRISTMAS_COLORS= [[250, 40, 40, 0],
+                   [0, 160, 76, 0],
+                   [255, 215, 0, 0]
+                   ]
 
 DSL_MOTION_SENSORS = [['000070B3D5C1503F', 'Cafe'],
                       ['000070B3D5C15046', 'Squad_1'],

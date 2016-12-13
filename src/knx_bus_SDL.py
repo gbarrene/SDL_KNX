@@ -22,6 +22,7 @@ save_var_rgb = [[0, 0, 0, 0],
                 [0, 0, 0, 0]]
 
 
+
 def KNX_tunnel(knx_gw_ip):
     """Open a tunnel with the KNX ethernet/knx bus module"""
 
@@ -31,6 +32,25 @@ def KNX_tunnel(knx_gw_ip):
         return tunnel
     else:
         return None
+
+
+def timing_without_value(tunnel, method_name, timer):
+    possibles = globals().copy()
+    possibles.update(locals())
+    method = possibles.get(method_name)
+    if not method:
+        raise NotImplementedError("Method %s not implemented" % method_name)
+    else:
+        save_rgb_all(tunnel)
+        if timer == 0:
+            print("Will run %s for infinit time" % method_name)
+            while True:
+                method(tunnel)
+        else:
+            print("Will run "+method_name+" for "+ timer)
+            for i in range(0, (timer / 3)):
+                method(tunnel)
+        restore_rgb_all(tunnel)
 
 
 # All Led related fonction (Get, Set, Set All)
@@ -118,8 +138,8 @@ def set_all_rgb_random(tunnel):
     """ Set all RGB lights to a random and different RGB value """
 
     for light_it in range(0, constants.RGB_TOTAL):
-        set_rgb(tunnel, rgb_first + (constants.RGB_STEP * light_it),
-                [randint(0, 255), randint(0, 255), randint(0, 255), 0])
+        set_rgb(tunnel, rgb_first + (constants.RGB_STEP * light_it),[randint(0, 255), randint(0, 255), randint(0, 255), 0])
+        print(rgb_first + (constants.RGB_STEP * light_it))
     return True
 
 
@@ -132,17 +152,31 @@ def save_rgb_all(tunnel):
 
 
 def restore_rgb_all(tunnel):
+
     for light_it in range(0, constants.RGB_TOTAL):
         set_rgb(tunnel, rgb_first + (constants.RGB_STEP * light_it), save_var_rgb[light_it])
         print(save_var_rgb[light_it])
 
 
 def disco_rgb_mode(tunnel):
-    while True:
-        set_all_rgb_random(tunnel)
-        time.sleep(3)
+    set_all_rgb_random(tunnel)
+    time.sleep(3)
+
+
+def set_christmas(tunnel):
+
+    light_id = randint(0, 11)
+    color_id = randint(0, len(constants.CHRISTMAS_COLORS)-1)
+    set_rgb(tunnel, rgb_first + (constants.RGB_STEP * light_id), constants.CHRISTMAS_COLORS[color_id])
+    time.sleep(3)
 
 
 def all_off(tunnel):
+
     set_all_led(tunnel, 0)
     set_all_rgb(tunnel, [0, 0, 0, 0])
+
+
+def all_on(tunnel):
+
+    set_all_rgb(tunnel, [0,0,0,200])

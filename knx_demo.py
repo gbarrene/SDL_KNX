@@ -10,6 +10,7 @@ import time
 import sys
 import src.constants as constants
 
+
 def test_only_one_value(value=None):
     if not value:
         return 0
@@ -24,37 +25,21 @@ def test_only_one_value(value=None):
 
 
 def help_text():
-    return "disco, all_on"
+    return "disco, christmas, all_on, all_off"
 
 
-def disco(tunnel, value=None):
-    if not value:
+def lunch_method_without_value(tunnel, method_name, timer=None):
+    if not timer:
         while True:
-            value = input(
-                "How many time would you like to run " + sys._getframe().f_code.co_name + " ? (put zero for timeless)\n")
-            if test_only_one_value(value):
+            timer = input("How many time would you like to run " + method_name + " ? (put zero for timeless)\n")
+            if test_only_one_value(timer):
                 break
             else:
-                print("The value must be on number between")
+                print("The value must be a number")
 
     # continue to ask while you don't enter something correct
-    print("Disco for " + str(value))
-    sdl_knx.save_rgb_all(tunnel)
-    for i in range(0, int(int(value)/3)):
-        sdl_knx.set_all_rgb_random(tunnel)
-        time.sleep(3)
-
-    sdl_knx.restore_rgb_all(tunnel)
+    sdl_knx.timing_without_value(tunnel, method_name, int(timer))
     return True
-
-
-def all_on(tunnel, value=None):
-    if not value:
-        while not value:
-            value = input("How many time would you like to run all on ? (put zero for timeless)\n")
-
-    sdl_knx.set_all_rgb(tunnel, [0,0,0,200])
-    return "All_on for " + str(value)
 
 
 def multiple_choice(choice_str, tunnel, value=None):
@@ -62,26 +47,38 @@ def multiple_choice(choice_str, tunnel, value=None):
         return_str = help_text()
 
     elif choice_str == 'disco':
-        return_str = (disco(tunnel, value))
+        return_str = lunch_method_without_value(tunnel, 'disco_rgb_mode', value)
 
     elif choice_str == 'all_on':
-        return_str = (all_on(tunnel, value))
+        return_str = lunch_method_without_value(tunnel, 'all_on', value)
+
+    elif choice_str == 'christmas':
+        return_str = lunch_method_without_value(tunnel, 'set_christmas', value)
+
+    elif choice_str == 'all_off':
+        return_str = lunch_method_without_value(tunnel, 'all_off', value)
 
     else:
         return "No command \"" + choice_str + "\" found. Please use help"
 
     return return_str
 
-
+"""
 def main():
-    """
+
     tunnel = sdl_knx.KNX_tunnel('192.168.1.99')
-    sdl_knx.set_rgb(tunnel, toknx('14/3/1'), [0, 90, 100, 0])
     time.sleep(1)
-    print(sdl_knx.get_rgb(tunnel, toknx('14/3/1')))
+    #sdl_knx.timing('set_christmas', tunnel, 0)
+    sdl_knx.set_rgb(tunnel, toknx('14/3/41'), [0, 0, 0, 0])
+    print(sdl_knx.possibles)
+    #sdl_knx.set_all_rgb(tunnel, [200,0,0,0])
+
+    #tunnel.disconnect()
 
     return True
 """
+
+
 def main():
     tunnel = sdl_knx.KNX_tunnel('192.168.1.99')
     sdl_knx.set_rgb(tunnel, toknx('14/3/21'), [0, 0, 0, 200])
@@ -108,8 +105,8 @@ def main():
 
     time.sleep(2)
 
-
 """
+
     sdl_knx.set_rgb(tunnel, toknx('14/3/21'), [0, 0, 0, 50])
     time.sleep(1)
     print(sdl_knx.get_rgb(tunnel, toknx('14/3/21')))

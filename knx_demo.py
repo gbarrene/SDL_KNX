@@ -81,7 +81,10 @@ def main():
 
 def main():
     tunnel = sdl_knx.KNX_tunnel('192.168.1.99')
-    sdl_knx.set_rgb(tunnel, toknx('14/3/21'), [0, 0, 0, 200])
+    #sdl_knx.set_rgb(tunnel, toknx('14/3/61'), [0, 0, 0, 50])
+    #sdl_knx.set_rgb(tunnel, toknx('14/3/41'), [0, 0, 0, 50])
+    #sdl_knx.set_rgb(tunnel, toknx('14/3/21'), [0, 0, 0, 50])
+    #sdl_knx.set_rgb(tunnel, toknx('14/3/1'), [0, 0, 0, 50])
     while True:
         choice_str = None
         if not choice_str:

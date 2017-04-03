@@ -1,29 +1,51 @@
-from flask import Flask, session, redirect, url_for, escape, request
+from flask import Flask, redirect, url_for, escape, request, jsonify
+
 app = Flask(__name__)
+
 
 @app.route('/')
 def index():
-    if 'username' in session:
-        return 'Logged in as %s' % escape(session['username'])
     return 'You are not logged in'
 
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        session['username'] = request.form['username']
-        return redirect(url_for('index'))
-    return '''<form action="" method="post"><p><input type=text name=username><p><input type=submit value=Login></form>'''
+@app.route('/position/<string:coordinates>', methods=['PUT'])
+def position(coordinates = '0;0'):
+    r = request.json['R']
+    g = request.json['G']
+    b = request.json['B']
+    w = request.json['W']
+
+    x = (coordinates.rpartition(';'))[0]
+    y = (coordinates.rpartition(';'))[2]
+
+    return 'You choose x = ' + x + ' , y = ' + y+'. With this RGB value ' + r+' '+g+' '+b+ ' '+w
+
+@app.route('//<string:coordinates>', methods=['PUT'])
+def position(coordinates = '0;0'):
+    r = request.json['R']
+    g = request.json['G']
+    b = request.json['B']
+    w = request.json['W']
+
+    x = (coordinates.rpartition(';'))[0]
+    y = (coordinates.rpartition(';'))[2]
+
+    return 'You choose x = ' + x + ' , y = ' + y+'. With this RGB value ' + r+' '+g+' '+b+ ' '+w
 
 
-@app.route('/logout')
-def logout():
-# remove the username from the session if it's there
-    session.pop('username', None)
-    return redirect(url_for('index'))
-# set the secret key. keep this really secret:
-app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
+#
+# @app.route('/led', methods=['GET', 'POST'])
+# def led():
+#     if request.method == 'POST':
+#         session['username'] = request.form['username']
+#         return redirect(url_for('index'))
+#     return '''<form action="" method="post"><p><input type=text name=username><p><input type=submit value=Login></form>'''
+#
+
+@app.route('/rgb', methods=['GET', 'POST'])
+def rgb():
+    return 'rgb'
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host='127.0.0.1', port=5000, debug=True)

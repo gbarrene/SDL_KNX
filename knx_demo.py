@@ -41,7 +41,6 @@ def lunch_method_without_value(tunnel, method_name, timer=None):
     sdl_knx.timing_without_value(tunnel, method_name, int(timer))
     return True
 
-
 def multiple_choice(choice_str, tunnel, value=None):
     if choice_str == 'help':
         return_str = help_text()
@@ -119,19 +118,20 @@ def main():
     sdl_knx.setled(tunnel, toknx(constants.WIKIHOUSE_1), 255)
     time.sleep(1)
     print(sdl_knx.getled(tunnel, toknx(constants.WIKIHOUSE_1)))
+
     time.sleep(1)
     #sdl_knx.alloff(tunnel)
     time.sleep(3)  # 3 secs seems to be the min to be sure setall is working properly...
     #sdl_knx.setallled(tunnel, 200)
     time.sleep(3)
     #sdl_knx.setallrgb(tunnel, [0, 0, 0, 200])
+    
     sdl_knx.setled(tunnel, toknx(constants.WIKIHOUSE_1), 0)
     time.sleep(1)
     print(sdl_knx.getled(tunnel, toknx(constants.WIKIHOUSE_1)))
     sdl_knx.setled(tunnel, toknx(constants.WIKIHOUSE_2), 0)
     time.sleep(1)
     print(sdl_knx.getled(tunnel, toknx(constants.WIKIHOUSE_2)))
-
 """
 
 if __name__ == "__main__":

@@ -2,6 +2,7 @@ from knxip.ip import KNXIPTunnel
 from random import randint
 from knxip.core import parse_group_address as toknx
 import time
+import threading
 import src.constants as constants
 
 # All SDL constants
@@ -22,6 +23,30 @@ save_var_rgb = [[0, 0, 0, 0],
                 [0, 0, 0, 0]]
 
 
+class Animation(threading.Thread):
+
+    def __init__(self, tunnel):
+        threading.Thread.__init__(self)
+        self.tunnel = tunnel
+        self.method_name = 'stop'
+
+    def run(self):
+        """Code à exécuter pendant l'exécution du thread."""
+        while True:
+            if self.method_name == 'stop':
+                return 'Animation ended'
+                break
+            elif self.method_name == 'disco':
+                disco_rgb_mode(self.tunnel)
+            elif self.method_name == 'christmas':
+                set_christmas(self.tunnel)
+            else:
+                return 'Not an available animation'
+                break
+
+    def stop(self):
+        self.method_name = 'stop'
+
 
 def KNX_tunnel(knx_gw_ip):
     """Open a tunnel with the KNX ethernet/knx bus module"""
@@ -41,7 +66,7 @@ def timing_without_value(tunnel, method_name, timer):
     if not method:
         raise NotImplementedError("Method %s not implemented" % method_name)
     else:
-        save_rgb_all(tunnel)
+        #save_rgb_all(tunnel)
         if timer == 0:
             print("Will run %s for infinit time" % method_name)
             while True:
@@ -130,7 +155,7 @@ def set_all_rgb(tunnel, rgbw_value=None):
     if not rgbw_value:
         rgbw_value = [0, 0, 0, 0]
 
-    for light_it in range(0, constants.RGB_TOTAL):
+    for light_it in range(0, constants.RGB_TOTAL+1):
         set_rgb(tunnel, rgb_first + (constants.RGB_STEP * light_it), rgbw_value)
 
 
@@ -171,6 +196,12 @@ def set_christmas(tunnel):
     time.sleep(3)
 
 
+def christmas_loop(tunnel):
+
+    while True:
+        set_christmas(tunnel)
+
+
 def all_off(tunnel):
 
     set_all_led(tunnel, 0)
@@ -179,4 +210,5 @@ def all_off(tunnel):
 
 def all_on(tunnel):
 
-    set_all_rgb(tunnel, [0,0,0,200])
+    set_all_rgb(tunnel, [0, 0, 0, 200])
+    #set_all_rgb(tunnel, rgbw)

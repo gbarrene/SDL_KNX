@@ -99,10 +99,7 @@ def get_led(tunnel, led_id):
         print("Unable to read from the KNX bus")
         return None
 
-
-def set_led(tunnel, led_id, w_value=None):
-    """Fonction that set the led value (0-255) for address for "%%" """
-
+def setled(tunnel, led_id, w_value=None):
     if not w_value:
         w_value = 0
     try:

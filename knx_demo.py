@@ -59,6 +59,7 @@ def multiple_choice(choice_str, tunnel, value=None):
             sdl_knx.christmas_animation(tunnel)
         #return_str = lunch_method_without_value(tunnel, 'christmas_animation', value)
 
+
     elif choice_str == 'all_off':
         return_str = lunch_method_without_value(tunnel, 'all_off', value)
 

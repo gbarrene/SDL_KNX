@@ -54,7 +54,6 @@ class Animation(threading.Thread):
         use "Animation.join()" to be sure that the thread is stopped """
         self.method_name = 'stop'
 
-
 def KNX_tunnel(knx_gw_ip):
     """Open a tunnel with the KNX ethernet/knx bus module"""
 
@@ -76,6 +75,7 @@ def timing_without_value(tunnel, method_name, timer):
         raise NotImplementedError("Method %s not implemented" % method_name)
     else:
         #save_rgb_all(tunnel)
+
         if timer == 0:
             print("Will run %s for infinit time" % method_name)
             while True:
@@ -212,6 +212,6 @@ def all_off(tunnel):
 
 
 def all_on(tunnel):
-
     set_all_rgb(tunnel, [0, 0, 0, 200])
     #set_all_rgb(tunnel, rgbw)
+

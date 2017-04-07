@@ -20,6 +20,7 @@ LED_TOTAL = 14
 LED_STEP = 5
 
 CHRISTMAS_COLORS = [[200, 30, 40, 0],
+
                    [0, 150, 70, 0],
                    [205, 155, 0, 0]
                    ]
@@ -81,6 +82,7 @@ LED_POSITION = [[0, 0, 'SQUAD_2_A'],
                 [2, 8, 'SQUAD_1_B'],
                 [2, 9, 'SQUAD_1_B'],
                 [2, 10, 'SQUAD_1_B'],
+
 
                 [3, 3, 'COULOIR_C'],
                 [3, 4, 'COULOIR_D'],

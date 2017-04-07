@@ -1,4 +1,5 @@
 from flask import Flask, redirect, url_for, escape, request, jsonify
+
 import src.knx_bus_SDL as sdl_knx
 import threading
 
@@ -7,9 +8,11 @@ tunnel = sdl_knx.KNX_tunnel('192.168.1.99')
 animation = sdl_knx.Animation(tunnel)
 
 
+
 @app.route('/')
 def index():
     return 'You are not logged in'
+
 
 
 @app.route('/connection', methods=['GET', 'POST', 'DELETE'])
@@ -103,6 +106,7 @@ def position(coordinates = '0;0'):
         b = '0'
         w = '0'
 
+
     x = (coordinates.rpartition(';'))[0]
     y = (coordinates.rpartition(';'))[2]
 
@@ -112,6 +116,7 @@ def position(coordinates = '0;0'):
 @app.route('/led/<string:number>', methods=['PUT'])
 def led(number='0;0'):
     global tunnel
+
     r = request.json['R']
     g = request.json['G']
     b = request.json['B']
@@ -119,6 +124,7 @@ def led(number='0;0'):
 
     x = (number.rpartition(';'))[0]
     y = (number.rpartition(';'))[2]
+
 
     return 'You choose x = ' + x + ' , y = ' + y+'. With this RGB value ' + r+' '+g+' '+b+ ' '+w
 

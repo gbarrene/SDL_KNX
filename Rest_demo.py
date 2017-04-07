@@ -38,16 +38,30 @@ def connection():
 
 
 @app.route('/all_on', methods=['POST'])
-def all_on():
+def all_rgb_on():
     global tunnel
     sdl_knx.all_on(tunnel)
     return 'Successfully turned all the rgb led on'
 
 
 @app.route('/all_off', methods=['POST'])
-def all_off():
+def all_rgb_off():
     global tunnel
     sdl_knx.all_off(tunnel)
+    return 'Successfully turned all the rgb led off'
+
+
+@app.route('/all_rgb_on', methods=['POST'])
+def all_rgb_on():
+    global tunnel
+    sdl_knx.all_rgb_on(tunnel)
+    return 'Successfully turned all the rgb led on'
+
+
+@app.route('/all_rgb_off', methods=['POST'])
+def all_rgb_off():
+    global tunnel
+    sdl_knx.all_rgb_off(tunnel)
     return 'Successfully turned all the rgb led off'
 
 

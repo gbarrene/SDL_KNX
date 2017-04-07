@@ -29,6 +29,7 @@ class Animation(threading.Thread):
         threading.Thread.__init__(self)
         self.tunnel = tunnel
         self.method_name = 'stop'
+        self.exit_method = 'all_on'
 
     def run(self):
         """Code that execute during the thread
@@ -48,6 +49,10 @@ class Animation(threading.Thread):
             else:
                 return 'Not an available animation'
                 break
+        if self.exit_method == 'all_on':
+            all_rgb_on(tunnel)
+        elif self.exit_method == 'all_off':
+            all_rgb_off(tunnel)
 
     def stop(self):
         """Method to stop the thread rapidly
@@ -209,6 +214,13 @@ def all_off(tunnel):
 
 
 def all_on(tunnel):
-
+    set_all_led(tunnel, 200)
     set_all_rgb(tunnel, [0, 0, 0, 200])
-    #set_all_rgb(tunnel, rgbw)
+
+
+def all_rgb_off(tunnel):
+    set_all_rgb(tunnel, [0, 0, 0, 0])
+
+
+def all_rgb_on(tunnel):
+    set_all_rgb(tunnel, [0, 0, 0, 200])

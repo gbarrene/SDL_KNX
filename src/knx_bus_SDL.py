@@ -2,6 +2,7 @@ from knxip.ip import KNXIPTunnel
 from random import randint
 from knxip.core import parse_group_address as toknx
 import time
+import threading
 import src.constants as constants
 
 # All SDL constants
@@ -22,6 +23,36 @@ save_var_rgb = [[0, 0, 0, 0],
                 [0, 0, 0, 0]]
 
 
+class Animation(threading.Thread):
+
+    def __init__(self, tunnel):
+        threading.Thread.__init__(self)
+        self.tunnel = tunnel
+        self.method_name = 'stop'
+
+    def run(self):
+        """Code that execute during the thread
+        Change the "method_name" to a valid animation name before starting the thread,
+        if not the thread will stop immediately.
+        
+        You can change the method_name during the execution to change the animation"""
+
+        while True:
+            if self.method_name == 'stop':
+                return 'Animation ended'
+                break
+            elif self.method_name == 'disco':
+                disco_animation(self.tunnel)
+            elif self.method_name == 'christmas':
+                christmas_animation(self.tunnel)
+            else:
+                return 'Not an available animation'
+                break
+
+    def stop(self):
+        """Method to stop the thread rapidly
+        use "Animation.join()" to be sure that the thread is stopped """
+        self.method_name = 'stop'
 
 def KNX_tunnel(knx_gw_ip):
     """Open a tunnel with the KNX ethernet/knx bus module"""
@@ -35,6 +66,7 @@ def KNX_tunnel(knx_gw_ip):
 
 # All Led related fonction (Get, Set, Set All)
 
+
 def timing_without_value(tunnel, method_name, timer):
     possibles = globals().copy()
     possibles.update(locals())
@@ -42,7 +74,8 @@ def timing_without_value(tunnel, method_name, timer):
     if not method:
         raise NotImplementedError("Method %s not implemented" % method_name)
     else:
-        save_rgb_all(tunnel)
+        #save_rgb_all(tunnel)
+
         if timer == 0:
             print("Will run %s for infinit time" % method_name)
             while True:
@@ -78,6 +111,7 @@ def set_led(tunnel, led_id, w_value=None):
     except:
         print("Unable to write to the KNX bus")
 
+
 def set_all_led(tunnel, w_value=None):
     """Set all LED lights to a common [White] value. Default: all off"""
 
@@ -104,6 +138,7 @@ def get_rgb(tunnel, rgb_id):
         return None
     return rgbw_value
 
+
 def set_rgb(tunnel, rgb_id, rgbw_value=None):
     """Fonction that set the RGBW value (0-255) array, for address for "%%" """
 
@@ -128,9 +163,8 @@ def set_all_rgb(tunnel, rgbw_value=None):
     if not rgbw_value:
         rgbw_value = [0, 0, 0, 0]
 
-    for light_it in range(0, constants.RGB_TOTAL):
+    for light_it in range(0, constants.RGB_TOTAL+1):
         set_rgb(tunnel, rgb_first + (constants.RGB_STEP * light_it), rgbw_value)
-
 
 
 def set_all_rgb_random(tunnel):
@@ -154,16 +188,22 @@ def restore_rgb_all(tunnel):
         print(save_var_rgb[light_it])
 
 
-def disco_rgb_mode(tunnel):
+def disco_animation(tunnel):
     set_all_rgb_random(tunnel)
     time.sleep(3)
 
 
-def set_christmas(tunnel):
+def christmas_animation(tunnel):
     light_id = randint(0, 11)
     color_id = randint(0, len(constants.CHRISTMAS_COLORS)-1)
     set_rgb(tunnel, rgb_first + (constants.RGB_STEP * light_id), constants.CHRISTMAS_COLORS[color_id])
     time.sleep(3)
+
+
+def christmas_loop(tunnel):
+
+    while True:
+        set_christmas(tunnel)
 
 
 def all_off(tunnel):
@@ -172,5 +212,6 @@ def all_off(tunnel):
 
 
 def all_on(tunnel):
-    set_all_rgb(tunnel, [0,0,0,200])
+    set_all_rgb(tunnel, [0, 0, 0, 200])
+    #set_all_rgb(tunnel, rgbw)
 

@@ -11,16 +11,16 @@ SQUAD_1 = '14/2/131'
 SQUAD_2 = '14/2/121'
 SQUAD_3 = '14/2/111'
 
-RGB_FIRST_KNX = '14/3/81'
-RGB_TOTAL = 8
-
+RGB_FIRST_KNX = '14/3/1'
+RGB_TOTAL = 12
 RGB_STEP = 20
 
 LED_FIRST_KNX = '14/2/11'
 LED_TOTAL = 14
 LED_STEP = 5
 
-CHRISTMAS_COLORS= [[200, 30, 40, 0],
+CHRISTMAS_COLORS = [[200, 30, 40, 0],
+
                    [0, 150, 70, 0],
                    [205, 155, 0, 0]
                    ]
@@ -56,10 +56,33 @@ DSL_MOTION_SENSORS = [['000070B3D5C1503F', 'Cafe'],
 #       |
 
 
-
 LED_POSITION = [[0, 0, 'SQUAD_2_A'],
                 [0, 1, 'SQUAD_2_A'],
                 [0, 2, 'SQUAD_2_B'],
+                [0, 3, 'SQUAD_2_B'],
+                [0, 6, 'SQUAD_1_B'],
+                [0, 7, 'SQUAD_1_B'],
+                [0, 8, 'SQUAD_1_B'],
+                [0, 9, 'SQUAD_1_B'],
+                [0, 10, 'SQUAD_1_B'],
+
+                [1, 0, 'SQUAD_2_A'],
+                [1, 1, 'SQUAD_2_A'],
+                [1, 2, 'SQUAD_2_B'],
+                [1, 3, 'SQUAD_2_B'],
+                [1, 6, 'SQUAD_1_B'],
+                [1, 7, 'SQUAD_1_B'],
+                [1, 8, 'SQUAD_1_B'],
+                [1, 9, 'SQUAD_1_B'],
+                [1, 10, 'SQUAD_1_B'],
+
+                [2, 3, 'SQUAD_2_B'],
+                [2, 6, 'SQUAD_1_B'],
+                [2, 7, 'SQUAD_1_B'],
+                [2, 8, 'SQUAD_1_B'],
+                [2, 9, 'SQUAD_1_B'],
+                [2, 10, 'SQUAD_1_B'],
+
 
                 [3, 3, 'COULOIR_C'],
                 [3, 4, 'COULOIR_D'],

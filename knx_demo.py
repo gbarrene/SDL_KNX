@@ -46,13 +46,19 @@ def multiple_choice(choice_str, tunnel, value=None):
         return_str = help_text()
 
     elif choice_str == 'disco':
-        return_str = lunch_method_without_value(tunnel, 'disco_rgb_mode', value)
+        while True:
+            sdl_knx.disco_animation(tunnel)
+        #return_str = lunch_method_without_value(tunnel, 'disco_animation', value)
 
     elif choice_str == 'all_on':
         return_str = lunch_method_without_value(tunnel, 'all_on', value)
 
     elif choice_str == 'christmas':
-        return_str = lunch_method_without_value(tunnel, 'set_christmas', value)
+
+        while True:
+            sdl_knx.christmas_animation(tunnel)
+        #return_str = lunch_method_without_value(tunnel, 'christmas_animation', value)
+
 
     elif choice_str == 'all_off':
         return_str = lunch_method_without_value(tunnel, 'all_off', value)

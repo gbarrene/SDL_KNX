@@ -41,15 +41,14 @@ def lunch_method_without_value(tunnel, method_name, timer=None):
     sdl_knx.timing_without_value(tunnel, method_name, int(timer))
     return True
 
-
 def multiple_choice(choice_str, tunnel, value=None):
     if choice_str == 'help':
         return_str = help_text()
 
     elif choice_str == 'disco':
         while True:
-            sdl_knx.disco_rgb_mode(tunnel)
-        #return_str = lunch_method_without_value(tunnel, 'disco_rgb_mode', value)
+            sdl_knx.disco_animation(tunnel)
+        #return_str = lunch_method_without_value(tunnel, 'disco_animation', value)
 
     elif choice_str == 'all_on':
         return_str = lunch_method_without_value(tunnel, 'all_on', value)
@@ -57,8 +56,8 @@ def multiple_choice(choice_str, tunnel, value=None):
     elif choice_str == 'christmas':
 
         while True:
-            sdl_knx.set_christmas(tunnel)
-        #return_str = lunch_method_without_value(tunnel, 'set_christmas', value)
+            sdl_knx.christmas_animation(tunnel)
+        #return_str = lunch_method_without_value(tunnel, 'christmas_animation', value)
 
     elif choice_str == 'all_off':
         return_str = lunch_method_without_value(tunnel, 'all_off', value)
@@ -124,19 +123,20 @@ def main():
     sdl_knx.setled(tunnel, toknx(constants.WIKIHOUSE_1), 255)
     time.sleep(1)
     print(sdl_knx.getled(tunnel, toknx(constants.WIKIHOUSE_1)))
+
     time.sleep(1)
     #sdl_knx.alloff(tunnel)
     time.sleep(3)  # 3 secs seems to be the min to be sure setall is working properly...
     #sdl_knx.setallled(tunnel, 200)
     time.sleep(3)
     #sdl_knx.setallrgb(tunnel, [0, 0, 0, 200])
+    
     sdl_knx.setled(tunnel, toknx(constants.WIKIHOUSE_1), 0)
     time.sleep(1)
     print(sdl_knx.getled(tunnel, toknx(constants.WIKIHOUSE_1)))
     sdl_knx.setled(tunnel, toknx(constants.WIKIHOUSE_2), 0)
     time.sleep(1)
     print(sdl_knx.getled(tunnel, toknx(constants.WIKIHOUSE_2)))
-
 """
 
 if __name__ == "__main__":

@@ -31,20 +31,27 @@ class Animation(threading.Thread):
         self.method_name = 'stop'
 
     def run(self):
-        """Code à exécuter pendant l'exécution du thread."""
+        """Code that execute during the thread
+        Change the "method_name" to a valid animation name before starting the thread,
+        if not the thread will stop immediately.
+        
+        You can change the method_name during the execution to change the animation"""
+
         while True:
             if self.method_name == 'stop':
                 return 'Animation ended'
                 break
             elif self.method_name == 'disco':
-                disco_rgb_mode(self.tunnel)
+                disco_animation(self.tunnel)
             elif self.method_name == 'christmas':
-                set_christmas(self.tunnel)
+                christmas_animation(self.tunnel)
             else:
                 return 'Not an available animation'
                 break
 
     def stop(self):
+        """Method to stop the thread rapidly
+        use "Animation.join()" to be sure that the thread is stopped """
         self.method_name = 'stop'
 
 
@@ -57,6 +64,8 @@ def KNX_tunnel(knx_gw_ip):
         return tunnel
     else:
         return None
+
+# All Led related fonction (Get, Set, Set All)
 
 
 def timing_without_value(tunnel, method_name, timer):
@@ -112,7 +121,6 @@ def set_all_led(tunnel, w_value=None):
     for light_it in range(0, constants.LED_TOTAL + 1):
         set_led(tunnel, led_first + (constants.LED_STEP * light_it), w_value)
 
-
 # All RGB related fonction (Get, Set, Set All)
 
 def get_rgb(tunnel, rgb_id):
@@ -161,7 +169,6 @@ def set_all_rgb(tunnel, rgbw_value=None):
 
 def set_all_rgb_random(tunnel):
     """ Set all RGB lights to a random and different RGB value """
-
     for light_it in range(0, constants.RGB_TOTAL):
         set_rgb(tunnel, rgb_first + (constants.RGB_STEP * light_it),[randint(0, 255), randint(0, 255), randint(0, 255), 0])
         print(rgb_first + (constants.RGB_STEP * light_it))
@@ -169,7 +176,6 @@ def set_all_rgb_random(tunnel):
 
 
 def save_rgb_all(tunnel):
-
     for light_it in range(0, constants.RGB_TOTAL):
         save_var_rgb[light_it] = get_rgb(tunnel, rgb_first + (constants.RGB_STEP * light_it))
         print(save_var_rgb[light_it])
@@ -177,19 +183,17 @@ def save_rgb_all(tunnel):
 
 
 def restore_rgb_all(tunnel):
-
     for light_it in range(0, constants.RGB_TOTAL):
         set_rgb(tunnel, rgb_first + (constants.RGB_STEP * light_it), save_var_rgb[light_it])
         print(save_var_rgb[light_it])
 
 
-def disco_rgb_mode(tunnel):
+def disco_animation(tunnel):
     set_all_rgb_random(tunnel)
     time.sleep(3)
 
 
-def set_christmas(tunnel):
-
+def christmas_animation(tunnel):
     light_id = randint(0, 11)
     color_id = randint(0, len(constants.CHRISTMAS_COLORS)-1)
     set_rgb(tunnel, rgb_first + (constants.RGB_STEP * light_id), constants.CHRISTMAS_COLORS[color_id])
@@ -203,7 +207,6 @@ def christmas_loop(tunnel):
 
 
 def all_off(tunnel):
-
     set_all_led(tunnel, 0)
     set_all_rgb(tunnel, [0, 0, 0, 0])
 

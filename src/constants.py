@@ -11,7 +11,6 @@ SQUAD_1 = '14/2/131'
 SQUAD_2 = '14/2/121'
 SQUAD_3 = '14/2/111'
 
-
 RGB_FIRST_KNX = '14/3/1'
 RGB_TOTAL = 12
 RGB_STEP = 20
@@ -20,7 +19,7 @@ LED_FIRST_KNX = '14/2/11'
 LED_TOTAL = 14
 LED_STEP = 5
 
-CHRISTMAS_COLORS= [[200, 30, 40, 0],
+CHRISTMAS_COLORS = [[200, 30, 40, 0],
                    [0, 150, 70, 0],
                    [205, 155, 0, 0]
                    ]
@@ -54,7 +53,6 @@ DSL_MOTION_SENSORS = [['000070B3D5C1503F', 'Cafe'],
 #       | # # # # # # # # # # # # # # # # # # # # #
 #     --|------------------------------------------->  X
 #       |
-
 
 
 LED_POSITION = [[0, 0, 'SQUAD_2_A'],

@@ -1,5 +1,6 @@
 from flask import Flask, redirect, url_for, escape, request, jsonify
 import src.knx_bus_SDL as sdl_knx
+import src.constants as constants
 import threading
 
 app = Flask(__name__)
@@ -12,8 +13,9 @@ def index():
     return 'You are not logged in'
 
 
-@app.route('/connection', methods=['GET', 'POST', 'DELETE'])
+@app.route('/connection', methods=['GET', 'POST'])
 def connection():
+
     """Connection of the server to the KNX interface"""
     global tunnel
     if request.method == 'GET':
@@ -21,9 +23,9 @@ def connection():
         if tunnel.check_connection_state():
             return 'Tunnel already opened'
         else:
-            return 'Tunnel not opened yet, or crashed. Please open it with a "PUT" on the same URL'
+            return 'Tunnel not opened yet, or crashed. Please open it with a "POST" on the same URL'
 
-    elif request.method == 'PUT':
+    elif request.method == 'POST':
         if tunnel.connect():
             print('Tunnel opened')
             return 'Tunnel opened successfully'
@@ -38,14 +40,14 @@ def connection():
 
 
 @app.route('/all_on', methods=['POST'])
-def all_rgb_on():
+def all_on():
     global tunnel
     sdl_knx.all_on(tunnel)
     return 'Successfully turned all the rgb led on'
 
 
 @app.route('/all_off', methods=['POST'])
-def all_rgb_off():
+def all_off():
     global tunnel
     sdl_knx.all_off(tunnel)
     return 'Successfully turned all the rgb led off'
@@ -67,6 +69,8 @@ def all_rgb_off():
 
 @app.route('/animation/<string:animation_name>', methods=['POST', 'DELETE'])
 def animation_fonction(animation_name = 'test'):
+
+    """URL to launch/kill animation for the leds"""
     global animation
     if request.method == 'POST':
         if not animation.isAlive():
@@ -76,8 +80,10 @@ def animation_fonction(animation_name = 'test'):
 
         elif animation.method_name == animation_name:
             return animation_name+' is already alive'
+
         else:
             animation.method_name = animation_name
+            return animation_name + ' is now active'
 
     elif request.method == 'DELETE':
         if animation.isAlive():
@@ -89,66 +95,47 @@ def animation_fonction(animation_name = 'test'):
             return 'No animation was started'
 
 
-#
-# Turn on/off light on a particular coordinate of the lab map
-#
 @app.route('/position/<string:coordinates>', methods=['POST', 'DELETE'])
 def position(coordinates = '0;0'):
+
+    """Turn on/off light on a particular coordinate of the lab map
+    Coordinates must be x; y type. The radius will define the radius of lights that light up"""
     global tunnel
-    # POST to turn on the light on a particular coordinate
     if request.method == 'POST':
         if not request.json:
-            print('wrfwrfgrgrgwrrfwwrf')
-            r = '0'
-            g = '0'
-            b = '0'
-            w = '200'
-
+            color = [0, 0, 0, 200]
         else:
-            r = request.json['R']
-            g = request.json['G']
-            b = request.json['B']
-            w = request.json['W']
+            color = [int(request.json['R']), int(request.json['G']), int(request.json['B']), int(request.json['W'])]
 
-    # DELETE to turn off the light on a particular coordinate
     elif request.method == 'DELETE':
-        r = '0'
-        g = '0'
-        b = '0'
-        w = '0'
+        color = [0, 0, 0, 0]
 
-    x = (coordinates.rpartition(';'))[0]
-    y = (coordinates.rpartition(';'))[2]
+    x = int((coordinates.rpartition(';'))[0])
+    y = int((coordinates.rpartition(';'))[2])
 
-    return 'You choose x = ' + x + ' , y = ' + y+'. With this RGB value ' + r+' '+g+' '+b+ ' '+w
+    if sdl_knx.set_light_position(tunnel, x, y, color):
+        return "Unable to write to the KNX bus"
+    return "All lights were set successfully"
 
 
-@app.route('/led/<string:number>', methods=['PUT'])
-def led(number='0;0'):
+@app.route('/zone/<string:zone_name>', methods=['POST', 'DELETE'])
+def zone(zone_name='0_0'):
+
+    """Turn on/off lights in the zone name. If the zone name is more generic, it selects all
+    lights with this generic name at the beginning"""
     global tunnel
-    r = request.json['R']
-    g = request.json['G']
-    b = request.json['B']
-    w = request.json['W']
+    if request.method == 'POST':
+        if not request.json:
+            color = [0, 0, 0, 200]
+        else:
+            color = [int(request.json['R']), int(request.json['G']), int(request.json['B']), int(request.json['W'])]
 
-    x = (number.rpartition(';'))[0]
-    y = (number.rpartition(';'))[2]
+    elif request.method == 'DELETE':
+        color = [0, 0, 0, 0]
 
-    return 'You choose x = ' + x + ' , y = ' + y+'. With this RGB value ' + r+' '+g+' '+b+ ' '+w
-
-
-#
-# @app.route('/led', methods=['GET', 'POST'])
-# def led():
-#     if request.method == 'POST':
-#         session['username'] = request.form['username']
-#         return redirect(url_for('index'))
-#     return '''<form action="" method="post"><p><input type=text name=username><p><input type=submit value=Login></form>'''
-#
-
-@app.route('/rgb', methods=['GET', 'POST'])
-def rgb():
-    return 'rgb'
+    if sdl_knx.set_light_zone(tunnel, zone_name, color):
+        return "Unable to write to the KNX bus"
+    return "All lights were set successfully"
 
 
 if __name__ == "__main__":

@@ -1,22 +1,22 @@
-    # SDL_KNX
+# SDL_KNX
 Swisscom Digital Lab KNX controller
 
 Python code to control the KNX lights in the lab
 
-##Install
+## Install
 
 You chould use the `Python_install_setup.sh` to have all modules use in this program.
 It will use python3!
 
-###Modules List:
+### Modules List:
 - Paho MQTT
 - KNX.ip
 - Flask
 
-##KNX Lights
+## KNX Lights
 "REST" API with Flask to control the lighting of the lab.
 
-###Request List 'POST':
+### Request List 'POST':
 - _/connection_ 
   Creat the knx tunnel
 
@@ -35,7 +35,7 @@ It will use python3!
 - _/animation/_**_animationName_**  
   Launch the animation if it is define
 
-##MQTT Thingdust
+## MQTT Thingdust
 Read Thingdust MQTT messages and return where there is movement in the lab.
 
 Use the `thingdust_demo.py` is you want to activate the light in wikihouse 1 and 2 just by moving inside.

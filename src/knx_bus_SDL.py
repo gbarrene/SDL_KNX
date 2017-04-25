@@ -181,7 +181,10 @@ def set_led(tunnel, led_id, w_value=None):
         tunnel.group_write(led_id + 2, [w_value])
         return 0
     except:
-        print("Unable to write to the KNX bus")
+        if tunnel.check_connection_state():
+            print("Unable to write to the KNX bus")
+        else:
+            tunnel.connect()
         return 1
 
 
@@ -229,7 +232,10 @@ def set_rgb(tunnel, rgb_id, rgbw_value=None):
         tunnel.group_write(rgb_id + 17, [rgbw_value[3]])
         return 0
     except:
-        print("Unable to write to the KNX bus")
+        if tunnel.check_connection_state():
+            print("Unable to write to the KNX bus")
+        else:
+            tunnel.connect()
         return 1
 
 

@@ -184,6 +184,8 @@ def set_led(tunnel, led_id, w_value=None):
         if tunnel.check_connection_state():
             print("Unable to write to the KNX bus")
         else:
+            tunnel.disconnect()
+            time.sleep(3)
             tunnel.connect()
         return 1
 
@@ -235,6 +237,8 @@ def set_rgb(tunnel, rgb_id, rgbw_value=None):
         if tunnel.check_connection_state():
             print("Unable to write to the KNX bus")
         else:
+            tunnel.disconnect()
+            time.sleep(3)
             tunnel.connect()
         return 1
 

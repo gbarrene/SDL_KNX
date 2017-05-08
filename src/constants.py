@@ -177,6 +177,16 @@ LED_POSITION = [[0, 0, 'SQUAD_2_A'],
                 [14, 6, 'SQUAD_4_A']
                 ]
 
+MORA_SENSOR = [['A81758FFFE03045F', 'Reception'],
+               ['A81758FFFE030460', 'VR_corner'],
+               ['A81758FFFE030461', 'Squad_3'],
+               ['A81758FFFE030425', 'Squad_2'],
+               ['A81758FFFE0303FC', 'Squad_1'],
+               ['A81758FFFE0301CC', 'Wiki_1'],
+               ['A81758FFFE0304B5', 'Wiki_2'],
+               ['A81758FFFE0304B7', 'Wiki_3']
+                ]
+
 
 LIGHT_LOOKUP_TABLE = [['SQUAD_3_A', '14/2/11', 1],
                     ['SQUAD_3_B', '14/2/16', 1],

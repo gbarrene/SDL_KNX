@@ -146,8 +146,15 @@ def zone(zone_name='0_0'):
 
     if sdl_knx.set_light_zone(tunnel, zone_name, color):
         return "Unable to write to the KNX bus"
-    return "All lights were set successfully"
+    else:
+        return "All lights were set successfully"
 
+
+@app.route('/lora', methods=['POST'])
+def lora():
+
+    print (request.json)
+    return "Good"
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)

@@ -177,7 +177,7 @@ LED_POSITION = [[0, 0, 'SQUAD_2_A'],
                 [14, 6, 'SQUAD_4_A']
                 ]
 
-MORA_SENSOR = [['A81758FFFE03045F', 'Reception'],
+LORA_SENSOR = [['A81758FFFE03045F', 'Reception'],
                ['A81758FFFE030460', 'VR_corner'],
                ['A81758FFFE030461', 'Squad_3'],
                ['A81758FFFE030425', 'Squad_2'],

@@ -152,8 +152,9 @@ def zone(zone_name='0_0'):
 
 @app.route('/lora', methods=['POST'])
 def lora():
-
-    print (request.json)
+    index = constants.LORA_SENSOR.index(request.json['DevEUI'])
+    print(index)
+    print(request.json['Light'] +"  "+ request.json['DevEUI'])
     return "Good"
 
 if __name__ == "__main__":

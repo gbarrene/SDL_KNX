@@ -169,11 +169,11 @@ def lora():
             zone_name = constants.LORA_SENSOR[x][1]
     if not zone_name == "0":
         if (request.json['Light'] < 350):
-            brightness  = 180
+            brightness = 180
         elif (request.json['Light'] < 500):
             brightness = 140
         else:
-            brightness = 240 - request.json['Light'] * (140 / 300)
+            brightness = int(240 - request.json['Light'] * (140 / 300))
 
         if (brightness < 0):
             brightness = 0

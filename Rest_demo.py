@@ -156,6 +156,7 @@ def active_light():
     global active_light
     if request.method == 'POST':
         active_light = 1
+        print("active_light")
     elif request.method == 'DELETE':
         active_light = 0
 

@@ -165,6 +165,7 @@ def active_light():
 @app.route('/lora', methods=['POST'])
 def lora():
     global active_light
+    global tunnel
     zone_name = "0"
     for x in range(0, len(constants.LORA_SENSOR)):
         if request.json['DevEUI'] == constants.LORA_SENSOR[x][0]:
@@ -181,6 +182,7 @@ def lora():
             brightness = 0
         if active_light:
             print(str(brightness) + "  " + zone_name)
+            sdl_knx.set_light_zone(tunnel, zone_name, [0, 0, 0, brightness])
     return "Good"
 
 if __name__ == "__main__":

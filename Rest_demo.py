@@ -6,7 +6,7 @@ import threading
 app = Flask(__name__)
 tunnel = sdl_knx.KNX_tunnel('192.168.1.99')
 animation = sdl_knx.Animation(tunnel)
-
+active_light = 0
 
 
 @app.route('/')
@@ -151,22 +151,34 @@ def zone(zone_name='0_0'):
         return "All lights were set successfully"
 
 
+@app.route('/active_light', methods=['POST', 'DELETE'])
+def active_light():
+    global active_light
+    if request.method == 'POST':
+        active_light = 1
+    elif request.method == 'DELETE':
+        active_light = 0
+
+
 @app.route('/lora', methods=['POST'])
 def lora():
+    global active_light
     zone_name = "0"
     for x in range(0, len(constants.LORA_SENSOR)):
         if request.json['DevEUI'] == constants.LORA_SENSOR[x][0]:
             zone_name = constants.LORA_SENSOR[x][1]
-    if (request.json['Light'] < 350):
-        brightness  = 180
-    elif (request.json['Light'] < 500):
-        brightness = 140
-    else
-        brightness = 240 - request.json['Light'] * (140 / 300)
+    if not zone_name == "0":
+        if (request.json['Light'] < 350):
+            brightness  = 180
+        elif (request.json['Light'] < 500):
+            brightness = 140
+        else:
+            brightness = 240 - request.json['Light'] * (140 / 300)
 
-    if (brightness < 0):
-        brightness = 0
-    print(str(brightness) + "  " + zone_name)
+        if (brightness < 0):
+            brightness = 0
+        if active_light:
+            print(str(brightness) + "  " + zone_name)
     return "Good"
 
 if __name__ == "__main__":

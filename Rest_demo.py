@@ -159,6 +159,7 @@ def active_light():
         print("active_light")
     elif request.method == 'DELETE':
         active_light = 0
+    return "active light"
 
 
 @app.route('/lora', methods=['POST'])

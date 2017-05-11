@@ -7,7 +7,7 @@ app = Flask(__name__)
 tunnel = sdl_knx.KNX_tunnel('192.168.1.99')
 animation = sdl_knx.Animation(tunnel)
 active_light = 0
-brightness_level[len(constants.LORA_SENSOR)] = 0
+brightness_level = [0] * len(constants.LORA_SENSOR)
 
 
 @app.route('/')
@@ -167,6 +167,7 @@ def active_light():
 def lora():
     global active_light
     global tunnel
+    global brightness_level
     zone_name = "0"
     zone_index = 0
     for x in range(0, len(constants.LORA_SENSOR)):

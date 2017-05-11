@@ -7,6 +7,7 @@ app = Flask(__name__)
 tunnel = sdl_knx.KNX_tunnel('192.168.1.99')
 animation = sdl_knx.Animation(tunnel)
 active_light = 0
+brightness_level[len(constants.LORA_SENSOR)] = 0
 
 
 @app.route('/')
@@ -167,22 +168,26 @@ def lora():
     global active_light
     global tunnel
     zone_name = "0"
+    zone_index = 0
     for x in range(0, len(constants.LORA_SENSOR)):
         if request.json['DevEUI'] == constants.LORA_SENSOR[x][0]:
             zone_name = constants.LORA_SENSOR[x][1]
+            zone_index = x
     if not zone_name == "0":
         if (request.json['Light'] < 350):
-            brightness = 180
+            brightness = constants.LORA_SENSOR[x][2]
         elif (request.json['Light'] < 500):
-            brightness = 140
+            brightness = constants.LORA_SENSOR[x][3]
         else:
-            brightness = int(240 - request.json['Light'] * (140 / 300))
+            brightness = int((((constants.LORA_SENSOR[x][3] / 450)*500)+constants.LORA_SENSOR[x][3]) - request.json['Light'] * (constants.LORA_SENSOR[x][3] / 450))
 
         if (brightness < 0):
             brightness = 0
         if active_light:
             print(str(brightness) + "  " + zone_name)
-            sdl_knx.set_light_zone(tunnel, zone_name, [0, 0, 0, brightness])
+            brightness_level[zone_index] = brightness
+            if not brightness_level[zone_index] == brightness:
+                sdl_knx.set_light_zone(tunnel, zone_name, [0, 0, 0, brightness])
     return "Good"
 
 if __name__ == "__main__":

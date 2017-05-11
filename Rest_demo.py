@@ -187,7 +187,7 @@ def lora():
         if active_light:
             print(str(brightness) + "  " + zone_name)
             brightness_level[zone_index] = brightness
-            if not brightness_level[zone_index] == brightness:
+            if brightness_level[zone_index] != brightness:
                 sdl_knx.set_light_zone(tunnel, zone_name, [0, 0, 0, brightness])
     return "Good"
 

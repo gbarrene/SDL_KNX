@@ -190,14 +190,15 @@ def lora():
                     brightness = 0
 
                 print(str(brightness) + "  " + zone_name)
-                if brightness_level[zone_index] != brightness:
-                    if zone_name[:4].upper() == "WIKI" and request.json['Motion'] > 0:
+                if zone_name[:4].upper() == "WIKI" and request.json['Motion'] > 0:
+                    if brightness_level[zone_index] != brightness:
                         sdl_knx.set_light_zone(tunnel, zone_name, [0, 0, 0, brightness])
                         brightness_level[zone_index] = brightness
-                    elif zone_name[:4].upper() == "WIKI" and request.json['Motion'] == 0:
-                        sdl_knx.set_light_zone(tunnel, zone_name, [0, 0, 0, 0])
-                        brightness_level[zone_index] = 0
-                    else:
+                elif zone_name[:4].upper() == "WIKI" and request.json['Motion'] == 0:
+                    sdl_knx.set_light_zone(tunnel, zone_name, [0, 0, 0, 0])
+                    brightness_level[zone_index] = 0
+                else:
+                    if brightness_level[zone_index] != brightness:
                         sdl_knx.set_light_zone(tunnel, zone_name, [0, 0, 0, brightness])
                         brightness_level[zone_index] = brightness
         else:

@@ -2,6 +2,7 @@ from flask import Flask, redirect, url_for, escape, request, jsonify
 import src.knx_bus_SDL as sdl_knx
 import src.constants as constants
 import threading
+from time import localtime, strftime
 
 app = Flask(__name__)
 tunnel = sdl_knx.KNX_tunnel('192.168.1.99')
@@ -170,25 +171,39 @@ def lora():
     global brightness_level
     zone_name = "0"
     zone_index = 0
-    for x in range(0, len(constants.LORA_SENSOR)):
-        if request.json['DevEUI'] == constants.LORA_SENSOR[x][0]:
-            zone_name = constants.LORA_SENSOR[x][1]
-            zone_index = x
-    if not zone_name == "0":
-        if (request.json['Light'] < 350):
-            brightness = constants.LORA_SENSOR[x][2]
-        elif (request.json['Light'] < 500):
-            brightness = constants.LORA_SENSOR[x][3]
-        else:
-            brightness = int((((constants.LORA_SENSOR[x][3] / 450)*500)+constants.LORA_SENSOR[x][3]) - request.json['Light'] * (constants.LORA_SENSOR[x][3] / 450))
-
-        if (brightness < 0):
-            brightness = 0
+    hour = int(strftime("%H", localtime()))
+    if hour > 7 and hour < 20:
         if active_light:
-            print(str(brightness) + "  " + zone_name)
-            if brightness_level[zone_index] != brightness:
-                sdl_knx.set_light_zone(tunnel, zone_name, [0, 0, 0, brightness])
-            brightness_level[zone_index] = brightness
+            for x in range(0, len(constants.LORA_SENSOR)):
+                if request.json['DevEUI'] == constants.LORA_SENSOR[x][0]:
+                    zone_name = constants.LORA_SENSOR[x][1]
+                    zone_index = x
+            if not zone_name == "0":
+                if request.json['Light'] < 350:
+                    brightness = constants.LORA_SENSOR[x][2]
+                elif request.json['Light'] < 500:
+                    brightness = constants.LORA_SENSOR[x][3]
+                else:
+                    brightness = int((((constants.LORA_SENSOR[x][3] / 450)*500)+constants.LORA_SENSOR[x][3]) - request.json['Light'] * (constants.LORA_SENSOR[x][3] / 450))
+
+                if brightness < 0:
+                    brightness = 0
+
+                print(str(brightness) + "  " + zone_name)
+                if brightness_level[zone_index] != brightness:
+                    if zone_name[:4].upper() == "WIKI" and request.json['Motion'] > 0:
+                        sdl_knx.set_light_zone(tunnel, zone_name, [0, 0, 0, brightness])
+                        brightness_level[zone_index] = brightness
+                    elif zone_name[:4].upper() == "WIKI" and request.json['Motion'] == 0:
+                        sdl_knx.set_light_zone(tunnel, zone_name, [0, 0, 0, 0])
+                        brightness_level[zone_index] = 0
+                    else:
+                        sdl_knx.set_light_zone(tunnel, zone_name, [0, 0, 0, brightness])
+                        brightness_level[zone_index] = brightness
+        else:
+            for x in range(0, len(constants.LORA_SENSOR)):
+                brightness_level[zone_index] = 0
+
     return "Good"
 
 if __name__ == "__main__":

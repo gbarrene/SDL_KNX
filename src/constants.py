@@ -182,7 +182,7 @@ LED_POSITION = [[0, 0, 'SQUAD_2_A'],
 #
 #
 LORA_SENSOR = [['A81758FFFE03045F', 'Squad_3', 200, 180],
-               ['A81758FFFE030460', 'Squad_1, 200, 180],
+               ['A81758FFFE030460', 'Squad_1', 200, 180],
                ['A81758FFFE030461', 'PRESENTATION', 230, 200],
                ['A81758FFFE030425', 'Squad_2', 200, 180],
                ['A81758FFFE0303FC', 'Acceuil', 200, 180],

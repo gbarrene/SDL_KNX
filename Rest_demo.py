@@ -164,6 +164,40 @@ def active_light():
     return "active light"
 
 
+@app.route('/zone_light1/<string:zone_name>', methods=['PUT'])
+def zone_light1(zone_name='0_0'):
+    if request.method == 'PUT':
+        if request.json:
+            zone_name = zone_name.upper()
+            file = open("Light_info_DevEUI.txt", 'r')
+            light_info_deveui = json.load(file)
+            file.close()
+            for x in range(0, len(light_info_deveui)):
+                if light_info_deveui[list(light_info_deveui.keys())[x]]['zone_name'].upper() == zone_name:
+                    light_info_deveui[list(light_info_deveui.keys())[x]]['light1'] = request.json['light']
+            file = open("Light_info_DevEUI.txt", 'w')
+            file.write(json.dumps(light_info_deveui))
+            file.close()
+    return "light1 from "+zone_name+" was updated"
+
+
+@app.route('/zone_light2/<string:zone_name>', methods=['PUT'])
+def zone_light2(zone_name='0_0'):
+    if request.method == 'PUT':
+        if request.json:
+            zone_name = zone_name.upper()
+            file = open("Light_info_DevEUI.txt", 'r')
+            light_info_deveui = json.load(file)
+            file.close()
+            for x in range(0, len(light_info_deveui)):
+                if light_info_deveui[list(light_info_deveui.keys())[x]]['zone_name'].upper() == zone_name:
+                    light_info_deveui[list(light_info_deveui.keys())[x]]['light2'] = request.json['light']
+            file = open("Light_info_DevEUI.txt", 'w')
+            file.write(json.dumps(light_info_deveui))
+            file.close()
+    return "light2 from "+zone_name+" was updated"
+
+
 @app.route('/lora', methods=['POST'])
 def lora():
     global active_light

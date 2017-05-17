@@ -1,6 +1,7 @@
 from flask import Flask, redirect, url_for, escape, request, jsonify
 import src.knx_bus_SDL as sdl_knx
 import src.constants as constants
+import json
 import threading
 from time import localtime, strftime
 
@@ -169,22 +170,26 @@ def lora():
     global active_light
     global tunnel
     global brightness_level
-    zone_name = "0"
-    zone_index = 0
+    light_info_deveui = json.load(open("Light_info_DevEUI.txt", 'r+'))
     hour = int(strftime("%H", localtime()))
+
     if hour > 7 and hour < 20:
         if active_light:
-            for x in range(0, len(constants.LORA_SENSOR)):
-                if request.json['DevEUI'] == constants.LORA_SENSOR[x][0]:
-                    zone_name = constants.LORA_SENSOR[x][1]
-                    zone_index = x
+            try:
+                zone_name = light_info_deveui[request.json['DevEUI'].upper()]['zone_name']
+                light1 = light_info_deveui[request.json['DevEUI'].upper()]['light1']
+                light2 = light_info_deveui[request.json['DevEUI'].upper()]['light2']
+
+            except:
+                return ("not found")
+
             if not zone_name == "0":
                 if request.json['Light'] < 350:
-                    brightness = constants.LORA_SENSOR[x][2]
+                    brightness = light1
                 elif request.json['Light'] < 500:
-                    brightness = constants.LORA_SENSOR[x][3]
+                    brightness = light2
                 else:
-                    brightness = int((((constants.LORA_SENSOR[x][3] / 450)*500)+constants.LORA_SENSOR[x][3]) - request.json['Light'] * (constants.LORA_SENSOR[x][3] / 450))
+                    brightness = int((((light2 / 450)*500)+light2) - request.json['Light'] * (light2 / 450))
 
                 if brightness < 0:
                     brightness = 0
@@ -202,7 +207,7 @@ def lora():
                         sdl_knx.set_light_zone(tunnel, zone_name, [0, 0, 0, brightness])
                         brightness_level[zone_index] = brightness
         else:
-            for x in range(0, len(constants.LORA_SENSOR)):
+            for x in range(0, len(light_info_deveui)):
                 brightness_level[zone_index] = 0
 
     return "Good"

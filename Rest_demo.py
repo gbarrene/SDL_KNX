@@ -168,8 +168,9 @@ def active_light():
 def lora():
     global active_light
     global tunnel
-    file = open("Light_info_DevEUI.txt", 'r+')
-    light_info_deveui = json.load(open("Light_info_DevEUI.txt", 'r'))
+    file = open("Light_info_DevEUI.txt", 'r')
+    light_info_deveui = json.load(file)
+    file.close()
     hour = int(strftime("%H", localtime()))
 
     if hour > 7 and hour < 20:
@@ -208,7 +209,7 @@ def lora():
         else:
             for x in range(0, len(light_info_deveui)):
                 light_info_deveui[list(light_info_deveui.keys())[x]]['brightness_level'] = 0
-
+    file = open("Light_info_DevEUI.txt", 'w')
     file.write(json.dumps(light_info_deveui))
     file.close()
     return "Good"

@@ -169,7 +169,7 @@ def lora():
     global active_light
     global tunnel
     file = open("Light_info_DevEUI.txt", 'r+')
-    light_info_deveui = json.load(file)
+    light_info_deveui = json.load(open("Light_info_DevEUI.txt", 'r'))
     hour = int(strftime("%H", localtime()))
 
     if hour > 7 and hour < 20:

@@ -247,18 +247,18 @@ def lora():
 
                     if motion_data[zone_name.upper()]['last-7'] or motion_data[zone_name.upper()]['last-6'] or motion_data[zone_name.upper()]['last-5'] or motion_data[zone_name.upper()]['last-4'] or motion_data[zone_name.upper()]['last-3'] or motion_data[zone_name.upper()]['last-2'] or motion_data[zone_name.upper()]['last-1'] or motion_data[zone_name.upper()]['last']:
                         if brightness_level != brightness:
-                            #sdl_knx.set_light_zone(tunnel, zone_name, [0, 0, 0, brightness])
+                            sdl_knx.set_light_zone(tunnel, zone_name, [0, 0, 0, brightness])
                             light_info_deveui[request.json['DevEUI'].upper()]['brightness_level'] = brightness
                         print(str(request.json['Light']) + "  " + str(brightness) + "  " + zone_name)
                     else:
                         if brightness_level != brightness:
-                            #sdl_knx.set_light_zone(tunnel, zone_name, [0, 0, 0, 0])
+                            sdl_knx.set_light_zone(tunnel, zone_name, [0, 0, 0, 0])
                             light_info_deveui[request.json['DevEUI'].upper()]['brightness_level'] = 0
                         print(str(request.json['Light']) + "  " + str(brightness) + "  " + zone_name)
 
                 else:
                     if brightness_level != brightness:
-                        #sdl_knx.set_light_zone(tunnel, zone_name, [0, 0, 0, brightness])
+                        sdl_knx.set_light_zone(tunnel, zone_name, [0, 0, 0, brightness])
                         light_info_deveui[request.json['DevEUI'].upper()]['brightness_level'] = brightness
                     print(str(request.json['Light']) + "  " + str(brightness) + "  " + zone_name)
         else:

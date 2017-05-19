@@ -9,7 +9,6 @@ app = Flask(__name__)
 tunnel = sdl_knx.KNX_tunnel('192.168.1.99')
 animation = sdl_knx.Animation(tunnel)
 active_light = 0
-motion_mean_array = [][3]
 
 
 @app.route('/')

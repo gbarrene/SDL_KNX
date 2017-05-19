@@ -233,6 +233,10 @@ def lora():
                     file = open("Motion_data.txt", 'r')
                     motion_data = json.load(file)
                     file.close()
+                    motion_data[zone_name.upper()]['last-7'] = motion_data[zone_name.upper()]['last-6']
+                    motion_data[zone_name.upper()]['last-6'] = motion_data[zone_name.upper()]['last-5']
+                    motion_data[zone_name.upper()]['last-5'] = motion_data[zone_name.upper()]['last-4']
+                    motion_data[zone_name.upper()]['last-4'] = motion_data[zone_name.upper()]['last-3']
                     motion_data[zone_name.upper()]['last-3'] = motion_data[zone_name.upper()]['last-2']
                     motion_data[zone_name.upper()]['last-2'] = motion_data[zone_name.upper()]['last-1']
                     motion_data[zone_name.upper()]['last-1'] = motion_data[zone_name.upper()]['last']
@@ -241,7 +245,7 @@ def lora():
                     file.write(json.dumps(motion_data))
                     file.close()
 
-                    if motion_data[zone_name.upper()]['last-3'] or motion_data[zone_name.upper()]['last-2'] or motion_data[zone_name.upper()]['last-1'] or motion_data[zone_name.upper()]['last']:
+                    if motion_data[zone_name.upper()]['last-7'] or motion_data[zone_name.upper()]['last-6'] or motion_data[zone_name.upper()]['last-5'] or motion_data[zone_name.upper()]['last-4'] or motion_data[zone_name.upper()]['last-3'] or motion_data[zone_name.upper()]['last-2'] or motion_data[zone_name.upper()]['last-1'] or motion_data[zone_name.upper()]['last']:
                         if brightness_level != brightness:
                             #sdl_knx.set_light_zone(tunnel, zone_name, [0, 0, 0, brightness])
                             light_info_deveui[request.json['DevEUI'].upper()]['brightness_level'] = brightness

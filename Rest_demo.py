@@ -242,19 +242,21 @@ def lora():
                     file.close()
 
                     if motion_data[zone_name.upper()]['last-3'] or motion_data[zone_name.upper()]['last-2'] or motion_data[zone_name.upper()]['last-1'] or motion_data[zone_name.upper()]['last']:
-                        #sdl_knx.set_light_zone(tunnel, zone_name, [0, 0, 0, brightness])
-                        light_info_deveui[request.json['DevEUI'].upper()]['brightness_level'] = brightness
+                        if brightness_level != brightness:
+                            #sdl_knx.set_light_zone(tunnel, zone_name, [0, 0, 0, brightness])
+                            light_info_deveui[request.json['DevEUI'].upper()]['brightness_level'] = brightness
                         print(str(request.json['Light']) + "  " + str(brightness) + "  " + zone_name)
                     else:
-                        #sdl_knx.set_light_zone(tunnel, zone_name, [0, 0, 0, 0])
-                        light_info_deveui[request.json['DevEUI'].upper()]['brightness_level'] = 0
+                        if brightness_level != brightness:
+                            #sdl_knx.set_light_zone(tunnel, zone_name, [0, 0, 0, 0])
+                            light_info_deveui[request.json['DevEUI'].upper()]['brightness_level'] = 0
                         print(str(request.json['Light']) + "  " + str(brightness) + "  " + zone_name)
 
                 else:
                     if brightness_level != brightness:
                         #sdl_knx.set_light_zone(tunnel, zone_name, [0, 0, 0, brightness])
                         light_info_deveui[request.json['DevEUI'].upper()]['brightness_level'] = brightness
-                        print(str(request.json['Light']) + "  " + str(brightness) + "  " + zone_name)
+                    print(str(request.json['Light']) + "  " + str(brightness) + "  " + zone_name)
         else:
             for x in range(0, len(light_info_deveui)):
                 light_info_deveui[list(light_info_deveui.keys())[x]]['brightness_level'] = 0

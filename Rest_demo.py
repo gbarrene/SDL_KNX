@@ -9,6 +9,7 @@ app = Flask(__name__)
 tunnel = sdl_knx.KNX_tunnel('192.168.1.99')
 animation = sdl_knx.Animation(tunnel)
 active_light = 0
+motion_mean_array = [][3]
 
 
 @app.route('/')
@@ -206,6 +207,7 @@ def lora():
     light_info_deveui = json.load(file)
     file.close()
     hour = int(strftime("%H", localtime()))
+    motion = False
 
     if hour > 7 and hour < 20:
         if active_light:
@@ -229,20 +231,34 @@ def lora():
                     brightness = 0
 
                 print(str(brightness) + "  " + zone_name)
-                if zone_name[:4].upper() == "WIKI" and request.json['Motion'] > 0:
-                    if brightness_level != brightness:
-                        #sdl_knx.set_light_zone(tunnel, zone_name, [0, 0, 0, brightness])
+
+                if zone_name[:4].upper() == "WIKI":
+                    file = open("Motion_data.txt", 'r')
+                    motion_data = json.load(file)
+                    file.close()
+                    motion_data[zone_name.upper()]['last-3'] = motion_data[zone_name.upper()]['last-2']
+                    motion_data[zone_name.upper()]['last-2'] = motion_data[zone_name.upper()]['last-1']
+                    motion_data[zone_name.upper()]['last-1'] = motion_data[zone_name.upper()]['last']
+                    motion_data[zone_name.upper()]['last'] = request.json['Motion']
+                    file = open("Motion_data.txt", 'w')
+                    file.write(json.dumps(motion_data))
+                    file.close()
+
+                    if motion_data[zone_name.upper()]['last-3'] or motion_data[zone_name.upper()]['last-2'] or motion_data[zone_name.upper()]['last-1'] or motion_data[zone_name.upper()]['last']:
+                        sdl_knx.set_light_zone(tunnel, zone_name, [0, 0, 0, brightness])
                         light_info_deveui[request.json['DevEUI'].upper()]['brightness_level'] = brightness
-                elif zone_name[:4].upper() == "WIKI" and request.json['Motion'] == 0:
-                    #sdl_knx.set_light_zone(tunnel, zone_name, [0, 0, 0, 0])
-                    light_info_deveui[request.json['DevEUI'].upper()]['brightness_level'] = 0
+                    else:
+                        sdl_knx.set_light_zone(tunnel, zone_name, [0, 0, 0, 0])
+                        light_info_deveui[request.json['DevEUI'].upper()]['brightness_level'] = 0
+
                 else:
                     if brightness_level != brightness:
-                        #sdl_knx.set_light_zone(tunnel, zone_name, [0, 0, 0, brightness])
+                        sdl_knx.set_light_zone(tunnel, zone_name, [0, 0, 0, brightness])
                         light_info_deveui[request.json['DevEUI'].upper()]['brightness_level'] = brightness
         else:
             for x in range(0, len(light_info_deveui)):
                 light_info_deveui[list(light_info_deveui.keys())[x]]['brightness_level'] = 0
+
     file = open("Light_info_DevEUI.txt", 'w')
     file.write(json.dumps(light_info_deveui))
     file.close()

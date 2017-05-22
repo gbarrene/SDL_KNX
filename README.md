@@ -17,20 +17,23 @@ It will use python3!
 "REST" API with Flask to control the lighting of the lab.
 
 ### Request List 'POST':
-- _/connection_ 
-  Creat the knx tunnel
+-  _/connection_ 
+	- `POST`: Creat the knx tunnel between the server running the code to the knx/ip gateway
+	- `GET`: Return if the tunnel is opened or not 
 
-- _/all_on_ 
-  Turn on all the lights
+-  _/all_on_ 
+	- `POST`: Send a message to all the light to light up at 80%
+	- `DELETE`: Turn off the lights
 
 - _/all_off_ 
-  Turn off all the lights 
+  - `POST`: Turn off the lights
 
 - _/all_rgb_on_ 
-  Turn on all the RGB lights 
+  - `POST`: Send a message to all the RGB light to light up at 80%
+	- `DELETE`: Turn off the lights
 
 - _/all_rgb_off_ 
-  Turn off all the RGB lights 
+  - `POST`: Turn off the lights
 
 - _/animation/_**_animationName_**  
   Launch the animation if it is define

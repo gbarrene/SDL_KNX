@@ -155,17 +155,25 @@ def zone(zone_name='0_0'):
 
 @app.route('/active_light', methods=['POST', 'DELETE'])
 def active_light():
+
+    """Enable to change the mode from non active light to active light and vice et versa
+    -Use POST to enable the active light mode which use the sensor brightness data to adapt the lights
+    -Use DELETE to disable the active light mode"""
     global active_light
     if request.method == 'POST':
         active_light = 1
         print("active_light")
     elif request.method == 'DELETE':
         active_light = 0
+        print("no active_light")
     return "active light"
 
 
 @app.route('/zone_light1/<string:zone_name>', methods=['PUT'])
 def zone_light1(zone_name='0_0'):
+
+    """Update, with PUT, the first light level of the light slope
+    """
     if request.method == 'PUT':
         if request.json:
             zone_name = zone_name.upper()
@@ -183,6 +191,9 @@ def zone_light1(zone_name='0_0'):
 
 @app.route('/zone_light2/<string:zone_name>', methods=['PUT'])
 def zone_light2(zone_name='0_0'):
+
+    """Update, with PUT, the second light level of the light slope
+    """
     if request.method == 'PUT':
         if request.json:
             zone_name = zone_name.upper()

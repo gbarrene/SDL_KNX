@@ -30,7 +30,7 @@ It will use python3!
 
 - _/all_rgb_on_ 
   - `POST`: Send a message to all the RGB light to light up at 80%
-	- `DELETE`: Turn off the lights
+  - `DELETE`: Turn off the lights
 
 - _/all_rgb_off_ 
   - `POST`: Turn off the lights

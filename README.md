@@ -21,6 +21,7 @@ It will use python3!
 	- `GET`: Return if the tunnel is opened or not
 
 - _/all_on_ 
+
 	- `POST`: Send a message to all the light to light up at 80%
 	- `DELETE`: Turn off the lights
 

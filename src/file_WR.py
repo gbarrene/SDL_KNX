@@ -3,7 +3,7 @@ import json
 def RW_light_info(zone_name, value_name, value):
     """Loads the json text file into an object"""
     zone_name = zone_name.upper()
-    file = open("Light_info_DevEUI.txt", 'r')
+    file = open("src/Light_info_DevEUI.txt", 'r')
     light_info_deveui = json.load(file)
     file.close()
 
@@ -13,7 +13,7 @@ def RW_light_info(zone_name, value_name, value):
             light_info_deveui[list(light_info_deveui.keys())[x]][value_name] = value
 
     """Writes the updated object back to the file and overwrites the old infos"""
-    file = open("Light_info_DevEUI.txt", 'w')
+    file = open("src/Light_info_DevEUI.txt", 'w')
     file.write(json.dumps(light_info_deveui))
     file.close()
 
@@ -21,14 +21,14 @@ def RW_light_info(zone_name, value_name, value):
 
 
 def RW_light_info_read():
-    file = open("Light_info_DevEUI.txt", 'r')
+    file = open("src/Light_info_DevEUI.txt", 'r')
     light_info_deveui = json.load(file)
     file.close()
     return light_info_deveui
 
 
 def RW_light_info_write(light_info_deveui):
-    file = open("Light_info_DevEUI.txt", 'w')
+    file = open("src/Light_info_DevEUI.txt", 'w')
     file.write(json.dumps(light_info_deveui))
     file.close()
     return 0

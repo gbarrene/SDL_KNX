@@ -212,7 +212,7 @@ def test(zone_name='0_0', num='0'):
 def lora():
     global active_light
     global tunnel
-    light_info_deveui = file_WR.RW_read()
+    light_info_deveui = file_WR.RW_light_info_read()
     hour = int(strftime("%H", localtime()))
     motion = False
 

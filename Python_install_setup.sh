@@ -2,21 +2,21 @@
 # Setup a new raspberry pi jessie (not lite) for using the KNX, Amazon Echo library
 # 
 
-#sudo apt-get update
-#sudo apt-get upgrade
-
-sudo su
+sudo apt-get update
+sudo apt-get upgrade
 # as sudo user:
 
-apt-get install python3-picamera
-apt-get install python3-pip
+sudo apt-get install python3-picamera
+sudo apt-get install python3-pip
 
 
-pip install -U pip setuptools
-pip3 install flask
-pip3 install flask-ask
-pip3 install knxip
-pip3 install paho-mqtt
+sudo pip install -U pip setuptools
+sudo pip3 install flask
+sudo pip3 install knxip
+
+# Packages no longer used or not implemented yet
+#sudo pip3 install flask-ask
+#sudo pip3 install paho-mqtt
 
 exit
 

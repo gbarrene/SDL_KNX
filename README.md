@@ -64,16 +64,16 @@ It will use python3!
 	Change the light level 1 of the selected zone
 	The light level must be specified in the body in JSON formate (EX: {"light": 27})
 
-	-`PUT`: Set the new light level in the file that contain the value dictionary
+	- `PUT`: Set the new light level in the file that contain the value dictionary
 
 - _/zone_light2/_**_zone_name_**
 	Change the light level 2 of the selected zone
 	The light level must be specified in the body in JSON formate (EX: {"light": 27})
 
-	-`PUT`: Set the new light level in the file that contain the value dictionary
+	- `PUT`: Set the new light level in the file that contain the value dictionary
 
 - _/lora
-	Only used for sending sensor data
+	- Only used for sending sensor data
 
 
 ## MQTT Thingdust

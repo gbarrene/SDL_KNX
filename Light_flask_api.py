@@ -212,9 +212,7 @@ def test(zone_name='0_0', num='0'):
 def lora():
     global active_light
     global tunnel
-    file = open("Light_info_DevEUI.txt", 'r')
-    light_info_deveui = json.load(file)
-    file.close()
+    light_info_deveui = file_WR.RW_read()
     hour = int(strftime("%H", localtime()))
     motion = False
 
@@ -275,9 +273,7 @@ def lora():
             for x in range(0, len(light_info_deveui)):
                 light_info_deveui[list(light_info_deveui.keys())[x]]['brightness_level'] = 0
 
-    file = open("Light_info_DevEUI.txt", 'w')
-    file.write(json.dumps(light_info_deveui))
-    file.close()
+    file_WR.RW_light_info_write(light_info_deveui)
     return "Good"
 
 if __name__ == "__main__":

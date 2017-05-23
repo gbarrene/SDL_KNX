@@ -2,6 +2,7 @@ from flask import Flask, redirect, url_for, escape, request, jsonify
 import src.knx_bus_SDL as sdl_knx
 import src.constants as constants
 import json
+import src.file_WR as file_WR
 import threading
 from time import localtime, strftime
 
@@ -44,6 +45,8 @@ def connection():
 
 @app.route('/all_on', methods=['POST', 'DELETE'])
 def all_on():
+
+    """Interaction with all the lights to turn them all on or off"""
     global tunnel
     if request.method == 'POST':
         sdl_knx.all_on(tunnel)
@@ -55,6 +58,8 @@ def all_on():
 
 @app.route('/all_off', methods=['POST'])
 def all_off():
+
+    """Interaction with all the lights to turn them all off"""
     global tunnel
     sdl_knx.all_off(tunnel)
     return 'Successfully turned all the rgb led off'
@@ -62,6 +67,8 @@ def all_off():
 
 @app.route('/all_rgb_on', methods=['POST', 'DELETE'])
 def all_rgb_on():
+
+    """Interaction with all the RGB lights to turn them all on or off"""
     global tunnel
     if request.method == 'POST':
         sdl_knx.all_rgb_on(tunnel)
@@ -74,6 +81,8 @@ def all_rgb_on():
 
 @app.route('/all_rgb_off', methods=['POST'])
 def all_rgb_off():
+
+    """Interaction with all the RGB lights to turn them all off"""
     global tunnel
     sdl_knx.all_rgb_off(tunnel)
     return 'Successfully turned all the rgb led off'
@@ -112,7 +121,7 @@ def animation_fonction(animation_name = 'test'):
 @app.route('/position/<string:coordinates>', methods=['POST', 'DELETE'])
 def position(coordinates = '0;0'):
 
-    """Turn on/off light on a particular coordinate of the lab map
+    """Turns on/off light on a particular coordinate of the lab map
     Coordinates must be x; y type. The radius will define the radius of lights that light up"""
     global tunnel
     if request.method == 'POST':
@@ -135,7 +144,7 @@ def position(coordinates = '0;0'):
 @app.route('/zone/<string:zone_name>', methods=['POST', 'DELETE'])
 def zone(zone_name='0_0'):
 
-    """Turn on/off lights in the zone name. If the zone name is more generic, it selects all
+    """Turns on/off lights in the zone name. If the zone name is more generic, it selects all
     lights with this generic name at the beginning"""
     global tunnel
     if request.method == 'POST':
@@ -156,7 +165,7 @@ def zone(zone_name='0_0'):
 @app.route('/active_light', methods=['POST', 'DELETE'])
 def active_light():
 
-    """Enable to change the mode from non active light to active light and vice et versa
+    """Enables to change the mode from non active light to active light and vice et versa
     -Use POST to enable the active light mode which use the sensor brightness data to adapt the lights
     -Use DELETE to disable the active light mode"""
     global active_light
@@ -172,41 +181,31 @@ def active_light():
 @app.route('/zone_light1/<string:zone_name>', methods=['PUT'])
 def zone_light1(zone_name='0_0'):
 
-    """Update, with PUT, the first light level of the light slope
+    """Updates, with PUT, the first light level of the light slope
     """
     if request.method == 'PUT':
         if request.json:
             zone_name = zone_name.upper()
-            file = open("Light_info_DevEUI.txt", 'r')
-            light_info_deveui = json.load(file)
-            file.close()
-            for x in range(0, len(light_info_deveui)):
-                if light_info_deveui[list(light_info_deveui.keys())[x]]['zone_name'].upper() == zone_name:
-                    light_info_deveui[list(light_info_deveui.keys())[x]]['light1'] = request.json['light']
-            file = open("Light_info_DevEUI.txt", 'w')
-            file.write(json.dumps(light_info_deveui))
-            file.close()
+            file_WR.RW_light_info(zone_name, 'light1', request.json['light'])
     return "light1 from "+zone_name+" was updated"
 
 
 @app.route('/zone_light2/<string:zone_name>', methods=['PUT'])
 def zone_light2(zone_name='0_0'):
 
-    """Update, with PUT, the second light level of the light slope
+    """Updates, with PUT, the second light level of the light slope
     """
     if request.method == 'PUT':
         if request.json:
             zone_name = zone_name.upper()
-            file = open("Light_info_DevEUI.txt", 'r')
-            light_info_deveui = json.load(file)
-            file.close()
-            for x in range(0, len(light_info_deveui)):
-                if light_info_deveui[list(light_info_deveui.keys())[x]]['zone_name'].upper() == zone_name:
-                    light_info_deveui[list(light_info_deveui.keys())[x]]['light2'] = request.json['light']
-            file = open("Light_info_DevEUI.txt", 'w')
-            file.write(json.dumps(light_info_deveui))
-            file.close()
+            file_WR.RW_light_info(zone_name, 'light2', request.json['light'])
     return "light2 from "+zone_name+" was updated"
+
+
+@app.route('/test<string:num>/<string:zone_name>', methods=['PUT'])
+def test(zone_name='0_0', num='0'):
+    print(zone_name+" "+num)
+    return "Test"
 
 
 @app.route('/lora', methods=['POST'])

@@ -9,7 +9,7 @@ def RW_light_info_update(zone_name, value_name, value):
     for x in range(0, len(light_info_deveui)):
         if light_info_deveui[list(light_info_deveui.keys())[x]]['zone_name'].upper() == zone_name:
             light_info_deveui[list(light_info_deveui.keys())[x]][value_name] = value
-            print("Updated "+zone_name+" with a new "+value_name+" at "+value)
+            print("Updated "+zone_name+" with a new "+value_name+" at "+str(value))
 
     """Writes the updated object back to the file and overwrites the old infos"""
     RW_light_info_write(light_info_deveui)

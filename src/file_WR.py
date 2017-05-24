@@ -29,3 +29,21 @@ def RW_light_info_write(light_info_deveui):
     file.write(json.dumps(light_info_deveui))
     file.close()
     return 0
+
+def RW_motion_data_update(zone_name, new_value):
+
+    file = open("src/Motion_data.txt", 'r')
+    motion_data = json.load(file)
+    file.close()
+    motion_data[zone_name.upper()]['last-7'] = motion_data[zone_name.upper()]['last-6']
+    motion_data[zone_name.upper()]['last-6'] = motion_data[zone_name.upper()]['last-5']
+    motion_data[zone_name.upper()]['last-5'] = motion_data[zone_name.upper()]['last-4']
+    motion_data[zone_name.upper()]['last-4'] = motion_data[zone_name.upper()]['last-3']
+    motion_data[zone_name.upper()]['last-3'] = motion_data[zone_name.upper()]['last-2']
+    motion_data[zone_name.upper()]['last-2'] = motion_data[zone_name.upper()]['last-1']
+    motion_data[zone_name.upper()]['last-1'] = motion_data[zone_name.upper()]['last']
+    motion_data[zone_name.upper()]['last'] = new_value
+    file = open("src/Motion_data.txt", 'w')
+    file.write(json.dumps(motion_data))
+    file.close()
+    return motion_data

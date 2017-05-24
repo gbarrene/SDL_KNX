@@ -179,7 +179,7 @@ def active_light():
 
 
 @app.route('/zone_light<string:num>/<string:zone_name>', methods=['PUT'])
-def zone_light2(zone_name='0_0', num='0'):
+def zone_light(zone_name='0_0', num='0'):
 
     """Updates, with PUT, the second light level of the light slope
     """
@@ -187,7 +187,19 @@ def zone_light2(zone_name='0_0', num='0'):
         if request.json:
             zone_name = zone_name.upper()
             file_WR.RW_light_info_update(zone_name, 'light'+num, request.json['light'])
-    return "light "+num+" from "+zone_name+" was updated"
+    return "light "+num+" from "+zone_name+" was updated to "+request.json['light']
+
+
+@app.route('/zone_light_threshold<string:num>/<string:zone_name>', methods=['PUT'])
+def zone_light_threshold(zone_name='0_0', num='0'):
+
+    """Updates, with PUT, the second light level of the light slope
+    """
+    if request.method == 'PUT':
+        if request.json:
+            zone_name = zone_name.upper()
+            file_WR.RW_light_info_update(zone_name, 'light_threshold'+num, request.json['threshold'])
+    return "light threshold "+num+" from "+zone_name+" was updated to "+request.json['threshold']
 
 
 @app.route('/lora', methods=['POST'])
@@ -196,7 +208,6 @@ def lora():
     global tunnel
     light_info_deveui = file_WR.RW_light_info_read()
     hour = int(strftime("%H", localtime()))
-    motion = False
 
     if hour > 7 and hour < 20:
         if active_light:
@@ -204,36 +215,26 @@ def lora():
                 zone_name = light_info_deveui[request.json['DevEUI'].upper()]['zone_name']
                 light1 = light_info_deveui[request.json['DevEUI'].upper()]['light1']
                 light2 = light_info_deveui[request.json['DevEUI'].upper()]['light2']
+                light_threshold1 = light_info_deveui[request.json['DevEUI'].upper()]['light_threshold1']
+                light_threshold2 = light_info_deveui[request.json['DevEUI'].upper()]['light_threshold2']
+                light_threshold3 = light_info_deveui[request.json['DevEUI'].upper()]['light_threshold3']
                 brightness_level = light_info_deveui[request.json['DevEUI'].upper()]['brightness_level']
             except:
                 return ("not found")
 
             if not zone_name == "0":
-                if request.json['Light'] < 350:
+                if request.json['Light'] < light_threshold1:
                     brightness = light1
-                elif request.json['Light'] < 500:
+                elif request.json['Light'] < light_threshold2:
                     brightness = light2
                 else:
-                    brightness = int((((light2 / 450)*500)+light2) - request.json['Light'] * (light2 / 450))
+                    brightness = int((((light2 / (light_threshold3-light_threshold2))*light_threshold3+light2) - request.json['Light'] * (light2 / (light_threshold3-light_threshold2))))
 
                 if brightness < 0:
                     brightness = 0
 
                 if zone_name[:4].upper() == "WIKI":
-                    file = open("Motion_data.txt", 'r')
-                    motion_data = json.load(file)
-                    file.close()
-                    motion_data[zone_name.upper()]['last-7'] = motion_data[zone_name.upper()]['last-6']
-                    motion_data[zone_name.upper()]['last-6'] = motion_data[zone_name.upper()]['last-5']
-                    motion_data[zone_name.upper()]['last-5'] = motion_data[zone_name.upper()]['last-4']
-                    motion_data[zone_name.upper()]['last-4'] = motion_data[zone_name.upper()]['last-3']
-                    motion_data[zone_name.upper()]['last-3'] = motion_data[zone_name.upper()]['last-2']
-                    motion_data[zone_name.upper()]['last-2'] = motion_data[zone_name.upper()]['last-1']
-                    motion_data[zone_name.upper()]['last-1'] = motion_data[zone_name.upper()]['last']
-                    motion_data[zone_name.upper()]['last'] = request.json['Motion']
-                    file = open("Motion_data.txt", 'w')
-                    file.write(json.dumps(motion_data))
-                    file.close()
+                   motion_data = file_WR.RW_motion_data_update(zone_name, request.json['Motion'])
 
                     if motion_data[zone_name.upper()]['last-7'] or motion_data[zone_name.upper()]['last-6'] or motion_data[zone_name.upper()]['last-5'] or motion_data[zone_name.upper()]['last-4'] or motion_data[zone_name.upper()]['last-3'] or motion_data[zone_name.upper()]['last-2'] or motion_data[zone_name.upper()]['last-1'] or motion_data[zone_name.upper()]['last']:
                         if brightness_level != brightness:
@@ -257,6 +258,7 @@ def lora():
 
     file_WR.RW_light_info_write(light_info_deveui)
     return "Good"
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)

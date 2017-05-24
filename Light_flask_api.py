@@ -199,7 +199,7 @@ def zone_light_threshold(zone_name='0_0', num='0'):
         if request.json:
             zone_name = zone_name.upper()
             file_WR.RW_light_info_update(zone_name, 'light_threshold'+num, request.json['threshold'])
-    return "light threshold "+num+" from "+zone_name+" was updated to "+request.json['threshold']
+    return "light threshold "+num+" from "+zone_name+" was updated to "+str(request.json['threshold'])
 
 
 @app.route('/lora', methods=['POST'])

@@ -1,21 +1,18 @@
 import json
 
-def RW_light_info(zone_name, value_name, value):
+def RW_light_info_update(zone_name, value_name, value):
     """Loads the json text file into an object"""
     zone_name = zone_name.upper()
-    file = open("src/Light_info_DevEUI.txt", 'r')
-    light_info_deveui = json.load(file)
-    file.close()
+    light_info_deveui = RW_light_info_read()
 
     """Search for the right light to update the light level"""
     for x in range(0, len(light_info_deveui)):
         if light_info_deveui[list(light_info_deveui.keys())[x]]['zone_name'].upper() == zone_name:
             light_info_deveui[list(light_info_deveui.keys())[x]][value_name] = value
+            print("Updated "+zone_name+" with a new "+value_name+" at "+value)
 
     """Writes the updated object back to the file and overwrites the old infos"""
-    file = open("src/Light_info_DevEUI.txt", 'w')
-    file.write(json.dumps(light_info_deveui))
-    file.close()
+    RW_light_info_write(light_info_deveui)
 
     return "File well wrote"
 

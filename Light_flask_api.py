@@ -178,34 +178,16 @@ def active_light():
     return "active light"
 
 
-@app.route('/zone_light1/<string:zone_name>', methods=['PUT'])
-def zone_light1(zone_name='0_0'):
-
-    """Updates, with PUT, the first light level of the light slope
-    """
-    if request.method == 'PUT':
-        if request.json:
-            zone_name = zone_name.upper()
-            file_WR.RW_light_info(zone_name, 'light1', request.json['light'])
-    return "light1 from "+zone_name+" was updated"
-
-
-@app.route('/zone_light2/<string:zone_name>', methods=['PUT'])
-def zone_light2(zone_name='0_0'):
+@app.route('/zone_light<string:num>/<string:zone_name>', methods=['PUT'])
+def zone_light2(zone_name='0_0', num='0'):
 
     """Updates, with PUT, the second light level of the light slope
     """
     if request.method == 'PUT':
         if request.json:
             zone_name = zone_name.upper()
-            file_WR.RW_light_info(zone_name, 'light2', request.json['light'])
-    return "light2 from "+zone_name+" was updated"
-
-
-@app.route('/test<string:num>/<string:zone_name>', methods=['PUT'])
-def test(zone_name='0_0', num='0'):
-    print(zone_name+" "+num)
-    return "Test"
+            file_WR.RW_light_info_update(zone_name, 'light'+num, request.json['light'])
+    return "light "+num+" from "+zone_name+" was updated"
 
 
 @app.route('/lora', methods=['POST'])
@@ -262,7 +244,7 @@ def lora():
                         if brightness_level != brightness:
                             sdl_knx.set_light_zone(tunnel, zone_name, [0, 0, 0, 0])
                             light_info_deveui[request.json['DevEUI'].upper()]['brightness_level'] = 0
-                        print(str(request.json['Light']) + "  " + str(brightness) + "  " + zone_name)
+                        print(str(request.json['Light']) + "  0  " + zone_name)
 
                 else:
                     if brightness_level != brightness:

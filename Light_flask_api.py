@@ -234,7 +234,7 @@ def lora():
                     brightness = 0
 
                 if zone_name[:4].upper() == "WIKI":
-                   motion_data = file_WR.RW_motion_data_update(zone_name, request.json['Motion'])
+                    motion_data = file_WR.RW_motion_data_update(zone_name, request.json['Motion'])
 
                     if motion_data[zone_name.upper()]['last-7'] or motion_data[zone_name.upper()]['last-6'] or motion_data[zone_name.upper()]['last-5'] or motion_data[zone_name.upper()]['last-4'] or motion_data[zone_name.upper()]['last-3'] or motion_data[zone_name.upper()]['last-2'] or motion_data[zone_name.upper()]['last-1'] or motion_data[zone_name.upper()]['last']:
                         if brightness_level != brightness:

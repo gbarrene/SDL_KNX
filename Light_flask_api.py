@@ -232,6 +232,8 @@ def lora():
 
                 if brightness < 0:
                     brightness = 0
+                elif brightness > 255:
+                    brightness = 255
 
                 if zone_name[:4].upper() == "WIKI":
                     motion_data = file_WR.RW_motion_data_update(zone_name, request.json['Motion'])

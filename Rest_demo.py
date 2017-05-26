@@ -265,7 +265,7 @@ def lora():
                         if brightness_level != brightness:
                             sdl_knx.set_light_zone(tunnel, zone_name, [0, 0, 0, 0])
                             light_info_deveui[request.json['DevEUI'].upper()]['brightness_level'] = 0
-                        print(str(request.json['Light']) + "  " + str(brightness) + "  " + zone_name)
+                        print(str(request.json['Light']) + "  0  " + zone_name)
 
                 else:
                     if brightness_level != brightness:

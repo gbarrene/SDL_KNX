@@ -2,8 +2,8 @@
 # Setup a new raspberry pi jessie (not lite) for using the KNX and node-red
 # 
 
-sudo apt-get update
-sudo apt-get upgrade
+sudo apt-get update -Y
+sudo apt-get upgrade -Y
 
 
 sudo apt-get install python3-pip
@@ -21,10 +21,10 @@ sudo pip3 install knxip
 #cd ~/Documents
 #sudo git clone https://github.com/gbarrene/SDL_KNX.git
 
-sudo apt-get install npm
+sudo apt-get install npm -Y
 sudo npm install -g npm@2.x 
 hash -r
-cd ~/.node-red
+cd /home/pi/.node-red
 sudo npm install node-red-dashboard
 sudo systemctl enable nodered.service
 

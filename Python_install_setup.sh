@@ -1,22 +1,32 @@
 #!/bin/bash
-# Setup a new raspberry pi jessie (not lite) for using the KNX, Amazon Echo library
+# Setup a new raspberry pi jessie (not lite) for using the KNX and node-red
 # 
 
-#sudo apt-get update
-#sudo apt-get upgrade
-
-sudo su
-# as sudo user:
-
-apt-get install python3-picamera
-apt-get install python3-pip
+sudo apt-get update
+sudo apt-get upgrade
 
 
-pip install -U pip setuptools
-pip3 install flask
-pip3 install flask-ask
-pip3 install knxip
-pip3 install paho-mqtt
+sudo apt-get install python3-pip
+
+
+sudo pip install -U pip setuptools
+sudo pip3 install flask
+sudo pip3 install knxip
+
+# Packages no longer used or not implemented yet
+#sudo pip3 install flask-ask
+#sudo pip3 install paho-mqtt
+
+#sudo apt-get install git
+#cd ~/Documents
+#sudo git clone https://github.com/gbarrene/SDL_KNX.git
+
+sudo apt-get install npm
+sudo npm install -g npm@2.x 
+hash -r
+cd ~/.node-red
+sudo npm install node-red-dashboard
+sudo systemctl enable nodered.service
 
 exit
 

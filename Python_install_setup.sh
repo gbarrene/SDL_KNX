@@ -25,23 +25,25 @@ sudo pip3 install knxip
 yes Y | sudo apt-get install npm
 sudo npm install -g npm@2.x 
 sudo npm install -g pm2
+
 pm2 start /usr/bin/node-red --node-args="--max-old-space-size=128" -- -v
 pm2 save
 pm2 startup systemd
 pm2 stop /usr/bin/node-red
 
-cp /home/pi/Documents/SDL_KNX/SDL_KNX/Node-Red/flows_raspberrypi.json /home/pi/.node-red
-cp /home/pi/Documents/SDL_KNX/SDL_KNX/Node-Red/flows_raspberrypi_cred.json /home/pi/.node-red
+cp /home/pi/Documents/SDL_KNX/Node-Red/flows_raspberrypi.json /home/pi/.node-red
+cp /home/pi/Documents/SDL_KNX/Node-Red/flows_raspberrypi_cred.json /home/pi/.node-red
 
 
 hash -r
 cd /home/pi/.node-red
 sudo npm install node-red-dashboard
-sudo systemctl enable nodered.service
+sudo npm install node-red-node-mysql
 
 pm2 start /usr/bin/node-red --node-args="--max-old-space-size=128" -- -v
 
-sudo python3 /home/pi/Documents/SDL_KNX/SDL_KNX/Light_flask_api.py
+screen -S lights
+sudo python3 /home/pi/Documents/SDL_KNX/Light_flask_api.py
 
 exit
 

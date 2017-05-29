@@ -187,7 +187,7 @@ def zone_light(zone_name='0_0', num='0'):
         if request.json:
             zone_name = zone_name.upper()
             file_WR.RW_light_info_update(zone_name, 'light'+num, request.json['light'])
-    return "light "+num+" from "+zone_name+" was updated to "+request.json['light']
+    return "light "+num+" from "+zone_name+" was updated to "+str(request.json['light'])
 
 
 @app.route('/zone_light_threshold<string:num>/<string:zone_name>', methods=['PUT'])

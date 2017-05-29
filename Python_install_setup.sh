@@ -3,10 +3,12 @@
 # 
 
 sudo apt-get update
-yes Y | sudo apt-get upgrade
+#yes Y | sudo apt-get upgrade
+sudo apt-get upgrade
 
 
 sudo apt-get install python3-pip
+sudo apt-get install screen
 
 
 sudo pip install -U pip setuptools
@@ -22,16 +24,24 @@ sudo pip3 install knxip
 #sudo git clone https://github.com/gbarrene/SDL_KNX.git
 yes Y | sudo apt-get install npm
 sudo npm install -g npm@2.x 
-node-red-start
-^C
-node-red-stop
+sudo npm install -g pm2
+pm2 start /usr/bin/node-red --node-args="--max-old-space-size=128" -- -v
+pm2 save
+pm2 startup systemd
+pm2 stop /usr/bin/node-red
+
+cp /home/pi/Documents/SDL_KNX/SDL_KNX/Node-Red/flows_raspberrypi.json /home/pi/.node-red
+cp /home/pi/Documents/SDL_KNX/SDL_KNX/Node-Red/flows_raspberrypi_cred.json /home/pi/.node-red
+
+
 hash -r
 cd /home/pi/.node-red
 sudo npm install node-red-dashboard
 sudo systemctl enable nodered.service
-node-red-start
 
-sudo python3 Light_flask_api.py
+pm2 start /usr/bin/node-red --node-args="--max-old-space-size=128" -- -v
+
+sudo python3 /home/pi/Documents/SDL_KNX/SDL_KNX/Light_flask_api.py
 
 exit
 

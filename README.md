@@ -35,6 +35,18 @@ You chould use the `Python_install_setup.sh` to have all modules use in this pro
 - MySQL
 - PM2 to monitor the node red instant
 
+## On system reboot or crashed:
+
+If something goes wrong, Make sure that the pm2 service is working `pm2 info node-red`. If it is stopped or crashed, use `pm2 stop node-red` and then `pm2 start node-red`.
+
+The python flask api schould be launch in a "screen" to be able to start and stop even with shell closed. This app must be **_started manually_**.
+
+For exemple:
+ `screen -S lights`
+ `screen -dr lights`
+ `cd /home/pi/Documents/SDL_KNX`
+ `sudo python3 Light_flask_api.py`
+ 
 ## KNX Lights
 "REST" API with Flask to control the lighting of the lab.
 
@@ -97,19 +109,6 @@ You chould use the `Python_install_setup.sh` to have all modules use in this pro
 
 - _/lora
 	- `POST`: Only used for sending sensor data
-
-	
-## Reboot the system:
-
-If something goes wrong, Make sure that the pm2 service is working `pm2 info node-red`. If it is stopped or crashed, use `pm2 stop node-red` and then `pm2 start node-red`.
-
-The python flask api schould be launch in a "screen" to be able to start and stop even with shell closed.
-
-For exemple:
- `screen -S lights`
- `screen -dr lights`
- `cd /home/pi/Documents/SDL_KNX`
- `sudo python3 Light_flask_api.py`
 
 ## MQTT Thingdust
 Read Thingdust MQTT messages and return where there is movement in the lab.

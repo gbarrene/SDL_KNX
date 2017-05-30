@@ -23,7 +23,7 @@ You chould use the `Python_install_setup.sh` to have all modules use in this pro
 - Make sure to be connected to the internet of the lab and to have the right tomezone setted.
 - Clone the repository `git clone https://github.com/gbarrene/SDL_KNX.git`and enter into the repository `cd SDL_KNX`.
 - Use the command `bash Python_install_setup.sh` to launch all the instalation process. It will update the pi, install all the program needed and launch the applications. It may take a near an hour or so.
-- Go in your router settings on a web browser on (192.168.1.1) and set a fixed local IP for the pi. It must be 192.168.1.10 for the node-red to be working. If you choose another one, you will need to change the url in the Node-Red node that do the http request. You also need to redirect the port where the lora http requests are send (see in https://portal.lpn.swisscom.ch/deviceManager/ on which port you send the data) to the port 1880 of the pi for the sensor info to be received). If you need to restart the pi for ip change, do so with `sudo reboot` and reconnect to the pi. 
+- Go in your router settings on a web browser on (192.168.1.1) and set a fixed local IP for the pi. You need to redirect the port where the lora http requests are send (see in https://portal.lpn.swisscom.ch/deviceManager/ on which port you send the data) to the port 1880 of the pi for the sensor info to be received). If you need to restart the pi for ip change, do so with `sudo reboot` and reconnect to the pi. 
 Use:
  `screen -S lights`
  `screen -d lights`

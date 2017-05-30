@@ -10,7 +10,7 @@ It will use python3!
 
 - Log in with the pi user.
 - Go to the /home/pi/Documents directory.
-- Make sure to be connected to the internet.
+- Make sure to be connected to the internet and to have the right tomezone setted.
 - Clone the repository and enter the repository file.
 - Use the command `bash Python_install_setup.sh` to launch alle the instalation process.
 

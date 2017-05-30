@@ -3,8 +3,7 @@
 # 
 
 sudo apt-get update
-#yes Y | sudo apt-get upgrade
-sudo apt-get upgrade
+yes Y | sudo apt-get upgrade
 
 
 sudo apt-get install python3-pip
@@ -44,8 +43,6 @@ sudo service ssh start
 
 pm2 start /usr/bin/node-red --node-args="--max-old-space-size=128" -- -v
 
-screen -S lights
 sudo python3 /home/pi/Documents/SDL_KNX/Light_flask_api.py
 
-exit
 

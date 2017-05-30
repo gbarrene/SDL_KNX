@@ -3,16 +3,27 @@ Swisscom Digital Lab KNX controller
 
 Python code to control the KNX lights in the lab
 
+## Hardware:
+
+- Raspberry pi 3 B (https://www.digitec.ch/fr/s1/product/raspberry-pi-3-model-b-armv8-entwicklungsboards-kits-5704269)
+- Micro SD card from Transcend (https://www.digitec.ch/fr/s1/product/transcend-microsdhc-premium-400x-mit-adapter-16go-class-10-cartes-memoires-3520393?tagIds=520)
+- You will need also a keyboard (usb), mouse (usb), display with an HDMI cable and a power supply.
+
 ## Install
 
 You chould use the `Python_install_setup.sh` to have all modules use in this program.
 It will use python3!
 
-- Log in with the pi user.
-- Go to the /home/pi/Documents directory.
-- Make sure to be connected to the internet and to have the right tomezone setted.
-- Clone the repository and enter the repository file.
-- Use the command `bash Python_install_setup.sh` to launch alle the instalation process.
+
+- Install Rasbian Jessie Download from the raspberrypi web site. Download the normal version not the lite one. (https://downloads.raspberrypi.org/raspbian_latest)
+- Burn the image file into the sd card with rufus ou win32diskimager. (https://sourceforge.net/projects/win32diskimager/)
+- Insert the sd card into the pi and boot it up.
+- Log in with the pi user. (As you used the display direclly from the pi, you should already be loggin)
+- Go to the /home/pi/Documents directory in the shell.
+- Make sure to be connected to the internet of the lab and to have the right tomezone setted.
+- Clone the repository and enter into the repository file.
+- Use the command `bash Python_install_setup.sh` to launch all the instalation process. It will update the pi, install all the programm needed and launch the applications.
+- Go in your router settings on a web browser on (192.168.1.1) and set a fixed local IP for the pi. It must be 192.168.1.10 for the node-red to be working. If you choose another one, you will need to change the url in the Node-Red node that do the http request.
 
 ### Install list:
 ### Python Modules List:

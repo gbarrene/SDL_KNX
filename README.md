@@ -21,7 +21,7 @@ You chould use the `Python_install_setup.sh` to have all modules use in this pro
 - Log in with the pi user. (by default it is "pi" as a username and "raspberry" as a password)
 - Go to the /home/pi/Documents directory in the shell.
 - Make sure to be connected to the internet of the lab and to have the right tomezone setted.
-- Clone the repository and enter into the repository file.
+- Clone the repository `git clone https:/github.com/gbarrene/SDL_KNX.git`and enter into the repository `cd SDL_KNX`.
 - Use the command `bash Python_install_setup.sh` to launch all the instalation process. It will update the pi, install all the program needed and launch the applications.
 - Go in your router settings on a web browser on (192.168.1.1) and set a fixed local IP for the pi. It must be 192.168.1.10 for the node-red to be working. If you choose another one, you will need to change the url in the Node-Red node that do the http request.
 - Now go to your web browser and type in 192.168.1.10:1880/ui and you should arrive on an interface to control the lights.

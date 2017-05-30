@@ -8,9 +8,21 @@ Python code to control the KNX lights in the lab
 You chould use the `Python_install_setup.sh` to have all modules use in this program.
 It will use python3!
 
-### Modules List:
+- Log in with the pi user.
+- Go to the /home/pi/Documents directory.
+- Make sure to be connected to the internet.
+- Clone the repository and enter the repository file.
+- Use the command `bash Python_install_setup.sh` to launch alle the instalation process.
+
+### Install list:
+### Python Modules List:
 - KNX.ip
 - Flask
+
+### Node-Red node list:
+- Dashboard
+- MySQL
+- PM2 to monitor the node red instant
 
 ## KNX Lights
 "REST" API with Flask to control the lighting of the lab.

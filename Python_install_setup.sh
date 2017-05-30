@@ -39,6 +39,8 @@ hash -r
 cd /home/pi/.node-red
 sudo npm install node-red-dashboard
 sudo npm install node-red-node-mysql
+sudo systemctl enable ssh
+sudo service ssh start
 
 pm2 start /usr/bin/node-red --node-args="--max-old-space-size=128" -- -v
 

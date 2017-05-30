@@ -28,6 +28,7 @@ sudo npm install -g pm2
 pm2 start /usr/bin/node-red --node-args="--max-old-space-size=128" -- -v
 pm2 save
 pm2 startup systemd
+sudo env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u pi --hp /home/pi
 pm2 stop /usr/bin/node-red
 
 cp /home/pi/Documents/SDL_KNX/Node-Red/flows_raspberrypi.json /home/pi/.node-red
@@ -43,6 +44,11 @@ sudo service ssh start
 
 pm2 start /usr/bin/node-red --node-args="--max-old-space-size=128" -- -v
 
-sudo python3 /home/pi/Documents/SDL_KNX/Light_flask_api.py
+screen -S lights
+screen -d lights
+screen -dr lights
+
+cd /home/pi/Documents/SDL_KNX
+sudo python3 Light_flask_api.py
 
 

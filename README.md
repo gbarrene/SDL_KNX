@@ -9,11 +9,9 @@ Python code to control the KNX lights in the lab
 - Micro SD card from Transcend (https://www.digitec.ch/fr/s1/product/transcend-microsdhc-premium-400x-mit-adapter-16go-class-10-cartes-memoires-3520393?tagIds=520)
 - You will need also a keyboard (usb), mouse (usb), display with an HDMI cable and a power supply.
 
-## Install
+## Install procedure
 
 You chould use the `Python_install_setup.sh` to have all modules use in this program.
-It will use python3!
-
 
 - Install Rasbian Jessie Download from the raspberrypi web site. Download the normal version not the lite one. (https://downloads.raspberrypi.org/raspbian_latest)
 - Burn the image file into the sd card with rufus ou win32diskimager. (https://sourceforge.net/projects/win32diskimager/)
@@ -22,10 +20,12 @@ It will use python3!
 - Go to the /home/pi/Documents directory in the shell.
 - Make sure to be connected to the internet of the lab and to have the right tomezone setted.
 - Clone the repository and enter into the repository file.
-- Use the command `bash Python_install_setup.sh` to launch all the instalation process. It will update the pi, install all the programm needed and launch the applications.
+- Use the command `bash Python_install_setup.sh` to launch all the instalation process. It will update the pi, install all the program needed and launch the applications.
 - Go in your router settings on a web browser on (192.168.1.1) and set a fixed local IP for the pi. It must be 192.168.1.10 for the node-red to be working. If you choose another one, you will need to change the url in the Node-Red node that do the http request.
+- Now go to your web browser and type in 192.168.1.10:1880/ui and you should arrive on an interface to control the lights.
 
-### Install list:
+
+## Install list:
 ### Python Modules List:
 - KNX.ip
 - Flask
@@ -98,6 +98,18 @@ It will use python3!
 - _/lora
 	- `POST`: Only used for sending sensor data
 
+	
+## Reboot the system:
+
+If something goes wrong, Make sure that the pm2 service is working `pm2 info node-red`. If it is stopped or crashed, use `pm2 stop node-red` and then `pm2 start node-red`.
+
+The python flask api schould be launch in a "screen" to be able to start and stop even with shell closed.
+
+For exemple:
+ `screen -S lights`
+ `screen -dr lights`
+ `cd /home/pi/Documents/SDL_KNX`
+ `sudo python3 Light_flask_api.py`
 
 ## MQTT Thingdust
 Read Thingdust MQTT messages and return where there is movement in the lab.

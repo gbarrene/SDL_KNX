@@ -7,7 +7,7 @@ Python code to control the KNX lights in the lab
 
 - Raspberry pi 3 B (https://www.digitec.ch/fr/s1/product/raspberry-pi-3-model-b-armv8-entwicklungsboards-kits-5704269)
 - Micro SD card from Transcend (https://www.digitec.ch/fr/s1/product/transcend-microsdhc-premium-400x-mit-adapter-16go-class-10-cartes-memoires-3520393?tagIds=520)
-- You will need also a keyboard (usb), mouse (usb), display with an HDMI cable and a power supply.
+- You will need also a ssh client as putty (https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html).
 
 ## Install procedure
 
@@ -15,8 +15,10 @@ You chould use the `Python_install_setup.sh` to have all modules use in this pro
 
 - Install Rasbian Jessie Download from the raspberrypi web site. Download the normal version not the lite one. (https://downloads.raspberrypi.org/raspbian_latest)
 - Burn the image file into the sd card with rufus ou win32diskimager. (https://sourceforge.net/projects/win32diskimager/)
+- Creat an empty file without any extention called `ssh` in the boot sd card.
 - Insert the sd card into the pi and boot it up.
-- Log in with the pi user. (As you used the display direclly from the pi, you should already be loggin)
+- Search for the pi ip address on your router and connect to it.
+- Log in with the pi user. (by default it is "pi" as a username and "raspberry" as a password)
 - Go to the /home/pi/Documents directory in the shell.
 - Make sure to be connected to the internet of the lab and to have the right tomezone setted.
 - Clone the repository and enter into the repository file.

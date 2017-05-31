@@ -186,8 +186,8 @@ def zone_light(zone_name='0_0', num='0'):
     if request.method == 'PUT':
         if request.json:
             zone_name = zone_name.upper()
-            file_WR.RW_light_info_update(zone_name, 'light'+num, request.json['light'])
-    return "light "+num+" from "+zone_name+" was updated to "+str(request.json['light'])
+            file_WR.RW_light_info_update(zone_name, 'light'+num, request.json['value'])
+    return "light "+num+" from "+zone_name+" was updated to "+str(request.json['value'])
 
 
 @app.route('/zone_light_threshold<string:num>/<string:zone_name>', methods=['PUT'])
@@ -198,8 +198,8 @@ def zone_light_threshold(zone_name='0_0', num='0'):
     if request.method == 'PUT':
         if request.json:
             zone_name = zone_name.upper()
-            file_WR.RW_light_info_update(zone_name, 'light_threshold'+num, request.json['threshold'])
-    return "light threshold "+num+" from "+zone_name+" was updated to "+str(request.json['threshold'])
+            file_WR.RW_light_info_update(zone_name, 'light_threshold'+num, request.json['value'])
+    return "light threshold "+num+" from "+zone_name+" was updated to "+str(request.json['value'])
 
 
 @app.route('/lora', methods=['POST'])

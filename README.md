@@ -30,7 +30,7 @@ Use:
  `screen -dr lights`
  `cd /home/pi/Documents/SDL_KNX`
  `sudo python3 Light_flask_api.py` to restart the python app.
-- Now go to your web browser and type in 192.168.1.10:1880/ui and you should end on an interface to control the lights.
+- Now go to your web browser and type in **_raspberrypi IP_**:1880/ui and you should end on an interface to control the lights.
 
 
 ## Install list:

@@ -120,7 +120,7 @@ def set_light_zone(tunnel, zone_name, color):
         elif addresses[x][1] == 4:
             if set_rgb(tunnel, toknx(addresses[x][0]), color):
                 return 1
-    print("il vaut etrangement 1")
+    print("il vaut etrangement 1 ")
     return 0
 
 

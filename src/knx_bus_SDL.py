@@ -24,7 +24,6 @@ save_var_rgb = [[0, 0, 0, 0],
 
 
 class Animation(threading.Thread):
-
     def __init__(self, tunnel):
         threading.Thread.__init__(self)
         self.tunnel = tunnel
@@ -71,6 +70,7 @@ def KNX_tunnel(knx_gw_ip):
     else:
         print('Tunnel not opened')
         return None
+
 
 # All Led related fonction (Get, Set, Set All)
 
@@ -127,8 +127,10 @@ def set_light_position(tunnel, x, y, color):
     print(range(x + constants.RADIUS, x - constants.RADIUS))
 
     for j in range(0, len(constants.LED_POSITION)):
-        if constants.LED_POSITION[j][0] <= x + constants.RADIUS and (constants.LED_POSITION[j][0] >= x - constants.RADIUS):
-            if constants.LED_POSITION[j][1] <= y + constants.RADIUS and constants.LED_POSITION[j][1] >= y - constants.RADIUS:
+        if constants.LED_POSITION[j][0] <= x + constants.RADIUS and (
+                    constants.LED_POSITION[j][0] >= x - constants.RADIUS):
+            if constants.LED_POSITION[j][1] <= y + constants.RADIUS and constants.LED_POSITION[j][
+                1] >= y - constants.RADIUS:
                 print(constants.LED_POSITION[j][2])
                 for i in range(0, len(constants.LIGHT_LOOKUP_TABLE)):
                     if constants.LIGHT_LOOKUP_TABLE[i][0] == constants.LED_POSITION[j][2]:
@@ -149,13 +151,13 @@ def timing_without_value(tunnel, method_name, timer):
     if not method:
         raise NotImplementedError("Method %s not implemented" % method_name)
     else:
-        #save_rgb_all(tunnel)
+        # save_rgb_all(tunnel)
         if timer == 0:
             print("Will run %s for infinit time" % method_name)
             while True:
                 method(tunnel)
         else:
-            print("Will run "+method_name+" for "+ timer)
+            print("Will run " + method_name + " for " + timer)
             for i in range(0, (timer / 3)):
                 method(tunnel)
         restore_rgb_all(tunnel)
@@ -173,13 +175,14 @@ def get_led(tunnel, led_id):
         print("Unable to read from the KNX bus")
         return None
 
+
 def set_led(tunnel, led_id, w_value=None):
     if not w_value:
         w_value = 0
     try:
         tunnel.group_write(led_id + 0, [0])
         tunnel.group_write(led_id + 2, [w_value])
-        #time.sleep(3)
+        # time.sleep(3)
         return 0
     except:
         if tunnel.check_connection_state():
@@ -188,7 +191,7 @@ def set_led(tunnel, led_id, w_value=None):
             time.sleep(2)
             tunnel.connect()
         else:
-            #tunnel.disconnect()
+            # tunnel.disconnect()
             tunnel.connect()
         return 1
 
@@ -201,6 +204,7 @@ def set_all_led(tunnel, w_value=None):
 
     for light_it in range(0, constants.LED_TOTAL + 1):
         set_led(tunnel, led_first + (constants.LED_STEP * light_it), w_value)
+
 
 # All RGB related fonction (Get, Set, Set All)
 
@@ -234,7 +238,7 @@ def set_rgb(tunnel, rgb_id, rgbw_value=None):
         tunnel.group_write(rgb_id + 12, [rgbw_value[2]])
         tunnel.group_write(rgb_id + 15, [0])
         tunnel.group_write(rgb_id + 17, [rgbw_value[3]])
-        #time.sleep(3)
+        # time.sleep(3)
         return 0
     except:
         if tunnel.check_connection_state():
@@ -243,7 +247,7 @@ def set_rgb(tunnel, rgb_id, rgbw_value=None):
             time.sleep(2)
             tunnel.connect()
         else:
-            #tunnel.disconnect()
+            print('disconnected')
             tunnel.connect()
         return 1
 
@@ -254,14 +258,15 @@ def set_all_rgb(tunnel, rgbw_value=None):
     if not rgbw_value:
         rgbw_value = [0, 0, 0, 0]
 
-    for light_it in range(0, constants.RGB_TOTAL+1):
+    for light_it in range(0, constants.RGB_TOTAL + 1):
         set_rgb(tunnel, rgb_first + (constants.RGB_STEP * light_it), rgbw_value)
 
 
 def set_all_rgb_random(tunnel):
     """ Set all RGB lights to a random and different RGB value """
     for light_it in range(0, constants.RGB_TOTAL):
-        set_rgb(tunnel, rgb_first + (constants.RGB_STEP * light_it),[randint(0, 255), randint(0, 255), randint(0, 255), 0])
+        set_rgb(tunnel, rgb_first + (constants.RGB_STEP * light_it),
+                [randint(0, 255), randint(0, 255), randint(0, 255), 0])
     return True
 
 
@@ -269,7 +274,7 @@ def save_rgb_all(tunnel):
     for light_it in range(0, constants.RGB_TOTAL):
         save_var_rgb[light_it] = get_rgb(tunnel, rgb_first + (constants.RGB_STEP * light_it))
         print(save_var_rgb[light_it])
-        #time.sleep(3)
+        # time.sleep(3)
 
 
 def restore_rgb_all(tunnel):
@@ -285,7 +290,7 @@ def disco_animation(tunnel):
 
 def christmas_animation(tunnel):
     light_id = randint(0, 11)
-    color_id = randint(0, len(constants.CHRISTMAS_COLORS)-1)
+    color_id = randint(0, len(constants.CHRISTMAS_COLORS) - 1)
     set_rgb(tunnel, rgb_first + (constants.RGB_STEP * light_id), constants.CHRISTMAS_COLORS[color_id])
     time.sleep(3)
 

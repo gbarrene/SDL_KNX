@@ -160,6 +160,7 @@ def zone(zone_name='0_0'):
         color = [0, 0, 0, 0]
 
     if sdl_knx.set_light_zone(tunnel, zone_name, color):
+        restart()
         return "Unable to write to the KNX bus"
     else:
         return "All lights were set successfully"

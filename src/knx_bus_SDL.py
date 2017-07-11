@@ -190,7 +190,6 @@ def set_led(tunnel, led_id, w_value=None):
     except:
         if tunnel.check_connection_state():
             print("Unable to write to the KNX bus (led)")
-            tunnel.
             tunnel.disconnect()
             tunnel = KNX_tunnel('192.168.1.99')
             tunnel.connect()

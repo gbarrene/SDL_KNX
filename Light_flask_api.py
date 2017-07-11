@@ -1,3 +1,5 @@
+import random
+
 from flask import Flask, redirect, url_for, escape, request, jsonify
 import src.knx_bus_SDL as sdl_knx
 import src.constants as constants
@@ -19,7 +21,6 @@ def index():
 
 @app.route('/connection', methods=['GET', 'POST'])
 def connection():
-
     """Connection of the server to the KNX interface"""
     global tunnel
     if request.method == 'GET':
@@ -45,7 +46,6 @@ def connection():
 
 @app.route('/all_on', methods=['POST', 'DELETE'])
 def all_on():
-
     """Interaction with all the lights to turn them all on or off"""
     global tunnel
     if request.method == 'POST':
@@ -58,7 +58,6 @@ def all_on():
 
 @app.route('/all_off', methods=['POST'])
 def all_off():
-
     """Interaction with all the lights to turn them all off"""
     global tunnel
     sdl_knx.all_off(tunnel)
@@ -67,7 +66,6 @@ def all_off():
 
 @app.route('/all_rgb_on', methods=['POST', 'DELETE'])
 def all_rgb_on():
-
     """Interaction with all the RGB lights to turn them all on or off"""
     global tunnel
     if request.method == 'POST':
@@ -81,7 +79,6 @@ def all_rgb_on():
 
 @app.route('/all_rgb_off', methods=['POST'])
 def all_rgb_off():
-
     """Interaction with all the RGB lights to turn them all off"""
     global tunnel
     sdl_knx.all_rgb_off(tunnel)
@@ -89,8 +86,7 @@ def all_rgb_off():
 
 
 @app.route('/animation/<string:animation_name>', methods=['POST', 'DELETE', 'GET'])
-def animation_fonction(animation_name = 'test'):
-
+def animation_fonction(animation_name='test'):
     """URL to launch/kill animation for the leds"""
     global animation
     if request.method == 'POST':
@@ -119,8 +115,7 @@ def animation_fonction(animation_name = 'test'):
 
 
 @app.route('/position/<string:coordinates>', methods=['POST', 'DELETE'])
-def position(coordinates = '0;0'):
-
+def position(coordinates='0;0'):
     """Turns on/off light on a particular coordinate of the lab map
     Coordinates must be x; y type. The radius will define the radius of lights that light up"""
     global tunnel
@@ -145,7 +140,6 @@ def position(coordinates = '0;0'):
 
 @app.route('/zone/<string:zone_name>', methods=['POST', 'DELETE'])
 def zone(zone_name='0_0'):
-
     """Turns on/off lights in the zone name. If the zone name is more generic, it selects all
     lights with this generic name at the beginning"""
     global tunnel
@@ -164,9 +158,23 @@ def zone(zone_name='0_0'):
         return "All lights were set successfully"
 
 
+@app.route('/zone_test/<string:zone_name>', methods=['POST', 'DELETE'])
+def zone_test(zone_name='0_0'):
+    """Test of the raspberry resistance"""
+    global tunnel
+    while True:
+        if request.method == 'POST':
+            random_brightness = random.randint(0, 255)
+            color = [0, 0, 0, random_brightness]
+            print(random_brightness)
+        if sdl_knx.set_light_zone(tunnel, zone_name, color):
+            return "Unable to write to the KNX bus"
+        else:
+            return "All lights were set successfully"
+
+
 @app.route('/active_light', methods=['POST', 'DELETE'])
 def active_light():
-
     """Enables to change the mode from non active light to active light and vice et versa
     -Use POST to enable the active light mode which use the sensor brightness data to adapt the lights
     -Use DELETE to disable the active light mode"""
@@ -182,26 +190,24 @@ def active_light():
 
 @app.route('/zone_light<string:num>/<string:zone_name>', methods=['PUT'])
 def zone_light(zone_name='0_0', num='0'):
-
     """Updates, with PUT, the second light level of the light slope
     """
     if request.method == 'PUT':
         if request.json:
             zone_name = zone_name.upper()
-            file_WR.RW_light_info_update(zone_name, 'light'+num, request.json['value'])
-    return "light "+num+" from "+zone_name+" was updated to "+str(request.json['value'])
+            file_WR.RW_light_info_update(zone_name, 'light' + num, request.json['value'])
+    return "light " + num + " from " + zone_name + " was updated to " + str(request.json['value'])
 
 
 @app.route('/zone_light_threshold<string:num>/<string:zone_name>', methods=['PUT'])
 def zone_light_threshold(zone_name='0_0', num='0'):
-
     """Updates, with PUT, the second light level of the light slope
     """
     if request.method == 'PUT':
         if request.json:
             zone_name = zone_name.upper()
-            file_WR.RW_light_info_update(zone_name, 'light_threshold'+num, request.json['value'])
-    return "light threshold "+num+" from "+zone_name+" was updated to "+str(request.json['value'])
+            file_WR.RW_light_info_update(zone_name, 'light_threshold' + num, request.json['value'])
+    return "light threshold " + num + " from " + zone_name + " was updated to " + str(request.json['value'])
 
 
 @app.route('/lora', methods=['POST'])
@@ -230,7 +236,8 @@ def lora():
                 elif request.json['Light'] < light_threshold2:
                     brightness = light2
                 else:
-                    brightness = int((((light2 / (light_threshold3-light_threshold2))*light_threshold3+light2) - request.json['Light'] * (light2 / (light_threshold3-light_threshold2))))
+                    brightness = int((((light2 / (light_threshold3 - light_threshold2)) * light_threshold3 + light2) -
+                                      request.json['Light'] * (light2 / (light_threshold3 - light_threshold2))))
 
                 if brightness < 0:
                     brightness = 0
@@ -240,7 +247,10 @@ def lora():
                 if zone_name[:4].upper() == "WIKI":
                     motion_data = file_WR.RW_motion_data_update(zone_name, request.json['Motion'])
 
-                    if motion_data[zone_name.upper()]['last-7'] or motion_data[zone_name.upper()]['last-6'] or motion_data[zone_name.upper()]['last-5'] or motion_data[zone_name.upper()]['last-4'] or motion_data[zone_name.upper()]['last-3'] or motion_data[zone_name.upper()]['last-2'] or motion_data[zone_name.upper()]['last-1'] or motion_data[zone_name.upper()]['last']:
+                    if motion_data[zone_name.upper()]['last-7'] or motion_data[zone_name.upper()]['last-6'] or \
+                            motion_data[zone_name.upper()]['last-5'] or motion_data[zone_name.upper()]['last-4'] or \
+                            motion_data[zone_name.upper()]['last-3'] or motion_data[zone_name.upper()]['last-2'] or \
+                            motion_data[zone_name.upper()]['last-1'] or motion_data[zone_name.upper()]['last']:
                         if brightness_level != brightness:
                             sdl_knx.set_light_zone(tunnel, zone_name, [0, 0, 0, brightness])
                             light_info_deveui[request.json['DevEUI'].upper()]['brightness_level'] = brightness

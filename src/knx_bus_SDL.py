@@ -65,18 +65,18 @@ def KNX_tunnel(knx_gw_ip):
     """Open a tunnel with the KNX ethernet/knx bus module"""
 
     tunnel = KNXIPTunnel(knx_gw_ip)
-    while not tunnel.connect():
+    """while not tunnel.connect():
         print("Tunnel not opened trying again")
         tunnel = KNXIPTunnel(knx_gw_ip)
-    print("Tunnel opened")
+    print("Tunnel opened")"""
 
-    """if tunnel.connect():
+    if tunnel.connect():
         print('Tunnel opened')
         return tunnel
     else:
         print('Tunnel not opened')
         return None
-    """
+
 
 # All Led related fonction (Get, Set, Set All)
 

@@ -29,7 +29,7 @@ def connection():
         else:
             return 'Tunnel not opened yet, or crashed. Please open it with a "POST" on the same URL'
 
-    elif request.method == 'POST':
+    if request.method == 'POST':
         if tunnel.connect():
             print('Tunnel opened')
             return 'Tunnel opened successfully'
@@ -92,7 +92,7 @@ def all_rgb_off():
 def animation_fonction(animation_name = 'test'):
 
     """URL to launch/kill animation for the leds"""
-    global animation
+    '''global animation'''
     if request.method == 'POST':
         if not animation.isAlive():
             animation.method_name = animation_name
@@ -135,6 +135,8 @@ def position(coordinates = '0;0'):
 
     x = int((coordinates.rpartition(';'))[0])
     y = int((coordinates.rpartition(';'))[2])
+
+    '''maybe if not'''
 
     if sdl_knx.set_light_position(tunnel, x, y, color):
         return "Unable to write to the KNX bus"

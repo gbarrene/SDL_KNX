@@ -30,6 +30,7 @@ class Animation(threading.Thread):
         self.tunnel = tunnel
         self.method_name = 'stop'
         self.exit_method = 'all_on'
+        print('anim init')
 
     def run(self):
         """Code that execute during the thread
@@ -68,6 +69,7 @@ def KNX_tunnel(knx_gw_ip):
         print('Tunnel opened')
         return tunnel
     else:
+        print('Tunnel not opened')
         return None
 
 # All Led related fonction (Get, Set, Set All)
@@ -182,6 +184,9 @@ def set_led(tunnel, led_id, w_value=None):
     except:
         if tunnel.check_connection_state():
             print("Unable to write to the KNX bus")
+            tunnel.disconnect()
+            time.sleep(3)
+            tunnel.connect()
         else:
             #tunnel.disconnect()
             time.sleep(3)

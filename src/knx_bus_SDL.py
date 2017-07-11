@@ -238,7 +238,6 @@ def set_rgb(tunnel, rgb_id, rgbw_value=None):
         tunnel.group_write(rgb_id + 12, [rgbw_value[2]])
         tunnel.group_write(rgb_id + 15, [0])
         tunnel.group_write(rgb_id + 17, [rgbw_value[3]])
-        # time.sleep(3)
         return 0
     except:
         if tunnel.check_connection_state():

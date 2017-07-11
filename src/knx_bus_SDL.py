@@ -183,12 +183,13 @@ def set_led(tunnel, led_id, w_value=None):
         tunnel.group_write(led_id + 0, [0])
         tunnel.group_write(led_id + 2, [w_value])
         # time.sleep(3)
-        # return 0
+        return 0
     except:
         if tunnel.check_connection_state():
             print("Unable to write to the KNX bus (led)")
             tunnel.disconnect()
             tunnel = KNX_tunnel('192.168.1.99')
+            tunnel.connect()
 
         else:
             # tunnel.disconnect()

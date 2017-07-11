@@ -115,12 +115,10 @@ def set_light_zone(tunnel, zone_name, color):
         print(addresses[x][0])
         if addresses[x][1] == 1:
             if set_led(tunnel, toknx(addresses[x][0]), color[3]):
-                print('set_led vaut 0')
                 return 1
         elif addresses[x][1] == 4:
             if set_rgb(tunnel, toknx(addresses[x][0]), color):
                 return 1
-    print("il vaut etrangement 1 ")
     return 0
 
 
@@ -185,7 +183,7 @@ def set_led(tunnel, led_id, w_value=None):
         tunnel.group_write(led_id + 0, [0])
         tunnel.group_write(led_id + 2, [w_value])
         # time.sleep(3)
-        return 0
+        # return 0
     except:
         if tunnel.check_connection_state():
             print("Unable to write to the KNX bus (led)")

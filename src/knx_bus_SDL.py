@@ -185,6 +185,7 @@ def set_led(tunnel, led_id, w_value=None):
         tunnel.group_write(led_id + 0, [0])
         tunnel.group_write(led_id + 2, [w_value])
         # time.sleep(3)
+        print('written')
         return 0
     except:
         if tunnel.check_connection_state():

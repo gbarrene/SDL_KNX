@@ -114,6 +114,7 @@ def set_light_zone(tunnel, zone_name, color):
     for x in range(0, len(addresses)):
         print(addresses[x][0])
         if addresses[x][1] == 1:
+            print('set led')
             if set_led(tunnel, toknx(addresses[x][0]), color[3]):
                 return 1
         elif addresses[x][1] == 4:

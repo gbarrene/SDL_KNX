@@ -4,7 +4,6 @@ from random import randint
 from knxip.core import parse_group_address as toknx
 import time
 import threading
-# import Light_flask_api as LFlask
 import src.constants as constants
 
 # All SDL constants
@@ -66,13 +65,18 @@ def KNX_tunnel(knx_gw_ip):
     """Open a tunnel with the KNX ethernet/knx bus module"""
 
     tunnel = KNXIPTunnel(knx_gw_ip)
-    if tunnel.connect():
+    while not tunnel.connect():
+        print("Tunnel not opened trying again")
+        tunnel = KNXIPTunnel(knx_gw_ip)
+    print("Tunnel opened")
+
+    """if tunnel.connect():
         print('Tunnel opened')
         return tunnel
     else:
         print('Tunnel not opened')
         return None
-
+    """
 
 # All Led related fonction (Get, Set, Set All)
 

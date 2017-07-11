@@ -115,9 +115,11 @@ def set_light_zone(tunnel, zone_name, color):
         print(addresses[x][0])
         if addresses[x][1] == 1:
             if set_led(tunnel, toknx(addresses[x][0]), color[3]):
+                print('1')
                 return 1
         elif addresses[x][1] == 4:
             if set_rgb(tunnel, toknx(addresses[x][0]), color):
+                print('1')
                 return 1
     return 0
 
@@ -134,7 +136,7 @@ def set_light_position(tunnel, x, y, color):
                 print(constants.LED_POSITION[j][2])
                 for i in range(0, len(constants.LIGHT_LOOKUP_TABLE)):
                     if constants.LIGHT_LOOKUP_TABLE[i][0] == constants.LED_POSITION[j][2]:
-                        # print(constants.LIGHT_LOOKUP_TABLE[i][1])
+                        print(constants.LIGHT_LOOKUP_TABLE[i][1])
                         if constants.LIGHT_LOOKUP_TABLE[i][2] == 1:
                             if set_led(tunnel, toknx(constants.LIGHT_LOOKUP_TABLE[i][1]), color[3]):
                                 return 1

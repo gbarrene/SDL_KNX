@@ -14,6 +14,13 @@ animation = sdl_knx.Animation(tunnel)
 active_light = 0
 
 
+def restart():
+    global app
+    global tunnel
+    app = Flask(__name__)
+    tunnel = sdl_knx.KNX_tunnel('192.168.1.99')
+
+
 @app.route('/')
 def index():
     return 'Welcome on the SDL light API'

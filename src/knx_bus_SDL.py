@@ -4,8 +4,7 @@ from random import randint
 from knxip.core import parse_group_address as toknx
 import time
 import threading
-
-import Light_flask_api
+import Light_flask_api as LFlask
 import src.constants as constants
 
 # All SDL constants
@@ -194,9 +193,7 @@ def set_led(tunnel, led_id, w_value=None):
         if tunnel.check_connection_state():
             print("Unable to write to the KNX bus (led)")
             tunnel.disconnect()
-            Light_flask_api.app = Flask(__name__)
-            tunnel = KNX_tunnel('192.168.1.99')
-            tunnel.connect()
+            LFlask.restart()
 
         else:
             # tunnel.disconnect()
@@ -252,8 +249,7 @@ def set_rgb(tunnel, rgb_id, rgbw_value=None):
         if tunnel.check_connection_state():
             print("Unable to write to the KNX bus (rgb)")
             tunnel.disconnect()
-            tunnel = KNX_tunnel('192.168.1.99')
-            tunnel.connect()
+            LFlask.restart()
         else:
             print('disconnected')
             tunnel.connect()

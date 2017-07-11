@@ -92,7 +92,7 @@ def all_rgb_off():
 def animation_fonction(animation_name = 'test'):
 
     """URL to launch/kill animation for the leds"""
-    '''global animation'''
+    global animation
     if request.method == 'POST':
         if not animation.isAlive():
             animation.method_name = animation_name

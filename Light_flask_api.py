@@ -221,6 +221,7 @@ def zone_light_threshold(zone_name='0_0', num='0'):
 @app.route('/lora', methods=['POST'])
 def lora():
     global active_light
+    print (active_light)
     global tunnel
     light_info_deveui = file_WR.RW_light_info_read()
     hour = int(strftime("%H", localtime()))

@@ -11,7 +11,7 @@ from time import localtime, strftime
 app = Flask(__name__)
 tunnel = sdl_knx.KNX_tunnel('192.168.1.99')
 animation = sdl_knx.Animation(tunnel)
-active_light = 0
+active_light_switch = 0
 
 
 def restart():
@@ -186,12 +186,12 @@ def active_light():
     """Enables to change the mode from non active light to active light and vice et versa
     -Use POST to enable the active light mode which use the sensor brightness data to adapt the lights
     -Use DELETE to disable the active light mode"""
-    global active_light
+    global active_light_switch
     if request.method == 'POST':
-        active_light = 1
+        active_light_switch = 1
         print("active_light")
     elif request.method == 'DELETE':
-        active_light = 0
+        active_light_switch = 0
         print("no active_light")
     return "active light"
 
@@ -220,14 +220,14 @@ def zone_light_threshold(zone_name='0_0', num='0'):
 
 @app.route('/lora', methods=['POST'])
 def lora():
-    global active_light
-    print (active_light)
+    global active_light_switch
+    print (active_light_switch)
     global tunnel
     light_info_deveui = file_WR.RW_light_info_read()
     hour = int(strftime("%H", localtime()))
 
     if hour > 7 and hour < 20:
-        if active_light:
+        if active_light_switch:
             try:
                 zone_name = light_info_deveui[request.json['DevEUI'].upper()]['zone_name']
                 light1 = light_info_deveui[request.json['DevEUI'].upper()]['light1']

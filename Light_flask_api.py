@@ -310,6 +310,7 @@ def lora():
         if active_light_switch == 1:
             all_off()
             active_light_switch = 0
+        return "Non Active Time"
     else:
         active_light_switch = 1
         try:
@@ -322,7 +323,6 @@ def lora():
             captured_light = request.json['Light']
         except:
             return 'error'
-        print (sensorID + ", " + str(current_brightness))
         if zone_name != 0 and active:
             # Only ERS sensor can detect motion if there is no motion for more than 14 min, turn off
             if sensor_model == 'ERS':
@@ -342,6 +342,7 @@ def lora():
                     if lower_bright < 70:
                         if not sdl_knx.set_light_zone(tunnel, zone_name, [0, 0, 0, 0]):
                             file_WR.RW_light_info_update(zone_name, "brightness_level", 0)
+
                     else:
                         delta = current_brightness - lower_bright
                         for x in range(1, int(delta), 5):
@@ -350,6 +351,7 @@ def lora():
                                 file_WR.RW_light_info_update(zone_name, "brightness_level", current_brightness)
                                 sleep(4)
                         return "Decreasing the artificial light"
+                return "Already no artificial light"
             # Here we will hardcode a value for the lights. A captured light below 100 is very dark so we will directly
             #  go to a 65% light
             elif captured_light < 100:
@@ -377,6 +379,7 @@ def lora():
                             file_WR.RW_light_info_update(zone_name, "brightness_level", current_brightness)
                             sleep(3)
                     return "Artificial light has been increased"
+    return "Something"
                     # #only the ERS sensor have a motion detection
                     # if sensor_model == 'ERS':
                     #     motion_data = file_WR.RW_motion_data_update(zone_name, request.json['Motion'])

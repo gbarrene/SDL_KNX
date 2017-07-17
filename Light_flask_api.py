@@ -315,7 +315,7 @@ def lora2():
         try:
             sensorID = request.json['DevEUI'].upper()
             active = light_info_deveui[sensorID]['active']
-            desired_bright = light_info_deveui[sensorID]['desired_brightness_bottom']
+            #desired_bright = light_info_deveui[sensorID]['desired_brightness_bottom']
             zone_name = light_info_deveui[sensorID]['zone_name']
             sensor_model = light_info_deveui[sensorID]['sensor_model']
             current_brightness = light_info_deveui[sensorID]['brightness_level']

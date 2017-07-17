@@ -397,8 +397,6 @@ def lora2():
                     #         elif abs(delta) > 100:
                     #
                     #         else:
-                    #
-                    #
                     #     else:
                     #         sdl_knx.set_light_zone(tunnel,zone_name, [0, 0, 0, 0])
                     #         file_WR.RW_light_info_update(zone_name, "brightness_level", 0)

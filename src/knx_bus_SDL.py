@@ -5,7 +5,7 @@ from knxip.core import parse_group_address as toknx
 import time
 import threading
 import src.constants as constants
-
+import src.file_WR as file_WR
 # All SDL constants
 rgb_first = toknx(constants.RGB_FIRST_KNX)
 
@@ -83,7 +83,7 @@ def KNX_tunnel(knx_gw_ip):
 
 def set_light_zone(tunnel, zone_name, color):
     addresses = []
-
+    file_WR.RW_light_info_update(zone_name, "brightness_level", color[3])
     if len(zone_name.split('_')) == 3:
         name0 = zone_name.split('_')[0].upper()
         name1 = zone_name.split('_')[1].upper()
@@ -302,6 +302,7 @@ def christmas_animation(tunnel):
 
 
 def all_off(tunnel):
+
     set_all_led(tunnel, 0)
     set_all_rgb(tunnel, [0, 0, 0, 0])
 

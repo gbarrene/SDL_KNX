@@ -181,14 +181,14 @@ LED_POSITION = [[0, 0, 'SQUAD_2_A'],
 #  DevEUI,  Zone_name,  light level 1, light level 2,  light level 3
 #
 #
-LORA_SENSOR = [['A81758FFFE03045F', 'Squad_3', 200, 180],
-               ['A81758FFFE030460', 'Squad_1', 200, 180],
-               ['A81758FFFE030461', 'PRESENTATION', 230, 200],
-               ['A81758FFFE030425', 'Squad_2', 200, 180],
-               ['A81758FFFE0303FC', 'Accueil', 200, 180],
-               ['A81758FFFE0301CC', 'WIKIHOUSE_1', 200, 180],
-               ['A81758FFFE0304B5', 'WIKIHOUSE_2', 200, 180],
-               ['A81758FFFE0304B7', 'WIKIHOUSE_3', 200, 180]
+LORA_SENSOR = [['A81758FFFE03045F', 'Squad_3', 200, 180],           # ESM5k
+               ['A81758FFFE030460', 'Squad_1', 200, 180],           # ESM5k
+               ['A81758FFFE030461', 'PRESENTATION', 230, 200],      # ESM5k
+               ['A81758FFFE030425', 'Squad_2', 200, 180],           # ESM5k
+               ['A81758FFFE0303FC', 'Accueil', 200, 180],           # ESM5k
+               ['A81758FFFE0301CC', 'WIKIHOUSE_1', 200, 180],       # ERS
+               ['A81758FFFE0304B5', 'WIKIHOUSE_2', 200, 180],       # ERS
+               ['A81758FFFE0304B7', 'WIKIHOUSE_3', 200, 180]        # ERS
                 ]
 
 

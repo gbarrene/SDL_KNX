@@ -322,6 +322,7 @@ def lora2():
             captured_light = request.json['Light']
         except:
             return 'error'
+        print (sensorID + ", " + current_brightness)
         if zone_name != 0 and active:
             # Only ERS sensor can detect motion if there is no motion for more than 14 min, turn off
             if sensor_model == 'ERS':

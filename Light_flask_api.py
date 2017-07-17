@@ -293,7 +293,7 @@ def lora():
     return "Good"
 
 
-@app.route('/lora2', nethods=['POST'])
+@app.route('/lora2', methods=['POST'])
 def lora2():
     global active_light_switch
     global tunnel

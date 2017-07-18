@@ -327,7 +327,7 @@ def lora():
                 return "no adjustments needed"
             elif captured_light >= upperbound:
                 if current_brightness != 0:
-                    lower_bright = 2 * current_brightness / 3
+                    lower_bright = 3 * current_brightness / 4
                     if lower_bright < 70:
                         if not sdl_knx.set_light_zone(tunnel, zone_name, [0, 0, 0, 0]):
                             return "Artificial light turned off"

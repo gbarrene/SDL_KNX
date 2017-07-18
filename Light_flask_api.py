@@ -375,7 +375,7 @@ def lora():
                 else:
                     # if there is already artificial light and that we are below the threshold we increase the light
                     # of 20%
-                    for x in range(current_brightness, min(int(current_brightness + 255 / 100 * 20), 255)):
+                    for x in range(current_brightness, min(int(current_brightness + 255 / 100 * 15), 255), 7):
                         if not sdl_knx.set_light_zone(tunnel, zone_name, [0, 0, 0, x]):
                             current_brightness = x
                             file_WR.RW_light_info_update(zone_name, "brightness_level", current_brightness)

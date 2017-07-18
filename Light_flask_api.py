@@ -187,9 +187,11 @@ def active_zone(zone_name='0_0'):
     global tunnel
     if request.method == 'POST':
         file_WR.RW_light_info_update(zone_name, 'active', 1)
+        print("Active light activated in" + zone_name)
         return "Active light activated in " + zone_name
     elif request.method == 'DELETE':
         file_WR.RW_light_info_update(zone_name, 'active', 0)
+        print("Active light desactivated in " + zone_name)
         return "Active light desactivated in " + zone_name
 
 

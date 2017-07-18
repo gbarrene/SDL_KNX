@@ -6,6 +6,7 @@ import time
 import threading
 import src.constants as constants
 import src.file_WR as file_WR
+
 # All SDL constants
 rgb_first = toknx(constants.RGB_FIRST_KNX)
 
@@ -83,7 +84,6 @@ def KNX_tunnel(knx_gw_ip):
 
 def set_light_zone(tunnel, zone_name, color):
     addresses = []
-    file_WR.RW_light_info_update(zone_name, "brightness_level", color[3])
     if len(zone_name.split('_')) == 3:
         name0 = zone_name.split('_')[0].upper()
         name1 = zone_name.split('_')[1].upper()
@@ -127,6 +127,7 @@ def set_light_zone(tunnel, zone_name, color):
             if set_rgb(tunnel, toknx(addresses[x][0]), color):
                 print('1')
                 return 1
+    file_WR.RW_light_info_update(zone_name, "brightness_level", color[3])
     return 0
 
 
@@ -196,7 +197,7 @@ def set_led(tunnel, led_id, w_value=None):
         if tunnel.check_connection_state():
             print("Unable to write to the KNX bus (led)")
             tunnel.disconnect()
-            #LFlask.restart()
+            # LFlask.restart()
 
         else:
             # tunnel.disconnect()
@@ -251,7 +252,7 @@ def set_rgb(tunnel, rgb_id, rgbw_value=None):
         if tunnel.check_connection_state():
             print("Unable to write to the KNX bus (rgb)")
             tunnel.disconnect()
-            #LFlask.restart()
+            # LFlask.restart()
         else:
             print('disconnected')
             tunnel.connect()
@@ -302,14 +303,17 @@ def christmas_animation(tunnel):
 
 
 def all_off(tunnel):
-
     set_all_led(tunnel, 0)
     set_all_rgb(tunnel, [0, 0, 0, 0])
+    for x in constants.LORA_SENSOR:
+        file_WR.RW_light_info_update(x[1], "brightness_level", 0)
 
 
 def all_on(tunnel):
     set_all_led(tunnel, 200)
     set_all_rgb(tunnel, [0, 0, 0, 200])
+    for x in constants.LORA_SENSOR:
+        file_WR.RW_light_info_update(x[1], "brightness_level", 200)
 
 
 def all_rgb_off(tunnel):

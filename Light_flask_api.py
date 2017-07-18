@@ -166,33 +166,15 @@ def zone(zone_name='0_0'):
     else:
         return "All lights were set successfully"
 
-
-# @app.route('/zone_test/<string:zone_name>', methods=['POST', 'DELETE'])
-# def zone_test(zone_name='0_0'):
-#     """Test of the raspberry resistance"""
-#     global tunnel
-#     while True:
-#         if request.method == 'POST':
-#             random_brightness = random.randint(0, 255)
-#             color = [0, 0, 0, random_brightness]
-#             print(random_brightness)
-#         if sdl_knx.set_light_zone(tunnel, zone_name, color):
-#             return "Unable to write to the KNX bus"
-#         else:
-#             return "All lights were set successfully"
-
-
 @app.route('/active/<string:zone_name>', methods=['POST', 'DELETE'])
 def active_zone(zone_name='0_0'):
     global tunnel
     if request.method == 'POST':
         file_WR.RW_light_info_update(zone_name, 'active', 1)
-        print("Active light activated in" + zone_name)
         return "Active light activated in " + zone_name
     elif request.method == 'DELETE':
         file_WR.RW_light_info_update(zone_name, 'active', 0)
-        print("Active light desactivated in " + zone_name)
-        return "Active light desactivated in " + zone_name
+        return "Active light deactivated in " + zone_name
 
 
 @app.route('/active_light', methods=['POST', 'DELETE'])
@@ -297,17 +279,23 @@ def zone_light_threshold(zone_name='0_0', num='0'):
 
 @app.route('/lora', methods=['POST'])
 def lora():
+    """
+    This methods handle every messages sent by the LORA sensors and is also respoonsible of automatic lightning
+
+
+
+    :return:
+    """
     global active_light_switch
     global tunnel
     light_info_deveui = file_WR.RW_light_info_read()
     hour = int(strftime("%H", localtime()))
     day = datetime.datetime.today().weekday()
-    lowerbound = 300
-    upperbound = 650
-    zone_name = 0
+    lowerbound = 290
+    upperbound = 500
     # we suppose that there is no need for light between 21 and 6 and during the weekend
-    # however the active switch button is deactivated after the first all_aff call to prevent
-    # automatic turn off if somebody is working on the week end or after 21h for example
+    # however the active switch button is deactivated after the first all_off call to prevent
+    # automatic turn off if somebody is working on the week-end or after 21h for example
     if hour < 7 or hour > 20 or day == 7 or day == 6:
         if active_light_switch == 1:
             all_off()
@@ -318,13 +306,12 @@ def lora():
         try:
             sensorID = request.json['DevEUI'].upper()
             active = light_info_deveui[sensorID]['active']
-            #desired_bright = light_info_deveui[sensorID]['desired_brightness_bottom']
             zone_name = light_info_deveui[sensorID]['zone_name']
             sensor_model = light_info_deveui[sensorID]['sensor_model']
             current_brightness = light_info_deveui[sensorID]['brightness_level']
             captured_light = request.json['Light']
         except:
-            return 'error'
+            return 'Unable to read the required parameters'
         if zone_name != 0 and active:
             # Only ERS sensor can detect motion if there is no motion for more than 14 min, turn off
             if sensor_model == 'ERS':
@@ -343,14 +330,12 @@ def lora():
                     lower_bright = 2 * current_brightness / 3
                     if lower_bright < 70:
                         if not sdl_knx.set_light_zone(tunnel, zone_name, [0, 0, 0, 0]):
-                            file_WR.RW_light_info_update(zone_name, "brightness_level", 0)
+                            return "Artificial light turned off"
 
                     else:
                         delta = current_brightness - lower_bright
                         for x in range(1, int(delta), 5):
-                            if not sdl_knx.set_light_zone(tunnel, zone_name, [0, 0, 0, current_brightness + x]):
-                                current_brightness += x
-                                file_WR.RW_light_info_update(zone_name, "brightness_level", current_brightness)
+                            if not sdl_knx.set_light_zone(tunnel, zone_name, [0, 0, 0, current_brightness - x]):
                                 sleep(4)
                         return "Decreasing the artificial light"
                 return "Already no artificial light"
@@ -359,7 +344,6 @@ def lora():
             elif captured_light < 100:
                 hardcoded_bright = 166  # correspond to 65% regarding the range 0-255
                 if not sdl_knx.set_light_zone(tunnel, zone_name, [0, 0, 0, hardcoded_bright]):
-                    file_WR.RW_light_info_update(zone_name, "brightness_level", hardcoded_bright)
                     return "The artificial light has been set to 65% "
                 return " The system wasn't able to set the new brightness value"
             else:
@@ -368,54 +352,26 @@ def lora():
                 if current_brightness == 0:
                     for x in range(50, 120, 7):
                         if not sdl_knx.set_light_zone(tunnel, zone_name, [0, 0, 0, x]):
-                            current_brightness = x
-                            file_WR.RW_light_info_update(zone_name, "brightness_level", x)
-                            sleep(3)
+                            sleep(4)
                     return "Artificial light has been activated"
                 else:
                     # if there is already artificial light and that we are below the threshold we increase the light
                     # of 20%
                     for x in range(current_brightness, min(int(current_brightness + 255 / 100 * 15), 255), 7):
                         if not sdl_knx.set_light_zone(tunnel, zone_name, [0, 0, 0, x]):
-                            current_brightness = x
-                            file_WR.RW_light_info_update(zone_name, "brightness_level", current_brightness)
-                            sleep(3)
+                            sleep(4)
                     return "Artificial light has been increased"
     return "Something"
-                    # #only the ERS sensor have a motion detection
-                    # if sensor_model == 'ERS':
-                    #     motion_data = file_WR.RW_motion_data_update(zone_name, request.json['Motion'])
-                    #     if motion(motion_data,zone_name):
-                    #
-                    #         delta = desired_bright - captured_light
-                    #         if captured_light < desired_bright:
-                    #             brightness_to_add = delta/3
-                    #             #new_bright = min(current_brightness, 66) + brightness_to_add  #hardcoded the "threshold for the lights"
-                    #             new_bright = current_brightness +brightness_to_add
-                    #             sdl_knx.set_light_zone(tunnel,zone_name,[0, 0, 0, new_bright])
-                    #             file_WR.RW_light_info_update(zone_name, "brightness_level", new_bright)
-                    #
-                    #         elif abs(delta) > 300:
-                    #
-                    #         elif abs(delta) > 200:
-                    #
-                    #         elif abs(delta) > 100:
-                    #
-                    #         else:
-                    #     else:
-                    #         sdl_knx.set_light_zone(tunnel,zone_name, [0, 0, 0, 0])
-                    #         file_WR.RW_light_info_update(zone_name, "brightness_level", 0)
-                    # elif sensor_model == 'ESM5k':
-
-
-def set_and_write_brightness(zone_name: str, new_bright: int) -> bool:
-    if not sdl_knx.set_light_zone(tunnel, zone_name, [0, 0, 0, new_bright]):
-        file_WR.RW_light_info_update(zone_name, "brightness_level", new_bright)
-        return True
-    return False
 
 
 def motion(motion_data, zone_name):
+    """
+
+    :param motion_data: data of the last 7 messages for the motion values
+    :param zone_name: the name of the zone
+    :return: Return true if there were at least one motion in the last 7 messages
+             Return false if there were no motion in the last 7 messages
+    """
     last = 'last-'
     tab = [last + repr(i) for i in range(0, 8)]
     for x in tab:

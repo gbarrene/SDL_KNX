@@ -317,11 +317,9 @@ def lora():
             if sensor_model == 'ERS':
                 motion_data = file_WR.RW_motion_data_update(zone_name, request.json['Motion'])
                 if not motion(motion_data, zone_name):
-                    if current_brightness == 0:
-                        return "Already no lights"
                     sdl_knx.set_light_zone(tunnel, zone_name[0, 0, 0, 0])
                     file_WR.RW_light_info_update(zone_name, "brightness_level", 0)
-                    return "No motion in the room "
+                    return "No motion in the room light was turned off"
 
             if lowerbound < captured_light < upperbound:
                 return "no adjustments needed"

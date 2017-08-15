@@ -34,7 +34,7 @@ DSL_MOTION_SENSORS = [['000070B3D5C1503F', 'Cafe'],
                       ['000070B3D5C15045', 'Wiki_1'],
                       ['000070B3D5C150A4', 'Wiki_2'],
                       ['000070B3D5C15043', 'Wiki_3'],
-                      ['000070B3D5C15044', 'Homy'],
+                      ['000070B3D5C15044', 'Home'],
                       ['000070B3D5C15042', 'Tetris']
                       ]
 
@@ -198,8 +198,8 @@ LIGHT_LOOKUP_TABLE = [['SQUAD_3_A', '14/2/11', 1],
                     ['SQUAD_2_B', '14/2/26', 1],
                     ['SQUAD_1_A', '14/2/31', 1],
                     ['SQUAD_1_B', '14/2/36', 1],
-                    ['SQUAD_4_A', '14/2/41', 1],
-                    ['SQUAD_4_B', '14/2/46', 1],
+                    #['SQUAD_4_A', '14/2/41', 1],
+                    #['SQUAD_4_B', '14/2/46', 1],
                     ['WIKIHOUSE_1', '14/2/51', 1],
                     ['WIKIHOUSE_2', '14/2/56', 1],
                     ['WIKIHOUSE_3', '14/2/61', 1],
@@ -219,6 +219,8 @@ LIGHT_LOOKUP_TABLE = [['SQUAD_3_A', '14/2/11', 1],
                     ['PRESENTATION_E', '14/3/161', 4],
                     ['PRESENTATION_F', '14/3/181', 4],
                     ['PRESENTATION_G', '14/3/201', 4],
-                    ['PRESENTATION_H', '14/3/221', 4]
+                    ['PRESENTATION_H', '14/3/221', 4],
+                    ['PRESENTATION_X', '14/2/41', 1],
+                    ['PRESENTATION_Y', '14/2/46', 1]
                     ]
 

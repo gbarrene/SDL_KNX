@@ -138,8 +138,7 @@ def set_light_position(tunnel, x, y, color):
     for j in range(0, len(constants.LED_POSITION)):
         if constants.LED_POSITION[j][0] <= x + constants.RADIUS and (
                     constants.LED_POSITION[j][0] >= x - constants.RADIUS):
-            if constants.LED_POSITION[j][1] <= y + constants.RADIUS and constants.LED_POSITION[j][
-                1] >= y - constants.RADIUS:
+            if y + constants.RADIUS >= constants.LED_POSITION[j][1] >= y - constants.RADIUS:
                 print(constants.LED_POSITION[j][2])
                 for i in range(0, len(constants.LIGHT_LOOKUP_TABLE)):
                     if constants.LIGHT_LOOKUP_TABLE[i][0] == constants.LED_POSITION[j][2]:

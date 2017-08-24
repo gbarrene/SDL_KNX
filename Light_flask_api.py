@@ -278,7 +278,10 @@ def lora():
             # Here we will hardcode a value for the lights. A captured light below 100 is very dark so we will directly
             #  go to a 65% light
             elif captured_light < 100:
-                hardcoded_bright = 180  # correspond to 65% regarding the range 0-255
+                if current_brightness == 210:
+                    hardcoded_bright = 230
+                else:
+                    hardcoded_bright = 210  # correspond to 65% regarding the range 0-255
                 if not sdl_knx.set_light_zone(tunnel, zone_name, [0, 0, 0, hardcoded_bright]):
                     return "The artificial light has been set to 65% "
                 return " The system wasn't able to set the new brightness value"

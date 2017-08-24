@@ -278,7 +278,7 @@ def lora():
             # Here we will hardcode a value for the lights. A captured light below 100 is very dark so we will directly
             #  go to a 65% light
             elif captured_light < 100:
-                if current_brightness == 210:
+                if current_brightness == 210 or current_brightness == 230:
                     hardcoded_bright = 230
                 else:
                     hardcoded_bright = 210  # correspond to 65% regarding the range 0-255

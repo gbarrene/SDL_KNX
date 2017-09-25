@@ -137,9 +137,9 @@ def test():
             if sdl_knx.set_light_zone(tunnel, zone_name, color):
                 restart()
                 return "Unable to write to the KNX bus"
-            else:
-                return "All lights were set successfully"
-
+            #else:
+               # return "All lights were set successfully"
+        return "All lights were set successfully"
 
 
 @app.route('/position/<string:coordinates>', methods=['POST', 'DELETE'])

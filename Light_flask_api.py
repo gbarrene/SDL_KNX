@@ -128,11 +128,9 @@ def test():
     x= 0
     if request.method == 'POST':
         while(x < 7):
-            if not request.json:
-                color = [0, 0, 0, 200]
-            else:
-                brightness = random.randrange(0,200)
-                color = [int(request.json['R']), int(request.json['G']), int(request.json['B']), brightness]
+
+            brightness = random.randrange(0,200)
+            color = [int(request.json['R']), int(request.json['G']), int(request.json['B']), brightness]
             x = x+1
             if sdl_knx.set_light_zone(tunnel, zone_name, color):
                 restart()

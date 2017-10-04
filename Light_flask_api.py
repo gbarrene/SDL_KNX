@@ -123,7 +123,9 @@ def animation_fonction(animation_name='test'):
 
 @app.route('/test', methods = ['POST'])
 def test():
-    data = json.loads(request.data)
+    print(request)
+    print(type(request.data))
+    data = request.get_json()
     value = data.get('testValue')
     return "value"
     #zone_name = "presentation"

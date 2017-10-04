@@ -125,7 +125,6 @@ def animation_fonction(animation_name='test'):
 def test():
     print(request)
     print(type(request.data))
-    print(type(json.loads(request.data)))
     #data = request.get_json()
     data = json.loads(str(request.data,"utf-8"))
     print(data)

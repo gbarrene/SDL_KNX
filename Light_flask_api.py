@@ -127,7 +127,7 @@ def test():
     print(type(request.data))
     print(type(json.loads(request.data)))
     #data = request.get_json()
-    data = json.loads(request.data)
+    data = json.loads(str(request.data,"utf-8"))
     print(data)
     value = data.get('testValue')
     return "value"

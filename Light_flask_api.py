@@ -123,21 +123,24 @@ def animation_fonction(animation_name='test'):
 
 @app.route('/test', methods = ['POST'])
 def test():
-    zone_name = "presentation"
-    global tunnel
-    x= 0
-    if request.method == 'POST':
-        while(x < 7):
-
-            brightness = random.randrange(0,200)
-            color = [int(request.json['R']), int(request.json['G']), int(request.json['B']), brightness]
-            x = x+1
-            if sdl_knx.set_light_zone(tunnel, zone_name, color):
-                restart()
-                return "Unable to write to the KNX bus"
+    data = json.loads(request.data)
+    value = data.get('testValue')
+    return "value"
+    #zone_name = "presentation"
+    #global tunnel
+    #x= 0
+    #if request.method == 'POST':
+    #    while(x < 7):
+#
+#            brightness = random.randrange(0,200)
+#            color = [int(request.json['R']), int(request.json['G']), int(request.json['B']), brightness]
+#            x = x+1
+#            if sdl_knx.set_light_zone(tunnel, zone_name, color):
+#                restart()
+#                return "Unable to write to the KNX bus"
             #else:
                # return "All lights were set successfully"
-        return "All lights were set successfully"
+#        return "All lights were set successfully"
 
 
 @app.route('/position/<string:coordinates>', methods=['POST', 'DELETE'])

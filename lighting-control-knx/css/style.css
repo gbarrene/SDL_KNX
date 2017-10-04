@@ -1,0 +1,136 @@
+/*************************************************
+
+Fonts
+
+font-family: 'Open Sans', sans-serif;
+font-weight: 300;
+font-weight: 400;
+
+*************************************************/
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400');
+
+h1 {
+    font-size: 3em;
+    font-family: 'Open Sans', sans-serif;
+}
+
+h2 {
+    font-size: 2em;
+    font-family: 'Open Sans', sans-serif;
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+
+h3 {
+    font-size: 1.5em;
+    font-family: 'Open Sans', sans-serif;
+}
+    
+p, a, li {
+    font-size: 1em;
+    font-family: 'Open Sans', sans-serif;
+}
+
+
+
+/*************************************************
+
+HTML
+
+*************************************************/
+* {
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    box-sizing:border-box;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+::-moz-selection {background: rgba(255, 98, 0, 0.5)} /* Bugfix Mozilla */
+::selection {background: rgba(255, 98, 0, 0.5)} /* Current selection color */
+
+html {
+    height: 100%;
+    /* Disable zoom effect on landscape mode for Smartphones */
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+}
+
+body {
+    margin: 0;
+    height: 100%;
+    min-height: 100%;
+    position: relative;
+}
+
+a {
+    color: black;
+    text-decoration: none;
+    border-bottom: 2px solid #FF6225;
+}
+
+a:hover {
+    color: #FF6225;
+    border-bottom: none;
+    /* Smooth transition, bugfix */
+    -o-transition:.2s;
+    -ms-transition:.2s;
+    -moz-transition:.2s;
+    -webkit-transition:.2s;
+    /* ...and now for the proper property */
+    transition:.2s;
+}
+
+header, section, footer {
+    display: flex;
+    justify-content: center;
+}
+
+header div, section div, footer div {max-width: 1200px}
+
+
+
+/*************************************************
+
+Header
+
+*************************************************/
+header {}
+
+header div {}
+
+
+
+/*************************************************
+
+Section
+
+*************************************************/
+section {}
+
+section div {}
+
+
+
+/*************************************************
+
+Footer
+
+*************************************************/
+footer {}
+
+footer div {}
+
+
+
+/*************************************************
+
+Media Queries
+
+*************************************************/
+/* Screen size more than 900px */
+@media only screen and (min-width: 900px) {}
+
+/* Screen size less than 900px */
+@media only screen and (max-width: 900px) {}

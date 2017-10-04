@@ -124,9 +124,9 @@ def animation_fonction(animation_name='test'):
 @app.route('/test', methods = ['POST'])
 def test():
     print(request)
-    print(type(request.data))
+    print(request.data)
     #data = request.get_json()
-    data = json.loads(str(request.data,"utf-8"))
+    #data = json.loads(str(request.data,"utf-8"))
     print(data)
     value = data.get('testValue')
     return "value"

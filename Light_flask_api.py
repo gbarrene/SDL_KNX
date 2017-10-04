@@ -1,7 +1,7 @@
 import datetime
 import random
 
-from flask import Flask, redirect, url_for, escape, request, jsonify
+from flask import Flask, redirect, url_for, escape, request, jsonify, render_template
 import src.knx_bus_SDL as sdl_knx
 import src.constants as constants
 import json

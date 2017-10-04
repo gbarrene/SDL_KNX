@@ -125,7 +125,10 @@ def animation_fonction(animation_name='test'):
 def test():
     print(request)
     print(type(request.data))
-    data = request.get_json()
+    print(type(json.loads(request.data)))
+    #data = request.get_json()
+    data = json.loads(request.data)
+    print(data)
     value = data.get('testValue')
     return "value"
     #zone_name = "presentation"

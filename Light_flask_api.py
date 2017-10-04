@@ -24,7 +24,7 @@ def restart():
 
 @app.route('/')
 def index():
-    return render_template("/lighting-control-knx/index.html")#'Welcome on the SDL light API'
+    return render_template("lighting-control-knx/index.html")#'Welcome on the SDL light API'
 
 
 @app.route('/connection', methods=['GET', 'POST'])

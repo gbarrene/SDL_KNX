@@ -124,11 +124,8 @@ def animation_fonction(animation_name='test'):
 
 @app.route('/test', methods = ['POST'])
 def test():
-    user = request.form['username']
-    password = request.form['password']
-    print("user ", user)
-    print("\npass ", password)
-    return json.dumps({'status': 'OK', 'user': user, 'pass': password})
+    print(request.POST['testValue'])
+    return "done"
     #return "value"
     #zone_name = "presentation"
     #global tunnel

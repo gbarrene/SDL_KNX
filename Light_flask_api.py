@@ -121,15 +121,15 @@ def animation_fonction(animation_name='test'):
     elif request.method == 'GET':
         return animation.method_name + " is running"
 
+
 @app.route('/test', methods = ['POST'])
 def test():
-    print(request)
-    print(request.data)
-    print(request.get_json())
-    print(json.loads(str(request.data)))
-    print(data)
-    value = data.get('testValue')
-    return "value"
+    a = request.args.get('a', 0, type=int)
+    b = request.args.get('b', 0, type=int)
+    print('a = ', a)
+    print('b= ', b)
+    return jsonify(result=a + b)
+    #return "value"
     #zone_name = "presentation"
     #global tunnel
     #x= 0

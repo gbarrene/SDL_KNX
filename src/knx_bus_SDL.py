@@ -65,7 +65,7 @@ class Animation(threading.Thread):
 def KNX_tunnel(knx_gw_ip):
     """Open a tunnel with the KNX ethernet/knx bus module"""
 
-    tunnel = KNXIPTunnel(knx_gw_ip)
+    tunnel = KNXIPTunnel(ip=knx_gw_ip)
     """while not tunnel.connect():
         print("Tunnel not opened trying again")
         tunnel = KNXIPTunnel(knx_gw_ip)

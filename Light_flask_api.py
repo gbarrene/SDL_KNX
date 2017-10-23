@@ -10,7 +10,8 @@ import threading
 from time import localtime, strftime, sleep
 
 app = Flask(__name__)
-tunnel = sdl_knx.KNX_tunnel('192.168.1.99')
+knx_gate = '62.203.241.102'
+tunnel = sdl_knx.KNX_tunnel(knx_gate)
 animation = sdl_knx.Animation(tunnel)
 active_light_switch = 0
 
@@ -19,7 +20,7 @@ def restart():
     global app
     global tunnel
     app = Flask(__name__)
-    tunnel = sdl_knx.KNX_tunnel('192.168.1.99')
+    tunnel = sdl_knx.KNX_tunnel(knx_gate)
 
 
 @app.route('/')

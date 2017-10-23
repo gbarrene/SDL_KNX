@@ -41,8 +41,8 @@ def RW_motion_data_update(zone_name, new_value):
     motion_data[zone_name.upper()]['last-4'] = motion_data[zone_name.upper()]['last-3']
     motion_data[zone_name.upper()]['last-3'] = motion_data[zone_name.upper()]['last-2']
     motion_data[zone_name.upper()]['last-2'] = motion_data[zone_name.upper()]['last-1']
-    motion_data[zone_name.upper()]['last-1'] = motion_data[zone_name.upper()]['last']
-    motion_data[zone_name.upper()]['last'] = new_value
+    motion_data[zone_name.upper()]['last-1'] = motion_data[zone_name.upper()]['last-0']
+    motion_data[zone_name.upper()]['last-0'] = new_value
     file = open("src/Motion_data.txt", 'w')
     file.write(json.dumps(motion_data))
     file.close()

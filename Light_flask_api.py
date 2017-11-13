@@ -247,7 +247,7 @@ def flic_presentation_click():
     global tunnel
     light_info_deveui = file_WR.RW_light_info_read()
     sensor_id = 'A81758FFFE030461'
-    status = light_info_deveui[sensor_id]["flic_tatus"]
+    status = light_info_deveui[sensor_id]["flic_status"]
     if status == 0:
         color = [0, 0, 0, 253]
         file_WR.RW_light_info_update('presentation', 'flic_status', 1)

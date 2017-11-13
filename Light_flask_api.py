@@ -240,6 +240,34 @@ def zone_light_threshold(zone_name='0_0', num='0'):
     return "light threshold " + num + " from " + zone_name + " was updated to " + str(request.json['value'])
 
 
+@app.route('/flic_presentation/click', methods=['POST'])
+def flic_presentation_click():
+
+    zone_name = 'presentation'
+    global tunnel
+    light_info_deveui = file_WR.RW_light_info_read()
+    sensor_id = 'A81758FFFE030461'
+    status = light_info_deveui[sensor_id]["flics_tatus"]
+    if status == 0:
+        color = [0, 0, 0, 253]
+        file_WR.RW_light_info_update('presentation', 'flic_status', 1)
+    else:
+        color = [0, 0, 0, 0]
+        file_WR.RW_light_info_update('presentation', 'flic_status', 0)
+    if sdl_knx.set_light_zone(tunnel, zone_name, color):
+        restart()
+        return "Unable to write to the KNX bus"
+    else:
+        return "All lights were set successfully"
+
+
+@app.route('/flic_presentation/hold', methods='POST')
+def flic_presentation_hold():
+    zone_name =''
+    captor_id = 'A81758FFFE030461'
+    global tunnel
+    return 0
+
 @app.route('/lora', methods=['POST'])
 def lora():
     """

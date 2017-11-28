@@ -288,6 +288,7 @@ def flic_presentation_hold():
                # return "Unable to write to the KNX bus"
             #else:
                # return "All lights were set successfully"
+    return "All lights were set successfully"
 
 
 @app.route('/lora', methods=['POST'])

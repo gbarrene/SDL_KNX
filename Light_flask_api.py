@@ -240,7 +240,7 @@ def zone_light_threshold(zone_name='0_0', num='0'):
     return "light threshold " + num + " from " + zone_name + " was updated to " + str(request.json['value'])
 
 
-@app.route('/flic_presentation_click', methods=['POST'])
+@app.route('/flic_presentation/click', methods=['POST'])
 def flic_presentation_click():
 
     zone_name = 'presentation'
@@ -261,7 +261,7 @@ def flic_presentation_click():
         return "All lights were set successfully"
 
 
-@app.route('/flic_presentation_hold', methods=['POST'])
+@app.route('/flic_presentation/hold', methods=['POST'])
 def flic_presentation_hold():
     zone = 'PRESENTATION_'
     section = ['X', 'Y','A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
@@ -289,15 +289,6 @@ def flic_presentation_hold():
             else:
                 return "All lights were set successfully"
 
-
-
-
-@app.route('/flic_presentation/hold', methods='POST')
-def flic_presentation_hold():
-    zone_name =''
-    captor_id = 'A81758FFFE030461'
-    global tunnel
-    return 0
 
 @app.route('/lora', methods=['POST'])
 def lora():

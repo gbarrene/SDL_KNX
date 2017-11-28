@@ -264,30 +264,30 @@ def flic_presentation_click():
 @app.route('/flic_presentation/hold', methods=['POST'])
 def flic_presentation_hold():
     zone = 'PRESENTATION_'
-    section = ['X', 'Y','A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
+    section = ['X', 'Y', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
     file_WR.RW_light_info_update('presentation', 'flic_status', 0)
     for sec in section:
         if sec in ['X', 'Y', 'A', 'B']:
             color = [0, 0, 0, 0]
             if sdl_knx.set_light_zone(tunnel, zone+sec, color):
                 restart()
-                return "Unable to write to the KNX bus"
-            else:
-                return "All lights were set successfully"
+                #return "Unable to write to the KNX bus"
+            #else:
+               # return "All lights were set successfully"
         if sec in ['C', 'D']:
             color = [0, 0, 0, 150]
             if sdl_knx.set_light_zone(tunnel, zone+sec, color):
                 restart()
-                return "Unable to write to the KNX bus"
-            else:
-                return "All lights were set successfully"
+               # return "Unable to write to the KNX bus"
+            #else:
+               # return "All lights were set successfully"
         else:
             color = [0, 0, 0, 230]
             if sdl_knx.set_light_zone(tunnel, zone+sec, color):
                 restart()
-                return "Unable to write to the KNX bus"
-            else:
-                return "All lights were set successfully"
+               # return "Unable to write to the KNX bus"
+            #else:
+               # return "All lights were set successfully"
 
 
 @app.route('/lora', methods=['POST'])

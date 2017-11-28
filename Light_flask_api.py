@@ -394,7 +394,6 @@ def set_zone_with_value(zone_name, color):
     #
     # elif request.method == 'DELETE':
     #     color = [0, 0, 0, 0]
-    color = color
     if sdl_knx.set_light_zone(tunnel, zone_name, color):
         restart()
         return "Unable to write to the KNX bus"

@@ -263,28 +263,31 @@ def flic_presentation_click():
 
 @app.route('/flic_presentation/hold', methods=['POST'])
 def flic_presentation_hold():
-    zone = 'PRESENTATION_'
+    zone_z = 'PRESENTATION_'
     section = ['X', 'Y', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
     file_WR.RW_light_info_update('presentation', 'flic_status', 0)
     for sec in section:
         if sec in ['X', 'Y', 'A', 'B']:
             color = [0, 0, 0, 0]
-            if sdl_knx.set_light_zone(tunnel, zone+sec, color):
-                restart()
+            set_zone_with_value(zone_z+sec, color)
+            #if sdl_knx.set_light_zone(tunnel, zone+sec, color):
+            #    restart()
                 #return "Unable to write to the KNX bus"
             #else:
                # return "All lights were set successfully"
         if sec in ['C', 'D']:
             color = [0, 0, 0, 150]
-            if sdl_knx.set_light_zone(tunnel, zone+sec, color):
-                restart()
+            set_zone_with_value(zone_z+sec, color)
+            #if sdl_knx.set_light_zone(tunnel, zone+sec, color):
+            #    restart()
                # return "Unable to write to the KNX bus"
             #else:
                # return "All lights were set successfully"
         else:
-            color = [0, 0, 0, 230]
-            if sdl_knx.set_light_zone(tunnel, zone+sec, color):
-                restart()
+            color = [0, 0, 0, 240]
+            set_zone_with_value(zone_z+sec, color)
+            #if sdl_knx.set_light_zone(tunnel, zone+sec, color):
+            #   restart()
                # return "Unable to write to the KNX bus"
             #else:
                # return "All lights were set successfully"
@@ -379,6 +382,25 @@ def lora():
                             sleep(4)
                     return "Artificial light has been increased"
     return "Something"
+
+
+def set_zone_with_value(zone_name, color):
+    global tunnel
+    # if request.method == 'POST':
+    #     if not request.json:
+    #         color = [0, 0, 0, 200]
+    #     else:
+    #         color = [int(request.json['R']), int(request.json['G']), int(request.json['B']), int(request.json['W'])]
+    #
+    # elif request.method == 'DELETE':
+    #     color = [0, 0, 0, 0]
+    color = color
+    if sdl_knx.set_light_zone(tunnel, zone_name, color):
+        restart()
+        return "Unable to write to the KNX bus"
+    else:
+        return "All lights were set successfully"
+
 
 
 def motion(motion_data, zone_name):

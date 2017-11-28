@@ -263,6 +263,7 @@ def flic_presentation_click():
 
 @app.route('/flic_presentation/hold', methods=['POST'])
 def flic_presentation_hold():
+    global tunnel
     zone_z = 'PRESENTATION_'
     section = ['A', 'B', 'X', 'Y', 'C', 'D', 'E', 'F', 'G', 'H']
     file_WR.RW_light_info_update('presentation', 'flic_status', 0)

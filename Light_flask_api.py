@@ -269,7 +269,7 @@ def flic_presentation_hold():
     for sec in section:
         if sec in ['X', 'Y', 'A', 'B']:
             color = [0, 0, 0, 0]
-            if sdl_knx.set_light_zone(tunnel, zone+sec, color):
+            if sdl_knx.set_light_zone(tunnel, zone_z+sec, color):
                 restart()
                 #return "Unable to write to the KNX bus"
             #else:
@@ -277,7 +277,7 @@ def flic_presentation_hold():
         if sec in ['C', 'D']:
             color = [0, 0, 0, 150]
 
-            if sdl_knx.set_light_zone(tunnel, zone+sec, color):
+            if sdl_knx.set_light_zone(tunnel, zone_z+sec, color):
                 restart()
                # return "Unable to write to the KNX bus"
             #else:
@@ -285,7 +285,7 @@ def flic_presentation_hold():
         else:
             color = [0, 0, 0, 240]
 
-            if sdl_knx.set_light_zone(tunnel, zone+sec, color):
+            if sdl_knx.set_light_zone(tunnel, zone_z+sec, color):
                 restart()
                # return "Unable to write to the KNX bus"
             #else:

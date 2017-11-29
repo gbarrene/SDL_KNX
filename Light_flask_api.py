@@ -8,7 +8,7 @@ import json
 import src.file_WR as file_WR
 import threading
 from time import localtime, strftime, sleep
-
+from knxip.core import parse_group_address as toknx
 app = Flask(__name__)
 knx_gate = '62.203.241.102'
 tunnel = sdl_knx.KNX_tunnel(knx_gate)
@@ -262,22 +262,28 @@ def flic_presentation_click():
 
 @app.route("/flic_test", methods=['POST'])
 def flic_test():
-    global tunnel
-    if (sdl_knx.set_light_zone(tunnel, "presentation_x", [0, 0, 0, 0]) and
-            sdl_knx.set_light_zone(tunnel, "presentation_y", [0, 0, 0, 0]) and
-            sdl_knx.set_light_zone(tunnel, "presentation_a", [0, 0, 0, 0]) and
-            sdl_knx.set_light_zone(tunnel, "presentation_b", [0, 0, 0, 0]) and
-            sdl_knx.set_light_zone(tunnel, "presentation_c", [0, 0, 0, 150]) and
-            sdl_knx.set_light_zone(tunnel, "presentation_d", [0, 0, 0, 150]) and
-            sdl_knx.set_light_zone(tunnel, "presentation_e", [0, 0, 0, 240]) and
-            sdl_knx.set_light_zone(tunnel, "presentation_f", [0, 0, 0, 240]) and
-            sdl_knx.set_light_zone(tunnel, "presentation_g", [0, 0, 0, 240]) and
-            sdl_knx.set_light_zone(tunnel, "presentation_h", [0, 0, 0, 240])):
+    addresses = [['14/2/41', 1, 0],
+                 ['14/2/46', 1, 0],
+                 ['14/3/81', 4, 0],
+                 ['14/3/101', 4, 0],
+                 ['14/3/121', 4, 100],
+                 ['14/3/141', 4, 100],
+                 ['14/3/161', 4, 230],
+                 ['14/3/181', 4, 230],
+                 ['14/3/201', 4, 230],
+                 ['14/3/221', 4,230]]
+    for add in addresses:
+        if add[1] == 1:
+            if sdl_knx.set_led(tunnel, toknx(add[0]), add[2]):
+                print('1')
+                return 1
+        else:
+            if sdl_knx.set_rgb(tunnel, toknx(add[0]),[0,0,0,add[2]]):
+                print('1')
+                return 1
+    file_WR.RW_light_info_update('presentation', 'flic_status', 0)
+    return 0
 
-        restart()
-        return "Unable to write to the KNX bus"
-    else:
-        return "All lights were set successfully"
 
 
 @app.route('/flic_presentation/hold', methods=['POST'])

@@ -284,7 +284,7 @@ def flic_presentation_hold():
             #else:
              #   return "All lights were set successfully"
         else:
-            color = [0, 0, 0, 0]
+            color = [0, 0, 0, 240]
 
             if sdl_knx.set_light_zone(tunnel, zone_z+sec, color):
                 restart()

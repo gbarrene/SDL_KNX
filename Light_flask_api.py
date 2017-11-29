@@ -25,7 +25,7 @@ def restart():
 
 @app.route('/')
 def index():
-    return render_template("index.html")#'Welcome on the SDL light API'
+    return render_template("index.html")  # 'Welcome on the SDL light API'
 
 
 @app.route('/connection', methods=['GET', 'POST'])
@@ -123,16 +123,18 @@ def animation_fonction(animation_name='test'):
         return animation.method_name + " is running"
 
 
-@app.route('/test', methods = ['POST'])
+@app.route('/test', methods=['POST'])
 def test():
     print(request.POST['testValue'])
     return "done"
-    #return "value"
-    #zone_name = "presentation"
-    #global tunnel
-    #x= 0
-    #if request.method == 'POST':
+    # return "value"
+    # zone_name = "presentation"
+    # global tunnel
+    # x= 0
+    # if request.method == 'POST':
     #    while(x < 7):
+
+
 #
 #            brightness = random.randrange(0,200)
 #            color = [int(request.json['R']), int(request.json['G']), int(request.json['B']), brightness]
@@ -140,8 +142,8 @@ def test():
 #            if sdl_knx.set_light_zone(tunnel, zone_name, color):
 #                restart()
 #                return "Unable to write to the KNX bus"
-            #else:
-               # return "All lights were set successfully"
+# else:
+# return "All lights were set successfully"
 #        return "All lights were set successfully"
 
 
@@ -190,10 +192,8 @@ def zone(zone_name='0_0'):
         return "All lights were set successfully"
 
 
-
 @app.route('/active/<string:zone_name>', methods=['POST', 'DELETE'])
 def active_zone(zone_name='0_0'):
-
     global tunnel
     if request.method == 'POST':
         file_WR.RW_light_info_update(zone_name, 'active', 1)
@@ -242,7 +242,6 @@ def zone_light_threshold(zone_name='0_0', num='0'):
 
 @app.route('/flic_presentation/click', methods=['POST'])
 def flic_presentation_click():
-
     zone_name = 'presentation'
     global tunnel
     light_info_deveui = file_WR.RW_light_info_read()
@@ -261,37 +260,60 @@ def flic_presentation_click():
         return "All lights were set successfully"
 
 
+@app.route("/flic_test")
+def flic_test():
+    global tunnel
+    if (sdl_knx.set_light_zone(tunnel, "presentation_x", [0, 0, 0, 0]) and
+            sdl_knx.set_light_zone(tunnel, "presentation_y", [0, 0, 0, 0]) and
+            sdl_knx.set_light_zone(tunnel, "presentation_a", [0, 0, 0, 0]) and
+            sdl_knx.set_light_zone(tunnel, "presentation_b", [0, 0, 0, 0]) and
+            sdl_knx.set_light_zone(tunnel, "presentation_c", [0, 0, 0, 150]) and
+            sdl_knx.set_light_zone(tunnel, "presentation_d", [0, 0, 0, 150]) and
+            sdl_knx.set_light_zone(tunnel, "presentation_e", [0, 0, 0, 240]) and
+            sdl_knx.set_light_zone(tunnel, "presentation_f", [0, 0, 0, 240]) and
+            sdl_knx.set_light_zone(tunnel, "presentation_g", [0, 0, 0, 240]) and
+            sdl_knx.set_light_zone(tunnel, "presentation_h", [0, 0, 0, 240])):
+
+        restart()
+        return "Unable to write to the KNX bus"
+    else:
+        return "All lights were set successfully"
+
+
 @app.route('/flic_presentation/hold', methods=['POST'])
 def flic_presentation_hold():
-    global tunnel
     zone_z = 'PRESENTATION_'
     section = ['C', 'D', 'E', 'F', 'G', 'H', 'X', 'Y', 'A', 'B']
     file_WR.RW_light_info_update('presentation', 'flic_status', 0)
     for sec in section:
-        if sec in ['X', 'A', 'Y',  'B']:
+        global tunnel
+        if sec in ['X', 'A', 'Y', 'B']:
+            zone_name = zone_z + sec
             color = [0, 0, 0, 240]
-            if sdl_knx.set_light_zone(tunnel, zone_z+sec, color):
+            if sdl_knx.set_light_zone(tunnel, zone_name, color):
                 restart()
                 return "Unable to write to the KNX bus"
-            #else:
-            #    return "All lights were set successfully"
+                # else:
+                #    return "All lights were set successfully"
         if sec in ['C', 'D']:
+            zone_name = zone_z + sec
             color = [0, 0, 0, 200]
 
-            if sdl_knx.set_light_zone(tunnel, zone_z+sec, color):
+            if sdl_knx.set_light_zone(tunnel, zone_name, color):
                 restart()
                 return "Unable to write to the KNX bus"
-            #else:
-             #   return "All lights were set successfully"
+                # else:
+                #   return "All lights were set successfully"
         else:
+            zone_name = zone_z + sec
             color = [0, 0, 0, 0]
 
-            if sdl_knx.set_light_zone(tunnel, zone_z+sec, color):
+            if sdl_knx.set_light_zone(tunnel, zone_name, color):
                 restart()
 
                 return "Unable to write to the KNX bus"
-            #else:
-             #   return "All lights were set successfully"
+                # else:
+                #   return "All lights were set successfully"
     return "All lights were set successfully"
 
 
@@ -383,7 +405,6 @@ def lora():
                             sleep(4)
                     return "Artificial light has been increased"
     return "Something"
-
 
 
 def motion(motion_data, zone_name):

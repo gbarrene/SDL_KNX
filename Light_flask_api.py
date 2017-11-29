@@ -273,16 +273,16 @@ def flic_presentation_hold():
             if sdl_knx.set_light_zone(tunnel, zone_z+sec, color):
                 restart()
                 return "Unable to write to the KNX bus"
-            else:
-                return "All lights were set successfully"
+            #else:
+            #    return "All lights were set successfully"
         if sec in ['C', 'D']:
             color = [0, 0, 0, 200]
 
             if sdl_knx.set_light_zone(tunnel, zone_z+sec, color):
                 restart()
                 return "Unable to write to the KNX bus"
-            else:
-                return "All lights were set successfully"
+            #else:
+             #   return "All lights were set successfully"
         else:
             color = [0, 0, 0, 240]
 
@@ -290,8 +290,8 @@ def flic_presentation_hold():
                 restart()
 
                 return "Unable to write to the KNX bus"
-            else:
-                return "All lights were set successfully"
+            #else:
+             #   return "All lights were set successfully"
     return "All lights were set successfully"
 
 

@@ -265,7 +265,7 @@ def flic_presentation_click():
 def flic_presentation_hold():
     global tunnel
     zone_z = 'PRESENTATION_'
-    section = ['X', 'Y', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
+    section = ['C', 'D', 'E', 'F', 'G', 'H', 'X', 'Y', 'A', 'B']
     file_WR.RW_light_info_update('presentation', 'flic_status', 0)
     for sec in section:
         if sec in ['X', 'A', 'Y',  'B']:
@@ -276,7 +276,7 @@ def flic_presentation_hold():
             #else:
             #    return "All lights were set successfully"
         if sec in ['C', 'D']:
-            color = [0, 0, 0, 0]
+            color = [0, 0, 0, 200]
 
             if sdl_knx.set_light_zone(tunnel, zone_z+sec, color):
                 restart()

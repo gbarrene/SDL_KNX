@@ -265,32 +265,33 @@ def flic_presentation_click():
 def flic_presentation_hold():
     global tunnel
     zone_z = 'PRESENTATION_'
-    section = ['A', 'B', 'X', 'Y', 'C', 'D', 'E', 'F', 'G', 'H']
+    section = ['A', 'B', 'X', 'Y']#, 'C', 'D', 'E', 'F', 'G', 'H']
     file_WR.RW_light_info_update('presentation', 'flic_status', 0)
     for sec in section:
         if sec in ['X', 'Y', 'A', 'B']:
             color = [0, 0, 0, 0]
             if sdl_knx.set_light_zone(tunnel, zone_z+sec, color):
                 restart()
-                #return "Unable to write to the KNX bus"
-            #else:
-               # return "All lights were set successfully"
+                return "Unable to write to the KNX bus"
+            else:
+                return "All lights were set successfully"
         if sec in ['C', 'D']:
-            color = [0, 0, 0, 150]
+            color = [0, 0, 0, 200]
 
             if sdl_knx.set_light_zone(tunnel, zone_z+sec, color):
                 restart()
-               # return "Unable to write to the KNX bus"
-            #else:
-               # return "All lights were set successfully"
+                return "Unable to write to the KNX bus"
+            else:
+                return "All lights were set successfully"
         else:
             color = [0, 0, 0, 240]
 
             if sdl_knx.set_light_zone(tunnel, zone_z+sec, color):
                 restart()
-               # return "Unable to write to the KNX bus"
-            #else:
-               # return "All lights were set successfully"
+
+                return "Unable to write to the KNX bus"
+            else:
+                return "All lights were set successfully"
     return "All lights were set successfully"
 
 

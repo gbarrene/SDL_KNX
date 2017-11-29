@@ -282,7 +282,7 @@ def flic_test():
                 print('1')
                 return 1
     file_WR.RW_light_info_update('presentation', 'flic_status', 0)
-    return 0
+    return "All lights"
 
 
 

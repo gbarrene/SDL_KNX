@@ -265,7 +265,7 @@ def flic_presentation_click():
 def flic_presentation_hold():
     global tunnel
     zone_z = 'PRESENTATION_'
-    section = ['A']#, 'C', 'D', 'E', 'F', 'G', 'H']
+    section = ['C']#, 'C', 'D', 'E', 'F', 'G', 'H']
     file_WR.RW_light_info_update('presentation', 'flic_status', 0)
     for sec in section:
         if sec in ['X', 'A', 'Y',  'B']:

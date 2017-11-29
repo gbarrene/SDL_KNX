@@ -260,7 +260,7 @@ def flic_presentation_click():
         return "All lights were set successfully"
 
 
-@app.route("/flic_test")
+@app.route("/flic_test", methods=['POST'])
 def flic_test():
     global tunnel
     if (sdl_knx.set_light_zone(tunnel, "presentation_x", [0, 0, 0, 0]) and

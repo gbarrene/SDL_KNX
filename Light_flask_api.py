@@ -268,8 +268,8 @@ def flic_presentation_hold():
     section = ['B', 'A', 'X', 'Y']#, 'C', 'D', 'E', 'F', 'G', 'H']
     file_WR.RW_light_info_update('presentation', 'flic_status', 0)
     for sec in section:
-        if sec in ['X', 'Y', 'A', 'B']:
-            color = [0, 0, 0, 0]
+        if sec in ['X', 'A', 'Y',  'B']:
+            color = [0, 0, 0, 20]
             if sdl_knx.set_light_zone(tunnel, zone_z+sec, color):
                 restart()
                 return "Unable to write to the KNX bus"

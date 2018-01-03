@@ -245,7 +245,7 @@ def flic_click_zone(zone_name='0_0'):
     global tunnel
     sensor_id = ""
     for line in constants.LORA_SENSOR:
-        if "Accueil" in line:
+        if zone_name in line:
             sensor_id = line[0]
     light_info_deveui = file_WR.RW_light_info_read()
     status = light_info_deveui[sensor_id]["flic_status"]
@@ -266,10 +266,9 @@ def flic_click_zone(zone_name='0_0'):
 def flic_hold_zone(zone_name='0_0'):
     global tunnel
     light_info_deveui = file_WR.RW_light_info_read()
-    global tunnel
     sensor_id = ""
     for line in constants.LORA_SENSOR:
-        if "Accueil" in line:
+        if zone_name in line:
             sensor_id = line[0]
     light_info_deveui = file_WR.RW_light_info_read()
     status = light_info_deveui[sensor_id]["flic_status"]

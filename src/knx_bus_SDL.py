@@ -308,11 +308,11 @@ def all_off(tunnel):
         file_WR.RW_light_info_update(x[1], "brightness_level", 0)
 
 
-def all_on(tunnel):
-    set_all_led(tunnel, 200)
-    set_all_rgb(tunnel, [0, 0, 0, 200])
+def all_on(tunnel, brightness):
+    set_all_led(tunnel, brightness)
+    set_all_rgb(tunnel, [0, 0, 0, brightness])
     for x in constants.LORA_SENSOR:
-        file_WR.RW_light_info_update(x[1], "brightness_level", 200)
+        file_WR.RW_light_info_update(x[1], "brightness_level", brightness)
 
 
 def all_rgb_off(tunnel):

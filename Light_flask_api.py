@@ -240,15 +240,17 @@ def zone_light_threshold(zone_name='0_0', num='0'):
     return "light threshold " + num + " from " + zone_name + " was updated to " + str(request.json['value'])
 
 
-@app.route('/flic_presentation/click', methods=['POST'])
-def flic_presentation_click():
-    zone_name = 'presentation'
+@app.route('/flic_zone/click/<string:zone_name>', methods=['POST'])
+def flic_click_zone(zone_name='0_0'):
     global tunnel
+    sensor_id = ""
+    for line in constants.LORA_SENSOR:
+        if "Accueil" in line:
+            sensor_id = line[0]
     light_info_deveui = file_WR.RW_light_info_read()
-    sensor_id = 'A81758FFFE030461'
     status = light_info_deveui[sensor_id]["flic_status"]
     if status == 0:
-        color = [0, 0, 0, 253]
+        color = [0, 0, 0, 240]
         file_WR.RW_light_info_update('presentation', 'flic_status', 1)
     else:
         color = [0, 0, 0, 0]
@@ -258,6 +260,38 @@ def flic_presentation_click():
         return "Unable to write to the KNX bus"
     else:
         return "All lights were set successfully"
+
+
+@app.route('/flic_zone/hold/<string:zone_name>', methods=['POST'])
+def flic_hold_zone(zone_name='0_0'):
+    global tunnel
+    light_info_deveui = file_WR.RW_light_info_read()
+    global tunnel
+    sensor_id = ""
+    for line in constants.LORA_SENSOR:
+        if "Accueil" in line:
+            sensor_id = line[0]
+    light_info_deveui = file_WR.RW_light_info_read()
+    status = light_info_deveui[sensor_id]["flic_status"]
+    color = [0, 0, 0, 255]
+    file_WR.RW_light_info_update('presentation', 'flic_status', 1)
+    if sdl_knx.set_light_zone(tunnel, zone_name, color):
+        restart()
+        return "Unable to write to the KNX bus"
+    else:
+        return "All lights were set successfully"
+
+
+@app.route('/flic_global/click', methods=['POST', 'DELETE'])
+def flic_hold_zone():
+    global tunnel
+    if request.method == 'DELETE':
+        sdl_knx.all_off(tunnel)
+    else:
+        sdl_knx.all_on(tunnel)
+
+
+
 
 
 @app.route("/flic_test", methods=['POST'])
@@ -282,7 +316,7 @@ def flic_test():
                     print('1')
                     return 1
             else:
-                if sdl_knx.set_rgb(tunnel, toknx(add[0]),[0,0,0,add[2]]):
+                if sdl_knx.set_rgb(tunnel, toknx(add[0]), [0, 0, 0, add[2]]):
                     print('1')
                     return 1
         file_WR.RW_light_info_update('presentation', 'flic_status', 0)

@@ -251,10 +251,10 @@ def flic_click_zone(zone_name='0_0'):
     status = light_info_deveui[sensor_id]["flic_status"]
     if status == 0:
         color = [0, 0, 0, 240]
-        file_WR.RW_light_info_update('presentation', 'flic_status', 1)
+        file_WR.RW_light_info_update(zone_name, 'flic_status', 1)
     else:
         color = [0, 0, 0, 0]
-        file_WR.RW_light_info_update('presentation', 'flic_status', 0)
+        file_WR.RW_light_info_update(zone_name, 'flic_status', 0)
     if sdl_knx.set_light_zone(tunnel, zone_name, color):
         restart()
         return "Unable to write to the KNX bus"
@@ -274,7 +274,7 @@ def flic_hold_zone(zone_name='0_0'):
     light_info_deveui = file_WR.RW_light_info_read()
     status = light_info_deveui[sensor_id]["flic_status"]
     color = [0, 0, 0, 255]
-    file_WR.RW_light_info_update('presentation', 'flic_status', 1)
+    file_WR.RW_light_info_update(zone_name, 'flic_status', 1)
     if sdl_knx.set_light_zone(tunnel, zone_name, color):
         restart()
         return "Unable to write to the KNX bus"

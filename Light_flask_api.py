@@ -283,7 +283,7 @@ def flic_hold_zone(zone_name='0_0'):
 
 
 @app.route('/flic_global/click', methods=['POST', 'DELETE'])
-def flic_hold_zone():
+def flic_global():
     global tunnel
     if request.method == 'DELETE':
         sdl_knx.all_off(tunnel)

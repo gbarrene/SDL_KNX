@@ -58,7 +58,7 @@ def all_on():
     """Interaction with all the lights to turn them all on or off"""
     global tunnel
     if request.method == 'POST':
-        sdl_knx.all_on(tunnel)
+        sdl_knx.all_on(tunnel, 235)
         return 'Successfully turned all the rgb led on'
     elif request.method == 'DELETE':
         sdl_knx.all_off(tunnel)
@@ -250,7 +250,7 @@ def flic_click_zone(zone_name='0_0'):
     light_info_deveui = file_WR.RW_light_info_read()
     status = light_info_deveui[sensor_id]["flic_status"]
     if status == 0:
-        color = [0, 0, 0, 240]
+        color = [0, 0, 0, 235]
         file_WR.RW_light_info_update(zone_name, 'flic_status', 1)
     else:
         color = [0, 0, 0, 0]
@@ -281,13 +281,24 @@ def flic_hold_zone(zone_name='0_0'):
         return "All lights were set successfully"
 
 
-@app.route('/flic_global/click', methods=['POST', 'DELETE'])
+@app.route('/flic_global/click', methods=['POST'])
 def flic_global():
     global tunnel
-    if request.method == 'DELETE':
-        sdl_knx.all_off(tunnel)
+    light_info_deveui = file_WR.RW_light_info_read()
+    global_status = light_info_deveui.get("global_flic")
+    if global_status == 0:
+        sdl_knx.all_on(tunnel, 235)
+        light_info_deveui['global_flic'] = 1
+        for line in light_info_deveui:
+            if type(light_info_deveui.get(line)) == type(light_info_deveui):
+                light_info_deveui[line]["flic_status"] = 1
     else:
-        sdl_knx.all_on(tunnel)
+        sdl_knx.all_off(tunnel)
+        light_info_deveui['global_flic'] = 0
+        for line in light_info_deveui:
+            if type(light_info_deveui.get(line)) == type(light_info_deveui):
+                light_info_deveui[line]["flic_status"] = 0
+
 
 
 
@@ -389,10 +400,14 @@ def lora():
     # automatic turn off if somebody is working on the week-end or after 21h for example
     if hour < 7 or hour > 20 or day == 7 or day == 6:
         if active_light_switch == 1:
-            all_off()
+            sdl_knx.all_off(tunnel)
             active_light_switch = 0
         return "Non Active Time"
     else:
+        if active_light_switch == 0:
+            sdl_knx.all_on(tunnel, 235)
+            active_light_switch = 1
+
         active_light_switch = 1
         try:
             sensorID = request.json['DevEUI'].upper()
@@ -442,7 +457,7 @@ def lora():
                 # if there is currently no artificial light and that the captured light is too low we should increase
                 #  significantly the light therefore we start the incrementation at 50 to 120 as a base step
                 if current_brightness == 0:
-                    for x in range(50, 120, 7):
+                    for x in range(50, 200, 7):
                         if not sdl_knx.set_light_zone(tunnel, zone_name, [0, 0, 0, x]):
                             sleep(4)
                     return "Artificial light has been activated"

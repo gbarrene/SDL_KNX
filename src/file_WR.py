@@ -7,6 +7,7 @@ def RW_light_info_update(zone_name, value_name, value):
 
     """Search for the right light to update the light level"""
     for x in range(1, len(light_info_deveui)):
+        print(light_info_deveui[list(light_info_deveui.keys())[x]])
         if light_info_deveui[list(light_info_deveui.keys())[x]]['zone_name'].upper() == zone_name:
             light_info_deveui[list(light_info_deveui.keys())[x]][value_name] = value
             print("Updated "+zone_name+" with a new "+value_name+" at "+str(value))

@@ -15,7 +15,6 @@ tunnel = sdl_knx.KNX_tunnel(knx_gate)
 animation = sdl_knx.Animation(tunnel)
 active_light_switch = 1
 
-
 def restart():
     global app
     global tunnel

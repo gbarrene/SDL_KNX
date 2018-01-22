@@ -291,12 +291,14 @@ def flic_global():
         for line in light_info_deveui:
             if type(light_info_deveui.get(line)) == type(light_info_deveui):
                 light_info_deveui[line]["flic_status"] = 1
+        return "All the lights were turned off"
     else:
         sdl_knx.all_off(tunnel)
         light_info_deveui['global_flic'] = 0
         for line in light_info_deveui:
             if type(light_info_deveui.get(line)) == type(light_info_deveui):
                 light_info_deveui[line]["flic_status"] = 0
+        return "All the lights were turned off"
 
 
 
